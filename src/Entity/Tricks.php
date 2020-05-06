@@ -54,10 +54,14 @@ class Tricks
      * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="messageTricksId")
      */
     private $tricksMessage;
+
     
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Group", inversedBy="groupTricks")
-     * @ORM\JoinColumn(name="tricks_group_id", referencedColumnName="group_id")
+     * @var \Group
+     * @ORM\ManyToOne(targetEntity="App\Entity\Group",)
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tricks_group_id", referencedColumnName="group_id")
+     * })
      */
     private $tricksGroupId;
     
@@ -115,12 +119,43 @@ class Tricks
     {
         return $this->tricksFiles;
     }
-    
+//    
+//    public function addTricksFiles(Files $tricksFiles): self
+//    {
+//        if (!$this->tricksFiles->contains($tricksFiles)) {
+//            $this->tricksFiles[] = $tricksFiles;
+//            $tricksFiles->setFilesTricks($this);
+//        }
+//        return $this;
+//    }
+//    public function removeTricksFiles(Files $tricksFiles): self
+//    {
+//        if ($this->tricksFiles->contains($tricksFiles)) {
+//            $this->tricksFiles->removeElement($tricksFiles);
+//            // set the owning side to null (unless already changed)
+//            if ($tricksFiles->getFilesTricks() === $this) {
+//                $tricksFiles->setFilesTricks(null);
+//            }
+//        }
+//        return $this;
+//    }
+
     /**
      * @return Collection|Message[]
      */
     public function getTricksMessage(): Collection
     {
         return $this->tricksMessage;
+    }
+
+    public function getTricksGroupId(): ?Group
+    {
+        return $this->tricksGroupId;
+    }
+
+    public function setTricksGroupId(?Group $tricksGroupId): self
+    {
+        $this->tricksGroupId = $tricksGroupId;
+        return $this;
     }
 }

@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Group
  *
- * @ORM\Table(name="group")
+ * @ORM\Table(name="groupe")
  * @ORM\Entity
  */
 class Group
@@ -25,23 +25,19 @@ class Group
      */
     private $groupId;
 
+
     /**
      * @var string|null
      *
      * @ORM\Column(name="group_name", type="string", length=255, nullable=false)
      */
     private $groupName;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Tricks", mappedBy="tricksGroupId")
-     */
-    private $groupTricks;
 
     public function getGroupId(): ?int
     {
         return $this->groupId;
     }
-
+    
     public function getGroupName(): ?string
     {
         return $this->groupName;
@@ -53,12 +49,5 @@ class Group
 
         return $this;
     }
-        
-    /**
-     * @return Collection|Tricks[]
-     */
-    public function getGroupTricks(): Collection
-    {
-        return $this->groupTricks;
-    }
+
 }

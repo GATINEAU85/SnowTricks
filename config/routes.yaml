@@ -1,3 +1,13 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+login:
+    path: /projet6/public/login
+    defaults:
+        _controller: OCUserBundle:Security:login
+
+login_check:
+    path: /projet6/public/login_check
+
+logout:
+    path: /projet6/public/logout

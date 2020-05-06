@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -12,6 +15,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Files
 {
+        
+    public function __construct()
+    {
+        $this->filesUsers = new ArrayCollection();
+    }
+    
     /**
      * @var int
      *
@@ -37,32 +46,23 @@ class Files
     private $filesUrl;
 
     /**
-     * @var int|null
-     *
-     * @ORM\Column(name="files_size", type="text", nullable=false)
-     */
-    private $filesSize;
-
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="files_date", type="datetime", nullable=false)
-     */
-    private $filesDate;
-
-    /**
      * @var string|null
      *
      * @ORM\Column(name="files_type", type="text", nullable=false)
      */
     private $filesType;
     
+    private $file;
+    // On ajoute cet attribut pour y stocker le nom du fichier temporairement
+    private $tempFilename;
+
+    
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tricks", inversedBy="tricksFiles")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tricks", inversedBy="tricksFiles", cascade={"persist","remove"})
      * @ORM\JoinColumn(name="files_tricks_id", referencedColumnName="tricks_id")
      */
     private $filesTricksId;
-    
+
     public function getFilesId(): ?int
     {
         return $this->filesId;
@@ -91,30 +91,6 @@ class Files
 
         return $this;
     }
-
-    public function getFilesSize(): ?int
-    {
-        return $this->filesSize;
-    }
-
-    public function setFilesSize(?int $filesSize): self
-    {
-        $this->filesSize = $filesSize;
-
-        return $this;
-    }
-    
-    public function getFilesDate(): ?\DateTimeInterface
-    {
-        return $this->filesDate;
-    }
-
-    public function setFilesDate(?\DateTimeInterface $filesDate): self
-    {
-        $this->filesDate = $filesDate;
-
-        return $this;
-    }
     
     public function getFilesType(): ?string
     {
@@ -127,15 +103,70 @@ class Files
 
         return $this;
     }
+
     
-    public function getFilesTricksId(): ?Files
+    //Tricks function
+    public function getFile()
     {
-        return $this->filesTricksId;
+        return $this->file;
+    }
+    // On modifie le setter de File, pour prendre en compte l'upload d'un fichier lorsqu'il en existe déjà un autre
+    public function setFile(UploadedFile $file)
+    {
+        $this->file = $file;
+
+        // On vérifie si on avait déjà un fichier pour cette entité
+        if (null !== $this->url) {
+          // On sauvegarde l'extension du fichier pour le supprimer plus tard
+          $this->tempFilename = $this->url;
+
+          // On réinitialise les valeurs des attributs url et alt
+          $this->filesUrl = null;
+          $this->filesName = null;
+        }
     }
 
-    public function setFilesTricksId(?Files $filesTricksId): self
+    public function upload()
+       {
+         // Si jamais il n'y a pas de fichier (champ facultatif), on ne fait rien
+         if (null === $this->file) {
+           return;
+         }
+
+         // On récupère le nom original du fichier de l'internaute
+         $name = $this->file->getClientOriginalName();
+
+         // On déplace le fichier envoyé dans le répertoire de notre choix
+         $this->file->move($this->getUploadRootDir(), $name);
+
+         // On sauvegarde le nom de fichier dans notre attribut $url
+         $this->filesUrl = $name;
+
+         // On crée également le futur attribut alt de notre balise <img>
+         $this->filesName = $name;
+       }
+
+    public function getUploadDir()
     {
-        $this->filesTricksId = $filesTricksId;
+      // On retourne le chemin relatif vers l'image pour un navigateur (relatif au répertoire /web donc)
+      return 'files';
+    }
+
+    protected function getUploadRootDir()
+    {
+      // On retourne le chemin relatif vers l'image pour notre code PHP
+      return __DIR__.'/../public/'.$this->getUploadDir();
+    }
+  
+    //User function
+    public function getFilesUsers(): ?Users
+    {
+        return $this->filesUsers;
+    }
+    
+    public function setFilesUsers(?Users $filesUsers): self
+    {
+        $this->filesUsers = $filesUsers;
 
         return $this;
     }

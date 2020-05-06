@@ -3,14 +3,14 @@
 {% block body %}
 <body id="page-top">
   <!-- Masthead -->
-  <header class="masthead" id="home">
-    <div class="container h-100">
-      <div class="row h-100 align-items-center justify-content-center text-center">
+  <header class="masthead" id="login">
+    <div class="container h-100 left-align">
+      <div class="row h-100">
         <div class="col-lg-10 align-self-end">
           <h1 class="text-uppercase font-weight-bold">Login</h1>
         </div>
-        <div class="col-lg-8 align-self-baseline">
-          <a class="btn btn-primary btn-xl js-scroll-trigger" href="#whoIAm">ALL TRICKS</a>
+        <div class="col-lg-8 align-self-baseline" style="margin-top:20px">
+          <a class="btn btn-primary btn-xl js-scroll-trigger" href="/projet6/public/create/user">CREATE ACCOUNT</a>
         </div>
       </div>
     </div>
@@ -22,22 +22,12 @@
       <div class="row justify-content-center">
         <div class="col-lg-8 mt-5 mb-5">
             <div class="row  justify-content-md-center">
-                <div class="col-8 ">test {{ form(form) }}</div>
                 <div class="col-8 ">
-                    <form>
-                        <div class="form-group">
-                          <label for="loginPseudo">Pseudo</label>
-                          <input type="text" class="form-control" id="loginPseudo" aria-describedby="emailHelp" placeholder="Enter pseudo">
-                        </div>
-                        <div class="form-group">
-                          <label for="loginPassword">Password</label>
-                          <input type="password" class="form-control" id="loginPassword" placeholder="Password">
-                        </div>
-                        <div class="form-group">
-                            <small>If you haven't any account, you can create one <a href="/projet6/public/create/user">here</a></small>
-                        </div>
-                        <button type="submit" class="btn btn-primary">REGISTER</button>
-                    </form>
+                    {{ form_start(form) }}
+                        {{ form_row(form.usersPseudo) }}
+                        {{ form_row(form.usersPassword) }}
+                        <button type="submit" class="btn btn-primary">LOGIN</button>
+                    {{ form_end(form) }}
                 </div>
             </div>
         </div>

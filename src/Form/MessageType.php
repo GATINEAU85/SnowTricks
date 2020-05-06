@@ -1,28 +1,25 @@
 <?php 
 namespace App\Form;
 
-use App\Entity\Users;
+use App\Entity\Message;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class UsersType extends AbstractType
+class MessageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('usersPseudo')
-            ->add('usersEmail', TextareaType::class)
-            ->add('usersPassword', TextType::class)
+            ->add('messageContent', TextareaType::class)
         ;
     }
     
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Users::class,
+            'data_class' => Message::class,
         ]);
     }
 }

@@ -16,9 +16,16 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.13.0",
         "bootstrap": "^4.4.1",
         "jquery": "^3.5.0",
+        "jquery-ui": "^1.12.1",
+        "jquery-ui.1.11.1": "^1.11.1",
+        "jquery.ui.widget": "^1.10.3",
         "popper.js": "^1.16.1",
+        "siema": "^1.5.1",
+        "simplelightbox": "^2.1.5",
+        "slick-carousel": "^1.8.1",
         "themify-icons": "^1.0.0"
     }
 }

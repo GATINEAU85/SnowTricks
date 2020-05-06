@@ -29,23 +29,26 @@ class Message
      */
     private $messageContent;
 
-    
+    /**
+     * @var \DateTime|null
+     *
+     * @ORM\Column(name="message_date", type="datetime", nullable=true)
+     */
+    private $messageDate;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="usersMessage")
      * @ORM\JoinColumn(name="message_users_id", referencedColumnName="users_id")
      */
-    private $messageUsersId;
+    private $messageUserId;
 
-    
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Tricks", inversedBy="tricksMessage")
      * @ORM\JoinColumn(name="message_tricks_id", referencedColumnName="tricks_id")
      */
     private $messageTricksId;
     
-
-
-
+    
     public function getMessageId(): ?int
     {
         return $this->messageId;
@@ -62,7 +65,19 @@ class Message
 
         return $this;
     }
+        
+    public function getMessageDate(): ?\DateTimeInterface
+    {
+        return $this->messageDate;
+    }
 
+    public function setMessageDate(?\DateTimeInterface $messageDate): self
+    {
+        $this->messageDate = $messageDate;
+
+        return $this;
+    }
+    
     public function getMessageUserId(): ?Users
     {
         return $this->messageUserId;

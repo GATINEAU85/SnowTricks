@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -43,8 +45,18 @@ class Users
      */
     private $usersPassword;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Files", inversedBy="filesUsers")
+     * @ORM\JoinColumn(name="users_files_id", referencedColumnName="files_id")
+     */
+    private $usersFiles;
+//    
+//    /**
+//     * @ORM\Column(type="json")
+//     */
+//    private $usersRole = [];
 
-
+    
     public function getUsersId(): ?int
     {
         return $this->usersId;
@@ -55,7 +67,7 @@ class Users
         return $this->usersPseudo;
     }
 
-    public function setUsersNom(?string $usersPseudo): self
+    public function setUsersPseudo(?string $usersPseudo): self
     {
         $this->usersPseudo = $usersPseudo;
 
@@ -85,4 +97,33 @@ class Users
 
         return $this;
     }
+    
+    public function getUsersFiles(): ?Files
+    {
+        return $this->usersFiles;
+    }
+
+    public function setUsersFiles(?Files $usersFiles): self
+    {
+        $this->usersFiles = $usersFiles;
+
+        return $this;
+    }
+    
+//    public function getUsersRole(): array
+//    {
+//        $roles = $this->usersRole;
+//
+//        // il est obligatoire d'avoir au moins un rôle si on est authentifié, par convention c'est ROLE_USER
+//        if (empty($roles)) {
+//            $roles[] = 'ROLE_USER';
+//        }
+//
+//        return array_unique($roles);
+//    }
+//
+//    public function setRoles(array $usersRole): void
+//    {
+//        $this->usersRole = $usersRole;
+//    }
 }
