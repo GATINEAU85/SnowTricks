@@ -2,35 +2,49 @@
 
 security:
   encoders:
-    Symfony\Component\Security\Core\User\User: plaintext
+    App\Entity\User: 
+        algorithm: bcrypt 
 
-  role_hierarchy:
-    ROLE_ADMIN:       ROLE_USER
-    ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+#  role_hierarchy:
+#    ROLE_ADMIN:       ROLE_USER
+#    ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
-  #provider = fournisseur d'utilisateur
+  #provider = fournisseur d'utilisateur        
   providers:
-    in_memory:
-      memory:
-        users:
-          user:  { password: userpass, roles: [ 'ROLE_USER' ] }
-          admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
-          
-  provider: in_memory
+    app_user_provider:
+#        id: App\Security\UserProvider
+        entity:
+            # the class of the entity that represents users
+            class: 'App\Entity\User'
+            property: pseudo
+    # used to reload user from session & other features (e.g. switch_user)
   
   firewalls:
     dev:
-      pattern: ^/(_(profiler|wdt)|css|images|js)/
-      security: false
+        pattern: ^/(_(profiler|wdt)|css|images|js)/
+        security: false
     main:
-      pattern:      ^/
-      anonymous:    true
-      form_login:
-        login_path: login
-        check_path: login_check
-      logout:
-        path:       logout
-        target:     login
+        anonymous: lazy
+        logout:
+          path:       app_logout
+          target:     app_homepage
+        guard:
+          authenticators:
+              - App\Security\LoginFormAuthenticator
+#    main:
+#      pattern:      ^/
+#      provider: users
+#      anonymous:    true
+#      form_login:
+#        login_path: app_login
+#        check_path: app_login
+
+#        guard:
+#            authenticators:
+#                - App\Security\LoginFormAuthenticator
+
   #Controle si le user a les droits pour accéder à cette root
   access_control:
-    #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+#        - { path: ^/projet6/public/login$, roles: ROLE_USER }
+        - { path: ^/projet6/public, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: '^/projet6/admin', roles: ROLE_USER }

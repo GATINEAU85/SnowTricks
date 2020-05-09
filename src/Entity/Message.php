@@ -37,7 +37,7 @@ class Message
     private $messageDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="usersMessage")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="usersMessage")
      * @ORM\JoinColumn(name="message_users_id", referencedColumnName="users_id")
      */
     private $messageUserId;
@@ -78,12 +78,12 @@ class Message
         return $this;
     }
     
-    public function getMessageUserId(): ?Users
+    public function getMessageUserId(): ?User
     {
         return $this->messageUserId;
     }
 
-    public function setMessageUserId(?Users $messageUserId): self
+    public function setMessageUserId(?User $messageUserId): self
     {
         $this->messageUserId = $messageUserId;
 

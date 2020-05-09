@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 
-use App\Entity\Users;
+use App\Entity\User;
 use App\Form\SecurityType;
 use App\Form\RegisterType;
 
@@ -17,50 +17,8 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 use DateTime;
 
-class UsersController extends AbstractController
-{
-    /**
-     * @Route("/projet6/public/login", name="security_login")
-     * @return JsonResponse
-     */
-    public function login(AuthenticationUtils $authenticationUtils):Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository(Users::class)->findAll();
-        
-        //get authentification error if there is
-        $error = $authenticationUtils->getLastAuthenticationError();
-        //get last identification log
-        $lastUsername = $authenticationUtils->getLastUsername();
-        
-        $form = $this->createForm(SecurityType::class);
-        
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-          return $this->redirectToRoute('/projet6/public/home');
-        }
-        if ($form->isSubmitted() && $form->isValid()) {
-            echo('test');
-            $userForm = $form->getData();
-
-            $pseudoForm = $userForm->getUsersPseudo();
-//            return $this->redirectToRoute('login');
-        }
-        
-        return $this->render("login.html.twig", [
-            'form' => $form->createView(),
-            'last_username' => $lastUsername,
-            'error' => $error, 
-        ]);
-    }
-    
-    /**
-     * @Route("projet6/public/create/logout", name="security_logout")
-     */
-    public function logout(): void
-    {
-        throw new \Exception('This should never be reached!');
-    }
-    
+class UserController extends AbstractController
+{    
     /**
      * @Route("projet6/public/create/user", name="createAccount")
      * @return JsonResponse
@@ -70,32 +28,47 @@ class UsersController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         
         //Création du nouveau message
-        $user = new Users();
+        $user = new User();
         $form = $this->createForm(RegisterType::class, $user);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
-            $user->setUsersPassword(password_hash($user->getUsersPassword(),PASSWORD_DEFAULT));
+            $user->setPassword(password_hash($user->getPassword(),PASSWORD_BCRYPT));
+            $user->setRoles(array('ROLE_ADMIN'));
             
             $em->persist($user);
             $em->flush();
 //            return $this->redirectToRoute('task_success');
         }
 
-        return $this->render("createAccount.html.twig",[
+        return $this->render("register.html.twig",[
             'form' => $form->createView(),
         ]);
     }
     
     /**
-     * @Route("projet6/public/get/user/{userId}", name="getOwnUser")
+     * @Route("projet6/public/get/account", name="app_account")
      * @return JsonResponse
      */
-    public function getOwnUser(int $userId)
+    public function getOwnAccount()
+    {
+//        $em = $this->getDoctrine()->getManager();
+//        $user = $em->getRepository(User::class)->find($id);
+        $user = $this->getUser();
+        return $this->render("account.html.twig", [
+            'user'  => $user,
+        ]);
+    }
+    
+    /**
+     * @Route("projet6/public/get/user/{id}", name="getOwnUser")
+     * @return JsonResponse
+     */
+    public function getOwnUser(int $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository(Users::class)->find($userId);
+        $user = $em->getRepository(User::class)->find($id);
 
         return $this->render("user.html.twig", [
             'user'  => $user,

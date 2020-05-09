@@ -101,10 +101,10 @@
                     {% for message in trick.tricksMessage %}
                         <div class="row" style="margin-bottom:20px">
                             <div class="col-2 center-align">
-                                <img class='rounded-circle' src='/files{{ message.messageUserId.usersFiles.filesUrl }}' style="max-width:50px; width:100%"/>
+                                <img class='rounded-circle' src='/files{{ message.messageUserId.userFiles.filesUrl }}' style="max-width:50px; width:100%"/>
                             </div>
                             <div class="col-10">
-                                <p class="conversationPseudo">{{ message.messageUserId.usersPseudo }} : {{ message.messageDate|date("m/d/Y") }}</p>
+                                <p class="conversationPseudo">{{ message.messageUserId.pseudo }} : {{ message.messageDate|date("m/d/Y") }}</p>
                                 <p class="conversationContent">{{ message.messageContent }}</p>
                             </div>
                         </div>

@@ -61,7 +61,7 @@ class Files
      * @ORM\ManyToOne(targetEntity="App\Entity\Tricks", inversedBy="tricksFiles", cascade={"persist","remove"})
      * @ORM\JoinColumn(name="files_tricks_id", referencedColumnName="tricks_id")
      */
-    private $filesTricksId;
+    private $filesTricks;
 
     public function getFilesId(): ?int
     {
@@ -105,66 +105,79 @@ class Files
     }
 
     
-    //Tricks function
-    public function getFile()
-    {
-        return $this->file;
-    }
-    // On modifie le setter de File, pour prendre en compte l'upload d'un fichier lorsqu'il en existe déjà un autre
-    public function setFile(UploadedFile $file)
-    {
-        $this->file = $file;
-
-        // On vérifie si on avait déjà un fichier pour cette entité
-        if (null !== $this->url) {
-          // On sauvegarde l'extension du fichier pour le supprimer plus tard
-          $this->tempFilename = $this->url;
-
-          // On réinitialise les valeurs des attributs url et alt
-          $this->filesUrl = null;
-          $this->filesName = null;
-        }
-    }
-
-    public function upload()
-       {
-         // Si jamais il n'y a pas de fichier (champ facultatif), on ne fait rien
-         if (null === $this->file) {
-           return;
-         }
-
-         // On récupère le nom original du fichier de l'internaute
-         $name = $this->file->getClientOriginalName();
-
-         // On déplace le fichier envoyé dans le répertoire de notre choix
-         $this->file->move($this->getUploadRootDir(), $name);
-
-         // On sauvegarde le nom de fichier dans notre attribut $url
-         $this->filesUrl = $name;
-
-         // On crée également le futur attribut alt de notre balise <img>
-         $this->filesName = $name;
-       }
-
-    public function getUploadDir()
-    {
-      // On retourne le chemin relatif vers l'image pour un navigateur (relatif au répertoire /web donc)
-      return 'files';
-    }
-
-    protected function getUploadRootDir()
-    {
-      // On retourne le chemin relatif vers l'image pour notre code PHP
-      return __DIR__.'/../public/'.$this->getUploadDir();
-    }
-  
+//    //Tricks function
+//    public function getFile()
+//    {
+//        return $this->file;
+//    }
+//    // On modifie le setter de File, pour prendre en compte l'upload d'un fichier lorsqu'il en existe déjà un autre
+//    public function setFile(UploadedFile $file)
+//    {
+//        $this->file = $file;
+//
+//        // On vérifie si on avait déjà un fichier pour cette entité
+//        if (null !== $this->url) {
+//          // On sauvegarde l'extension du fichier pour le supprimer plus tard
+//          $this->tempFilename = $this->url;
+//
+//          // On réinitialise les valeurs des attributs url et alt
+//          $this->filesUrl = null;
+//          $this->filesName = null;
+//        }
+//    }
+//
+//    public function upload()
+//       {
+//         // Si jamais il n'y a pas de fichier (champ facultatif), on ne fait rien
+//         if (null === $this->file) {
+//           return;
+//         }
+//
+//         // On récupère le nom original du fichier de l'internaute
+//         $name = $this->file->getClientOriginalName();
+//
+//         // On déplace le fichier envoyé dans le répertoire de notre choix
+//         $this->file->move($this->getUploadRootDir(), $name);
+//
+//         // On sauvegarde le nom de fichier dans notre attribut $url
+//         $this->filesUrl = $name;
+//
+//         // On crée également le futur attribut alt de notre balise <img>
+//         $this->filesName = $name;
+//       }
+//
+//    public function getUploadDir()
+//    {
+//      // On retourne le chemin relatif vers l'image pour un navigateur (relatif au répertoire /web donc)
+//      return 'files';
+//    }
+//
+//    protected function getUploadRootDir()
+//    {
+//      // On retourne le chemin relatif vers l'image pour notre code PHP
+//      return __DIR__.'/../public/'.$this->getUploadDir();
+//    }
+   
     //User function
-    public function getFilesUsers(): ?Users
+    public function getFilesTricks(): ?Tricks
+    {
+        return $this->filesTricks;
+    }
+    
+    public function setFilesTricks(?Tricks $filesTricks): self
+    {
+        $this->filesTricks = $filesTricks;
+
+        return $this;
+    }
+    
+    //User function
+    public function getFilesUsers(): ?User
     {
         return $this->filesUsers;
     }
     
-    public function setFilesUsers(?Users $filesUsers): self
+    public function setFilesUsers(?User $filesUsers): self
     {
         $this->filesUsers = $filesUsers;
 

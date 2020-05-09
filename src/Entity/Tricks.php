@@ -46,7 +46,7 @@ class Tricks
     private $tricksDate;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Files", mappedBy="filesTricksId")
+     * @ORM\OneToMany(targetEntity="App\Entity\Files", mappedBy="filesTricks", cascade={"persist","remove"})
      */
     private $tricksFiles;
     
@@ -119,26 +119,27 @@ class Tricks
     {
         return $this->tricksFiles;
     }
-//    
-//    public function addTricksFiles(Files $tricksFiles): self
-//    {
-//        if (!$this->tricksFiles->contains($tricksFiles)) {
-//            $this->tricksFiles[] = $tricksFiles;
-//            $tricksFiles->setFilesTricks($this);
-//        }
-//        return $this;
-//    }
-//    public function removeTricksFiles(Files $tricksFiles): self
-//    {
-//        if ($this->tricksFiles->contains($tricksFiles)) {
-//            $this->tricksFiles->removeElement($tricksFiles);
-//            // set the owning side to null (unless already changed)
-//            if ($tricksFiles->getFilesTricks() === $this) {
-//                $tricksFiles->setFilesTricks(null);
-//            }
-//        }
-//        return $this;
-//    }
+    
+    public function addTricksFiles(Files $tricksFiles): self
+    {
+        if (!$this->tricksFiles->contains($tricksFiles)) {
+            $this->tricksFiles[] = $tricksFiles;
+            $tricksFiles->setFilesTricks($this);
+        }
+        return $this;
+    }
+    
+    public function removeTricksFiles(Files $tricksFiles): self
+    {
+        if ($this->tricksFiles->contains($tricksFiles)) {
+            $this->tricksFiles->removeElement($tricksFiles);
+            // set the owning side to null (unless already changed)
+            if ($tricksFiles->getFilesTricks() === $this) {
+                $tricksFiles->setFilesTricks(null);
+            }
+        }
+        return $this;
+    }
 
     /**
      * @return Collection|Message[]

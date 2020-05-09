@@ -3,16 +3,17 @@
 namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Users
+ * User
  *
  * @ORM\Table(name="users")
  * @ORM\Entity
  */
-class Users
+class User implements UserInterface
 {
     /**
      * @var int
@@ -22,108 +23,135 @@ class Users
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="users_users_id_seq", allocationSize=1, initialValue=1)
      */
-    private $usersId;
+    private $id;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="users_pseudo", type="string", length=255, nullable=false)
+     * @ORM\Column(name="users_pseudo", type="string", length=255, nullable=false, unique=true)
      */
-    private $usersPseudo;
+    private $pseudo;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="users_email", type="text", nullable=false)
      */
-    private $usersEmail;
+    private $email;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="users_password", type="text", nullable=false)
      */
-    private $usersPassword;
+    private $password;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Files", inversedBy="filesUsers")
      * @ORM\JoinColumn(name="users_files_id", referencedColumnName="files_id")
      */
-    private $usersFiles;
-//    
-//    /**
-//     * @ORM\Column(type="json")
-//     */
-//    private $usersRole = [];
+    private $userFiles;
+    
+
+//    private $roles = [];
 
     
-    public function getUsersId(): ?int
+    public function getId(): ?int
     {
-        return $this->usersId;
+        return $this->id;
     }
 
-    public function getUsersPseudo(): ?string
+    public function getPseudo(): ?string
     {
-        return $this->usersPseudo;
+        return $this->pseudo;
     }
 
-    public function setUsersPseudo(?string $usersPseudo): self
+    public function setPseudo(?string $pseudo): self
     {
-        $this->usersPseudo = $usersPseudo;
+        $this->pseudo = $pseudo;
 
         return $this;
     }
 
-    public function getUsersEmail(): ?string
+    public function getEmail(): ?string
     {
-        return $this->usersEmail;
+        return $this->email;
     }
 
-    public function setUsersEmail(?string $usersEmail): self
+    public function setEmail(?string $email): self
     {
-        $this->usersEmail = $usersEmail;
+        $this->email = $email;
 
         return $this;
     }
 
-    public function getUsersPassword(): ?string
+    public function getPassword(): ?string
     {
-        return $this->usersPassword;
+        return $this->password;
     }
 
-    public function setUsersPassword(?string $usersPassword): self
+    public function setPassword(?string $password): self
     {
-        $this->usersPassword = $usersPassword;
+        $this->password = $password;
 
         return $this;
     }
     
-    public function getUsersFiles(): ?Files
+    public function getUserFiles(): ?Files
     {
-        return $this->usersFiles;
+        return $this->userFiles;
     }
 
-    public function setUsersFiles(?Files $usersFiles): self
+    public function setUserFiles(?Files $userFiles): self
     {
-        $this->usersFiles = $usersFiles;
+        $this->userFiles = $userFiles;
+
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->pseudo;
+    }
+    
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+//        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+//        $roles[] = 'ROLE_USER';
+
+        return ['ROLE_USER'];
+    }
+    
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
 
         return $this;
     }
     
-//    public function getUsersRole(): array
-//    {
-//        $roles = $this->usersRole;
-//
-//        // il est obligatoire d'avoir au moins un rôle si on est authentifié, par convention c'est ROLE_USER
-//        if (empty($roles)) {
-//            $roles[] = 'ROLE_USER';
-//        }
-//
-//        return array_unique($roles);
-//    }
-//
-//    public function setRoles(array $usersRole): void
-//    {
-//        $this->usersRole = $usersRole;
-//    }
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
 }

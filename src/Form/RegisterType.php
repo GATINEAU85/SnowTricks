@@ -1,7 +1,7 @@
 <?php 
 namespace App\Form;
 
-use App\Entity\Users;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,16 +13,16 @@ class RegisterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('usersPseudo', TextType::class)
-            ->add('usersEmail', TextType::class)
-            ->add('usersPassword', PasswordType::class)
+            ->add('pseudo', TextType::class)
+            ->add('email', TextType::class)
+            ->add('password', PasswordType::class)
         ;
     }
     
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Users::class,
+            'data_class' => User::class,
         ]);
     }
 }
