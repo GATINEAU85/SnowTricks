@@ -1,8 +1,10 @@
 import './scss/index.scss';
 
 import './assets/script/index.js';
+import 'bootstrap';
 import 'jquery';
 import 'jquery-ui';
+import 'dropzone';
 require('@fortawesome/fontawesome-free/css/all.min.css');
 require('@fortawesome/fontawesome-free/js/all.js');
 import 'slick-carousel';
@@ -15,16 +17,14 @@ var $ = require('jquery');
     // Smooth scrolling using jQuery easing
     $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function () {
         if (
-            location.pathname.replace(/^\//, "") ==
-                this.pathname.replace(/^\//, "") &&
-            location.hostname == this.hostname
+            location.pathname.replace(/^\//, "") === this.pathname.replace(/^\//, "") && location.hostname === this.hostname
         ) {
             var target = $(this.hash);
             target = target.length
                 ? target
                 : $("[name=" + this.hash.slice(1) + "]");
             if (target.length) {
-                $("html, body").animate({scrollTop: target.offset().top - 72,}, 1000, "swing");
+                $("html, body").animate({scrollTop: target.offset().top - 72}, 1000, "swing");
                 return false;
             }
         }

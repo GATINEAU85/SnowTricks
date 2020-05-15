@@ -55,10 +55,9 @@ class Files
     private $file;
     // On ajoute cet attribut pour y stocker le nom du fichier temporairement
     private $tempFilename;
-
-    
+            
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tricks", inversedBy="tricksFiles", cascade={"persist","remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tricks", inversedBy="tricksFiles")
      * @ORM\JoinColumn(name="files_tricks_id", referencedColumnName="tricks_id")
      */
     private $filesTricks;
@@ -103,7 +102,6 @@ class Files
 
         return $this;
     }
-
     
 //    //Tricks function
 //    public function getFile()

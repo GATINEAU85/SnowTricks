@@ -16,6 +16,7 @@ class RegisterType extends AbstractType
             ->add('pseudo', TextType::class)
             ->add('email', TextType::class)
             ->add('password', PasswordType::class)
+            ->add('userFiles', ImageType::class)
         ;
     }
     

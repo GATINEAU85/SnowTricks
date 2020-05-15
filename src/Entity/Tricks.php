@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Entity;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,8 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="tricks")
  * @ORM\Entity
  */
-class Tricks
-{
+class Tricks {
+
     /**
      * @var int
      *
@@ -46,16 +46,15 @@ class Tricks
     private $tricksDate;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Files", mappedBy="filesTricks", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Files", mappedBy="filesTricks", cascade={"remove"})
      */
     private $tricksFiles;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="messageTricksId")
      */
     private $tricksMessage;
 
-    
     /**
      * @var \Group
      * @ORM\ManyToOne(targetEntity="App\Entity\Group",)
@@ -64,73 +63,65 @@ class Tricks
      * })
      */
     private $tricksGroupId;
-    
-    public function __construct()
-    {
+
+    public function __construct() {
         $this->tricksFiles = new ArrayCollection();
         $this->tricksMessage = new ArrayCollection();
     }
-    
-    public function getTricksId(): ?int
-    {
+
+    public function getTricksId(): ?int {
         return $this->tricksId;
     }
 
-    public function getTricksName(): ?string
-    {
+    public function getTricksName(): ?string {
         return $this->tricksName;
     }
 
-    public function setTricksName(?string $tricksName): self
-    {
+    public function setTricksName(?string $tricksName): self {
         $this->tricksName = $tricksName;
 
         return $this;
     }
 
-    public function getTricksDescription(): ?string
-    {
+    public function getTricksDescription(): ?string {
         return $this->tricksDescription;
     }
 
-    public function setTricksDescription(?string $tricksDescription): self
-    {
+    public function setTricksDescription(?string $tricksDescription): self {
         $this->tricksDescription = $tricksDescription;
 
         return $this;
     }
 
-    public function getTricksDate(): ?\DateTimeInterface
-    {
+    public function getTricksDate(): ?\DateTimeInterface {
         return $this->tricksDate;
     }
 
-    public function setTricksDate(?\DateTimeInterface $tricksDate): self
-    {
+    public function setTricksDate(?\DateTimeInterface $tricksDate): self {
         $this->tricksDate = $tricksDate;
 
         return $this;
     }
-    
+
     /**
      * @return Collection|Files[]
      */
-    public function getTricksFiles(): Collection
-    {
+    public function getTricksFiles(): Collection {
         return $this->tricksFiles;
     }
-    
-    public function addTricksFiles(Files $tricksFiles): self
-    {
-        if (!$this->tricksFiles->contains($tricksFiles)) {
-            $this->tricksFiles[] = $tricksFiles;
-            $tricksFiles->setFilesTricks($this);
+
+    public function addTricksFiles($tricksFiles): self {
+        foreach ($tricksFiles as $tricksFile) {
+            if (!$this->tricksFiles->contains($tricksFiles)) {
+                $this->tricksFiles[] = $tricksFiles;
+                $tricksFile->setFilesTricks($this);
+            }
         }
+
         return $this;
     }
-    
-    public function removeTricksFiles(Files $tricksFiles): self
-    {
+
+    public function removeTricksFiles(Files $tricksFiles): self {
         if ($this->tricksFiles->contains($tricksFiles)) {
             $this->tricksFiles->removeElement($tricksFiles);
             // set the owning side to null (unless already changed)
@@ -144,19 +135,17 @@ class Tricks
     /**
      * @return Collection|Message[]
      */
-    public function getTricksMessage(): Collection
-    {
+    public function getTricksMessage(): Collection {
         return $this->tricksMessage;
     }
 
-    public function getTricksGroupId(): ?Group
-    {
+    public function getTricksGroupId(): ?Group {
         return $this->tricksGroupId;
     }
 
-    public function setTricksGroupId(?Group $tricksGroupId): self
-    {
+    public function setTricksGroupId(?Group $tricksGroupId): self {
         $this->tricksGroupId = $tricksGroupId;
         return $this;
     }
+
 }

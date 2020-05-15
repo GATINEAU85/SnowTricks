@@ -47,13 +47,10 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Files", inversedBy="filesUsers")
+     * @ORM\OneToOne(targetEntity="App\Entity\Files", cascade={"persist"})
      * @ORM\JoinColumn(name="users_files_id", referencedColumnName="files_id")
      */
     private $userFiles;
-    
-
-//    private $roles = [];
 
     
     public function getId(): ?int
@@ -97,6 +94,7 @@ class User implements UserInterface
         return $this;
     }
     
+
     public function getUserFiles(): ?Files
     {
         return $this->userFiles;
@@ -108,6 +106,17 @@ class User implements UserInterface
 
         return $this;
     }
+
+//    public function removeTricksFiles(Files $tricksFiles): self {
+//        if ($this->tricksFiles->contains($tricksFiles)) {
+//            $this->tricksFiles->removeElement($tricksFiles);
+//            // set the owning side to null (unless already changed)
+//            if ($tricksFiles->getFilesTricks() === $this) {
+//                $tricksFiles->setFilesTricks(null);
+//            }
+//        }
+//        return $this;
+//    }
 
     /**
      * A visual identifier that represents this user.

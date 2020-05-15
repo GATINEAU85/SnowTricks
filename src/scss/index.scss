@@ -1,6 +1,8 @@
 @import '~bootstrap/scss/bootstrap';
-
+@import "~slick-carousel/slick/slick";
+@import "~slick-carousel/slick/slick-theme";
 @import 'vendor/index';
+@import '~dropzone/dist/dropzone';
 
 
 .full-screen:hover {opacity: 0.8;}
@@ -158,6 +160,11 @@ header.masthead .masthead-heading {
 }
 
 //All primary buttons
+.btn{
+    border-radius:30px;
+    padding:10px 30px;
+}
+    
 .btn-primary {
   color: #fff;
   background-color: #ff9100;
@@ -271,4 +278,9 @@ tab-width{
     border-radius:30px;
     font-size: 12px;
     font-style: italic;
+}
+
+//Account class
+.bg-orange{
+    color:#ff9100;
 }

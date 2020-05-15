@@ -1,0 +1,135 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <body id="page-top">
+        <!-- Masthead -->
+        <header class="masthead" id="tricksBg">
+            <div class="container h-100 left-align">
+                <div class="row h-100">
+                    <div class="col-lg-10 align-self-end">
+                        <h1 class="text-uppercase font-weight-bold">{{ trick.tricksName }}</h1>
+                    </div>
+                    <div class="col-lg-8 align-self-baseline">
+                        <a class="btn btn-primary btn-xl js-scroll-trigger" href="#">ALL TRICKS</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Files Section -->
+        <section class="page-section" id="trick">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8" style="margin-top:20px">
+                        <span class="groupNameTricks">{{ trick.tricksGroupId.groupName }}</span>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 mt-5 mb-5">
+                        <div class="container">
+                            <div id="carouselFile" class="carouselFile" style="color:black;margin:auto">
+                                {% for file in trick.tricksFiles %}
+                                    <div class='image d-block p-10 cur-p' style="width: 100%; display: inline-block">
+                                        <img class='image p-10 cur-p w-100 col-12' src='/files{{file.filesUrl}}' height="" style="max-width:60%; margin:auto"/>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:20px">
+                            <div class="col-12">
+                                <div id='carouselFiles' class="carouselFiles carousel slide">
+                                    {% for file in trick.tricksFiles %}
+                                        <div class='image p-10 cur-p col-12'>
+                                            <img class='image p-10 cur-p img-fluid' src='/files{{file.filesUrl}}' height=""/>
+                                            <a class="delete" href="{{ path ('deleteFile', {trickId : trick.tricksId, fileId : file.filesId})}}"><i class="fa fa-trash"></i></a>
+                                            {# <a class="update" href="{{ path ('updateFile', {trickId : trick.tricksId, fileId : file.filesId})}}"><i class="fa fa-edit"></i></a>#}
+                                            <a class="update" file="{{file.filesId}}"><i class="fa fa-edit"></i></a>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="messageUpdate"></div>
+                        {#Modal#}
+                        <div id="modalUpdateFile" class="modal" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Update this file</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <label for="update_file_tricks_dropzone">Chose your file</label>
+                                        <input id="fileId" name="fileId" type="hidden" value=""/>
+                                        <input id="trickId" name="trickId" type="hidden" value="{{ trick.tricksId }}"/>
+                                        <form id="updateFileTricksDropzoneForm" action="{{path('uploadFile')}}" class="dropzone" method="post" enctype="multipart/form-data">
+                                            <div class="fallback">
+                                                <input id="update_file_tricks_dropzone" name="update_file_tricks_dropzone" type="file"/>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary updateFile">UPDATE</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tricks Section -->
+        <section class="page-section" id="trick">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 mt-5 mb-5">
+                        <h2 class="mt-0">DESCRIPTION</h2>
+                        <hr class="divider light my-4">
+                        {#                        {{ form_start(form) }}
+                                                    {{ form_row(form.tricksName) }}
+                                                    {{ form_row(form.tricksDescription) }}
+                                                    {{ form_row(form.tricksGroupId) }}
+                        {#                            {{ form_row(form.tricksFiles) }}#}
+                        {#                            <a href="#" id="add_category" class="btn btn-default">Add files</a>#}
+                        {#                            <button type="submit" class="btn btn-primary">SUBMIT</button>#}
+                        {#                        {{ form_end(form) }}#}
+                        <form action="{{ path ('updateTricks', {trickId : trick.tricksId} ) }}" id="" name="" method="POST">
+                            <div class="row">
+                                <div class="col-6">
+                                    <input class="form-control" name="nameTricksUpdate" value="{{ trick.tricksName }}"/>
+                                </div>
+                                <div class="col-6">
+                                    <select class="form-control" name='groupTricksUpdate'>
+                                        {% for group in groups %}
+                                            {% if group.groupName == trick.tricksGroupId.groupName %}
+                                                <option selected value='{{ group.groupId }}'>{{ group.groupName }}</option>
+                                            {% else %}
+                                                <option value='{{ group.groupId }}'>{{ group.groupName }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>      
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <textarea class="form-control" name="descriptionTricksUpdate">{{ trick.tricksDescription }}</textarea>
+                                </div>            
+                            </div>            
+
+                            <div class="row mt-3">
+                                <div class="col-12 text-right">
+                                    <button type="submit" class="btn btn-primary">UPDATE</button>
+                                    <a class="btn btn-danger deleteTricks text-white" href="{{ path ('deleteTricks', {trickId : trick.tricksId})}}">DELETE</a>
+                                </div>            
+                            </div>     
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+{% endblock %}
