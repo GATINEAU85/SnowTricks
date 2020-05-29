@@ -23,6 +23,3 @@ $('#carouselFiles').slick({
   arrows:false,
   focusOnSelect: true,
 });
-
-
-//}());

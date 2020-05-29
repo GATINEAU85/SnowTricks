@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Tricks
@@ -28,6 +29,7 @@ class Tricks {
      * @var string|null
      *
      * @ORM\Column(name="tricks_name", type="string", length=255, nullable=false)
+     * @Assert\NotBlank
      */
     private $tricksName;
 
@@ -35,6 +37,8 @@ class Tricks {
      * @var string|null
      *
      * @ORM\Column(name="tricks_description", type="text", nullable=false)
+     * @Assert\NotBlank
+     * @Assert\Length(min="25", minMessage="The description is to short. 25 characters minimum")
      */
     private $tricksDescription;
 

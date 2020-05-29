@@ -5,6 +5,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="users")
  * @ORM\Entity
+ * @UniqueEntity("pseudo", message="Pseudo already use")
  */
 class User implements UserInterface
 {
@@ -29,6 +33,7 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="users_pseudo", type="string", length=255, nullable=false, unique=true)
+     * @Assert\NotBlank
      */
     private $pseudo;
 
@@ -36,6 +41,8 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="users_email", type="text", nullable=false)
+     * @Assert\Email()
+     * @Assert\NotBlank
      */
     private $email;
 
@@ -43,8 +50,14 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="users_password", type="text", nullable=false)
+     * @Assert\Length(min="8", minMessage="Password to short")
      */
     private $password;
+    
+    /**
+     * @Assert\EqualTo(propertyPath="password", message="Differents passwords")
+     */
+    private $confirmPassword;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Files", cascade={"persist"})
@@ -94,6 +107,21 @@ class User implements UserInterface
         return $this;
     }
     
+    /**
+     * @return mixed
+     */
+    public function getConfirmPassword()
+    {
+        return $this->confirmPassword;
+    }
+
+    /**
+     * @param mixed $confirmPassword
+     */
+    public function setConfirmPassword($confirmPassword): void
+    {
+        $this->confirmPassword = $confirmPassword;
+    }
 
     public function getUserFiles(): ?Files
     {

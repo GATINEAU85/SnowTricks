@@ -6,6 +6,7 @@
 parameters:
     locale: 'fr'
     files_directory: '%kernel.project_dir%/public/files/'
+    administrator_email: 'adgat34@gmail.com'
 #    files_directory: 'test/public/files'
 
 services:

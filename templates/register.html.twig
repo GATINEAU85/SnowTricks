@@ -1,41 +1,77 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-<body id="page-top">
-  <!-- Masthead -->
-  <header class="masthead" id="createUser">
-    <div class="container h-100 left-align">
-      <div class="row h-100 align-items-center">
-        <div class="col-lg-10 align-self-end">
-          <h1 class="text-uppercase font-weight-bold">Create account</h1>
-        </div>
-        <div class="col-lg-8 align-self-baseline" style="margin-top:20px">
-          <a class="btn btn-primary btn-xl js-scroll-trigger" href="#whoIAm">HOME</a>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Tricks Section -->
-  <section class="page-section" id="trick">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8 mt-5 mb-5">
-            <div class="row  justify-content-md-center">
-                <div class="col-8 ">
-                    {{ form_start(form) }}
-                        {{ form_row(form.pseudo) }}
-                        {{ form_row(form.email) }}
-                        {{ form_row(form.password) }}
-                        {{ form_row(form.userFiles) }}
-                        <button type="submit" class="btn btn-primary">REGISTER</button>
-                    {{ form_end(form) }}
+    <body id="page-top">
+        <!-- Masthead -->
+        <header class="masthead" id="createUser">
+            <div class="container h-100 left-align">
+                <div class="row h-100 align-items-center">
+                    <div class="col-lg-10 align-self-end">
+                        <h1 class="text-uppercase font-weight-bold">Create account</h1>
+                    </div>
+                    <div class="col-lg-8 align-self-baseline" style="margin-top:20px">
+                        <a class="btn btn-primary btn-xl js-scroll-trigger" href="#whoIAm">HOME</a>
+                    </div>
                 </div>
             </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  
-</body>
+        </header>
+
+        <!-- Tricks Section -->
+        <section class="page-section" id="trick">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 mt-5 mb-5">
+                        <div class="row  justify-content-md-center">
+                            <div class="col-8 ">
+                                {{ form_start(form) }}
+                                    {{ form_row(form.pseudo) }}
+                                    {{ form_row(form.email) }}
+                                    {{ form_row(form.password) }}
+                                    {{ form_row(form.confirmPassword) }}
+                                    {#{{ form_row(form.userFiles) }}#}
+                                    <button type="submit" class="btn btn-primary">REGISTER</button>
+                                {{ form_end(form) }}
+{#                                <form>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <label for="userPseudo">Pseudo</label>
+                                            <input class="form-control" id='userPseudo' name="userPseudo" placeholder="Name"/>
+                                        </div>
+                                    </div>      
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <label for="userEmail">Email</label>
+                                            <input type="email" class="form-control" id='userEmail' name="userEmail" placeholder="Email"/>
+                                        </div>        
+                                    </div>            
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <label for="userPassword">Password</label>
+                                            <input type="password" class="form-control" id='userPassword' name="userPassword" placeholder="Password"/>
+                                        </div>
+                                    </div> 
+                                </form>
+                                <div class="row mt-3">
+                                    <div class="col-12">
+                                        <label for="addFileUserDropzoneForm">Photo profile</label>
+                                        <form id="addFileUserDropzoneForm" action="{{path('uploadFile')}}" class="dropzone" method="post" enctype="multipart/form-data">
+                                            <div class="fallback">
+                                                <input id="add_file_user_dropzone" name="add_file_user_dropzone" type="file"/>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-12 text-left">
+                                        <button type="button" class="btn btn-primary createUser">CREATE</button>
+                                    </div>
+                                </div>#}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </body>
 {% endblock %}

@@ -12,6 +12,13 @@
 	margin-bottom: auto;
 }
 
+a{
+    color:#FF9100;
+}
+a:hover, a:active, a:focus, a:select{
+    color:#FFAB40;
+}
+
 h1{
     font-size:3.5rem;
 }
@@ -283,4 +290,23 @@ tab-width{
 //Account class
 .bg-orange{
     color:#ff9100;
+}
+
+.userPicture {
+  display: inline-block;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 50%;
+  background:rgba(255,145,0,0.5);
+}
+
+.userPicture img {
+  width: 100%;
+  height: auto;
+}
+
+.addProfileImage:hover{
+    opacity:0.5;
 }

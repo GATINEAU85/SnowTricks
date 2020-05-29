@@ -9,6 +9,7 @@ use App\Entity\Group;
 use App\Entity\Message;
 use App\Service\FileUploader;
 use App\Form\MessageType;
+use App\Form\ContactType;
 use App\Form\TricksType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,12 +26,39 @@ class TricksController extends AbstractController {
      * @Route("projet6/public/home", name="app_homepage")
      * @return JsonResponse
      */
-    public function getAllTricks() {
+    public function getAllTricks(Request $request, \Swift_Mailer $mailer) {
         $em = $this->getDoctrine()->getManager();
         $tricks = $em->getRepository(Tricks::class)->findAll();
+        $limit = 9;
+        
+        $form = $this->createForm(ContactType::class);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $contact = $form->getData();
+
+            // On crée le message
+            $message = (new \Swift_Message('Nouveau contact'))
+                // On attribue l'expéditeur
+                ->setFrom($contact['email'])
+                // On attribue le destinataire
+                ->setTo($this->getParameter('administrator_email'))
+                // On crée le texte avec la vue
+                ->setBody($this->renderView('emails/contact.html.twig', compact('contact')),'text/html');
+            
+            $mailer->send($message);
+            $this->addFlash('message', 'This message is send.');
+        }
+        if ($request->query->get('action')){
+            if ($request->query->get('action') == "getAllTricks"){
+                $limit = count($tricks);
+            }
+        };
 
         return $this->render("home.html.twig", [
-                    'tricks' => $tricks,
+            'limitTricks' => $limit,
+            'tricks' => $tricks,
+            'contactForm' => $form->createView(),
         ]);
     }
 
@@ -72,10 +100,10 @@ class TricksController extends AbstractController {
     }
 
     /**
-     * @Route("projet6/admin/create/trick", name="createTricks")
+     * @Route("projet6/admin/create/trick", name="createTrick")
      * @return JsonResponse
      */
-    public function createTricks(Request $request, SluggerInterface $slugger) {
+    public function createTrick(Request $request, SluggerInterface $slugger) {
         $em = $this->getDoctrine()->getManager();
         $newFilename = $this->getParameter('files_directory');
 
@@ -122,16 +150,56 @@ class TricksController extends AbstractController {
         }
 
         return $this->render("createTrick.html.twig", [
-                    'form' => $form->createView(),
+            'form' => $form->createView(),
+            'status' => "ok"
         ]);
     }
 
+       /**
+     * @Route("projet6/admin/create/tricks", name="createTricks")
+     * @return JsonResponse
+     */
+    public function createTricks(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $groups = $em->getRepository(Group::class)->findAll();
+
+        if($request->request->get('nameTricks')){
+            $tricks = new Tricks();
+            $tricks->setTricksName($request->request->get('nameTricks'));
+            $tricks->setTricksDescription($request->request->get('descriptionTricks'));
+            $groupTricks = $em->getRepository(Group::class)->find($request->request->get('groupTricks'));
+            $tricks->setTricksGroupId($groupTricks);
+//            var_dump($request->request->get('files'));
+            if($request->request->get('files')){
+                foreach ($request->request->get('files') as $file) {
+                    var_dump($file);
+                    $fileTrick = new Files;
+                    $fileTrick->setFilesName($file["fileName"]);
+                    $fileTrick->setFilesUrl($file["fileUrl"]);
+                    $fileTrick->setFilesType($file["fileType"]);
+//                    $fileTrick->setFilesDate(new DateTime('NOW'));
+                    $fileTrick->setFilesTricks($tricks);
+                    $em->persist($fileTrick);
+                };
+            };
+            
+            $em->persist($tricks);
+            $em->flush();
+        }
+//        return new JsonResponse(array(
+//            'status' => "success",
+//        ));
+        return $this->render("createTrick.html.twig", [
+            'groups' => $groups,
+            'status' => "succes"
+        ]);
+    }
     
     /**
      * @Route("projet6/admin/update/trick/{trickId}", name="updateTricks")
      * @return JsonResponse
      */
-    public function updateTricks(Request $request, SluggerInterface $slugger, int $trickId) {
+    public function updateTricks(Request $request, int $trickId) {
         $em = $this->getDoctrine()->getManager();
         $tricks = $em->getRepository(Tricks::class)->find($trickId);
         $groups = $em->getRepository(Group::class)->findAll();
@@ -161,7 +229,7 @@ class TricksController extends AbstractController {
      * @Route("projet6/admin/delete/trick/{trickId}", name="deleteTricks")
      * @return JsonResponse
      */
-    public function deleteTricks(Request $request, SluggerInterface $slugger, int $trickId) {
+    public function deleteTricks(Request $request, int $trickId) {
         $em = $this->getDoctrine()->getManager();
         $tricks = $em->getRepository(Tricks::class)->find($trickId);
 
@@ -179,7 +247,7 @@ class TricksController extends AbstractController {
      * @Route("projet6/admin/update/trick/{trickId}/delete/file/{fileId}", name="deleteFile")
      * @return JsonResponse
      */
-    public function deleteFile(Request $request, SluggerInterface $slugger, int $trickId, int $fileId) {
+    public function deleteFile(Request $request, int $trickId, int $fileId) {
         $em = $this->getDoctrine()->getManager();
         $file = $em->getRepository(Files::class)->find($fileId);
         
@@ -266,5 +334,4 @@ class TricksController extends AbstractController {
             'status' => "success",
         ));
     }
-    
 }

@@ -3,14 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp64/www/projet6/src/Controller/TricksController.php</file>
             <file>file:/C:/wamp64/www/projet6/src/Controller/PublicController.php</file>
-            <file>file:/C:/wamp64/www/projet6/src/Entity/Files.php</file>
-            <file>file:/C:/wamp64/www/projet6/src/scss/index.scss</file>
-            <file>file:/C:/wamp64/www/projet6/src/app.js</file>
-            <file>file:/C:/wamp64/www/projet6/src/Entity/Message.php</file>
-            <file>file:/C:/wamp64/www/projet6/src/assets/script/updateFiles/index.js</file>
-            <file>file:/C:/wamp64/www/projet6/templates/updateTricks.html.twig</file>
+            <file>file:/C:/wamp64/www/projet6/src/Controller/TricksController.php</file>
+            <file>file:/C:/wamp64/www/projet6/templates/account.html.twig</file>
+            <file>file:/C:/wamp64/www/projet6/templates/login.html.twig</file>
+            <file>file:/C:/wamp64/www/projet6/templates/home.html.twig</file>
+            <file>file:/C:/wamp64/www/projet6/src/Entity/Contact.php</file>
+            <file>file:/C:/wamp64/www/projet6/src/Entity/Tricks.php</file>
+            <file>file:/C:/wamp64/www/projet6/src/Form/ContactType.php</file>
         </group>
     </open-files>
 </project-private>
