@@ -16,9 +16,6 @@
     </div>
   </header>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
-
 <!-- Files Section -->
   <section class="page-section" id="trick">
     <div class="container">
@@ -26,6 +23,11 @@
          <div class="col-lg-8" style="margin-top:20px">
              <span class="groupNameTricks">{{ trick.tricksGroupId.groupName }}</span>
          </div>
+        {% if is_granted('ROLE_USER') %}
+         <div class="col-lg-2 offset-lg-2" style="margin-top:20px">
+            <a class="btn btn-primary btn-xl js-scroll-trigger" href="{{ path ('updateTricks', {trickId : trick.tricksId})}}">UPDATE</a>
+         </div>
+        {% endif %}
       </div>
       <div class="row justify-content-center">
         <div class="col-lg-8 mt-5 mb-5">

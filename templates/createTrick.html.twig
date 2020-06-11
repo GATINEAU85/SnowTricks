@@ -22,32 +22,103 @@
       <div class="row justify-content-center">
         <div class="col-lg-8 mt-5 mb-5">
             <div class="row  justify-content-md-center">
-                <div class="col-8 ">
-                    {{ form_start(form) }}
+                <div class="col-10 ">
+{#                    {{ form_start(form) }}
                         {{ form_row(form.tricksName) }}
                         {{ form_row(form.tricksDescription) }}
                         {{ form_row(form.tricksGroupId) }}
                         {{ form_row(form.tricksFiles) }}
-                        <a href="#" id="add_category" class="btn btn-default">Add files</a>
+                        <a href="#" id="add_category" class="btn btn-default">Add files</a>#}
 {#                        {{ form_row(form.tricksFiles) }}#}
-                        <button type="submit" class="btn btn-primary">SUBMIT</button>
-                    {{ form_end(form) }}
-                    
-{#                    <form>
-                        <div class="form-group">
-                          <label for="createPseudo">Pseudo</label>
-                          <input type="text" class="form-control" id="createPseudo" name="createPseudo" aria-describedby="emailHelp" placeholder="Enter pseudo">
+{#                        <button type="submit" class="btn btn-primary">SUBMIT</button>
+                    {{ form_end(form) }}#}
+{#                    <form action="{{ path ('createTricks') }}" id="" name="" method="POST">#}
+                    <div id="statusTricksCreation"></div>
+                    <form>
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <label for="nameTricks">Name</label>
+                                <input class="form-control" id='nameTricks' name="nameTricks" placeholder="Name"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="groupTricks">Groups</label>
+                                <select class="form-control" id='groupTricks' name='groupTricks'>
+                                    {% for group in groups %}
+                                        <option value='{{ group.groupId }}'>{{ group.groupName }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>      
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <label for="descriptionTricks">Description</label>
+                                <textarea class="form-control" id="descriptionTricks" name="descriptionTricks"></textarea>
+                            </div>            
+                        </div>            
+                        <div class="row mt-3">
+                            <div class="col-6 text-left">
+                                <label>Manage files</label>
+                            </div>
+                            <div class="col-6 text-right">
+                                <button type="button" class="btn btn-primary addPicture"><i class='fas fa-images'></i></button>
+                                <button type="button" class="btn btn-primary addVideo"><i class="fas fa-video"></i></button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                          <label for="createMail">E-mail</label>
-                          <input type="mail" class="form-control" id="createMail" name="createMail" aria-describedby="emailHelp" placeholder="Enter your e-mail">
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <table {#id="dataTableFiles" #}class="table " cellspacing="0" width="100%">
+                                    <thead>
+                                      <tr>
+                                        <th>Name</th>
+                                        <th>Link</th>
+                                        <th>Type</th>
+{#                                        <th>Action</th>#}
+                                      </tr>
+                                    </thead>
+                                    <tbody id="contentTabFile"></tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="form-group">
-                          <label for="createPassword">Password</label>
-                          <input type="password" class="form-control" id="createPassword" name="loginPassword" placeholder="Password">
+                        <div class="row mt-3">
+                            <div class="col-12 text-left">
+                                <button type="button" class="btn btn-primary createTricks">CREATE</button>
+                            </div>
+                        </div>     
+                    </form>
+                    {#Modal#}          
+                    <div id="modalAddFile" class="modal" tabindex="-1" role="dialog" type="">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">ADD FILES</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body videoPart" >
+                                    <div class="col-12">
+                                        <label for="videoName">Video name</label>
+                                        <input class="form-control" name="videoName" id="videoName" placeholder="Video name"/>
+                                        <label for="videoLink">Video integration link</label>
+                                        <input class="form-control" name="videoLink" id="videoLink" placeholder="Video link"/>
+                                    </div>
+                                </div>
+                                <div class="modal-body imagePart">
+                                    <label for="update_file_tricks_dropzone">Chose your file</label>
+                                    <input id="fileId" name="fileId" type="hidden" value=""/>
+                                    <form id="addFileTricksDropzoneForm" action="{{path('uploadFile')}}" class="dropzone" method="post" enctype="multipart/form-data">
+                                        <div class="fallback">
+                                            <input id="add_file_tricks_dropzone" name="add_file_tricks_dropzone" type="file"/>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary addFileInTab">ADD</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                                </div>
+                            </div>
                         </div>
-                        <button type="submit" id="createAccount" name="createAccount" class="btn btn-primary">SIGN IN</button>
-                    </form>#}
+                    </div>
                 </div>
             </div>
         </div>

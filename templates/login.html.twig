@@ -10,7 +10,7 @@
           <h1 class="text-uppercase font-weight-bold">Login</h1>
         </div>
         <div class="col-lg-8 align-self-baseline" style="margin-top:20px">
-          <a class="btn btn-primary btn-xl js-scroll-trigger" href="/projet6/public/create/user">CREATE ACCOUNT</a>
+          <a class="btn btn-primary btn-xl js-scroll-trigger" href="{{ path('createUser') }}">CREATE ACCOUNT</a>
         </div>
       </div>
     </div>
@@ -23,7 +23,12 @@
         <div class="col-lg-8 mt-5 mb-5">
             <div class="row  justify-content-md-center">
                 <div class="col-8 ">
-                    <form action="{{ path ('app_login') }}" method="post">
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    <form action="{{ path('app_login') }}" method="post">
                         {% if error %}
                             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                         {% endif %}
@@ -37,7 +42,7 @@
                         </div>
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                         <div class="form-group text-center">
-                            <button type="submit" class="btn btn-success">Connexion !</button>
+                            <button type="submit" class="btn btn-primary">LOG IN</button>
                         </div>
                     </form>
 {#                    {{ form_start(form) }}

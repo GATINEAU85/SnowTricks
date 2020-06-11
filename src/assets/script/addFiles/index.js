@@ -1,4 +1,5 @@
- $(document).ready(function() {
+ //USE WITH SYMFONY IMAGE FORM
+$(document).ready(function() {
     // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
     var $container = $('div#tricks_tricksFiles');
 
@@ -62,4 +63,122 @@
         return false;
       });
     }
-  });
+});
+  
+//USE WITH DROPZONE
+$(".remove").click(function () {
+    confirm('This file will be remove from this add.');
+});
+
+$(".addPicture").click(function () {
+    $('#modalAddFile').modal();
+    $(".imagePart").show();
+    $(".videoPart").hide();
+});
+
+$(".addVideo").click(function () {
+    $('#modalAddFile').modal();
+    $(".videoPart").show();
+    $(".imagePart").hide();
+});
+
+//Add file from the modal to the datatable on the page
+$(".addFileInTab").click(function () {
+    //Création du tableau de parametre envoi 
+    var insertionChamp = {};
+    var fileId = $("#fileId").val();
+    var trickId = $("#trickId").val();
+    var videoInput = $("#videoLink").val();
+
+    if (videoInput !== ""){
+        if($("#videoLink").val() !== ""){
+            var videoName = $("#videoName").val();
+            var videoUrl = $("#videoLink").val();
+//            $("#contentTabFile").append("<tr><td>" + videoName + "</td><td class='cur-p'>" + videoUrl + "</td><td>Video</td><td><a class='removeFileTricks cur-p'><i class='fas fa-trash'></i></a></td></tr>")
+            $("#contentTabFile").append("<tr><td>" + videoName + "</td><td class='cur-p'>" + videoUrl + "</td><td>Video</td></tr>")
+            $('#modalAddFile').modal("hide");
+        };
+    }else{
+        if (addFileTricksDropzoneForm.dropzone.files.length !== 0) {
+            var fileDropzoneUpdate = addFileTricksDropzoneForm.dropzone.files[0];
+            pictureName = fileDropzoneUpdate.name;
+            pictureUrl = "/" + fileDropzoneUpdate.name;
+            insertionChamp["fileDate"] = $.now();
+//            $("#contentTabFile").append("<tr><td>" + pictureName + "</td><td class='cur-p'>" + pictureUrl + "</td><td>Picture</td><td><a class='removeFileTricks cur-p'><i class='fas fa-trash'></i></a></td></tr>")
+            $("#contentTabFile").append("<tr><td>" + pictureName + "</td><td class='cur-p'>" + pictureUrl + "</td><td>Picture</td></tr>")
+            addFileTricksDropzoneForm.dropzone.files.forEach(function(file) { 
+                file.previewElement.remove(); 
+            });
+            $('#modalAddFile').modal("hide");
+        };
+    }
+    
+    $("#videoName").val("");
+    $("#videoLink").val("");
+});
+
+//$(".removeFileTricks").click(function () {
+//    confirm('This file will not be insert on the creation off this trick.');
+//});
+
+//Create the tricks with all the files
+$(".createTricks").click(function () {
+    //Création du tableau de parametre envoi 
+    if ($("#nameTricks").val() !== "" || $("#descriptionTricks").val() !== "" ) {
+        $("#nameTricks").removeClass('is-invalid');
+        $("#descriptionTricks").removeClass('is-invalid');
+        var trickData = {
+            nameTricks: $("#nameTricks").val(),
+            groupTricks: $("#groupTricks").val(),
+            descriptionTricks: $("#descriptionTricks").val(), 
+            files: []
+        };
+    }else{
+        if ($("#nameTricks").val() !== "") {
+            $("#nameTricks").addClass('is-invalid').focus();
+            return;
+        };
+        if ($("#descriptionTricks").val() !== "" || $("#descriptionTricks").val().length < 25) {
+            $("#descriptionTricks").addClass('is-invalid').focus();
+            return;
+        }
+    }
+        
+    if ($("#contentTabFile > tr").length !== 0) {
+        $( "#contentTabFile > tr" ).each(function(index) {
+            var fileCells = $(this).find($("td"));
+            var file = {
+                fileName: fileCells.prevObject[0].cells[0].innerText,
+                fileUrl: fileCells.prevObject[0].cells[1].innerText,
+                fileType: fileCells.prevObject[0].cells[2].innerText
+            };
+            trickData.files.push(file);
+        });
+    }
+
+    $.ajax({
+        // url : 'insertDb', 
+        url: "/projet6/admin/create/tricks",
+        type: 'POST',
+        cache: true,
+        data: trickData,
+        success: function (data) {
+            if(data.status == 'succes'){
+                //Dans le cas ou on a déja enregistré le fichier
+                $("#statusTricksCreation")
+                    .removeClass('alert-danger')
+                    .addClass('alert alert-success ta-c w-100')
+                    .html("This trick is created.")
+                    .fadeIn(1000)
+                    .delay(2000)
+                    .fadeOut(1000);
+            }
+        },
+        error : function (){
+            $("#statusTricksCreation")
+                .addClass('alert alert-danger ta-c w-100')
+                .html("An error was occured.")
+                .fadeIn(500);
+        }
+    });
+});

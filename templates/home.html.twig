@@ -1,5 +1,5 @@
 {% extends "base.html.twig" %}
-
+{% set limit = 9 %}
 {% block body %}
 <body id="page-top">
   <!-- Masthead -->
@@ -31,17 +31,17 @@
           <hr class="divider light my-4">
             <div class="row">
                 <div class="col-lg-4">
-                    <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+                    <img class="rounded-circle mb-3" src="/img/feature-01.png" alt="Generic placeholder image" width="120" height="120">
                     <h3>Passion</h3>
                     <p>We are all gathered here around the same passion : the snowboard. Share this website and this community to you friends of tracks buddies, to improve the content of this site. </p>
                 </div><!-- /.col-lg-4 -->
                 <div class="col-lg-4">
-                    <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+                    <img class="rounded-circle mb-3" src="/img/feature-02.png"  alt="Generic placeholder image" width="120" height="120">
                     <h3>Fun</h3>
                     <p>Here, you can share you're better photo of snow tricks with your friends. Enjoy it to communicate arround the avices to know when we are beginers.</p>
                 </div><!-- /.col-lg-4 -->
                 <div class="col-lg-4">
-                    <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+                    <img class="rounded-circle mb-3" src="/img/feature-03.png" alt="Generic placeholder image" width="120" height="120">
                     <h3>Curious</h3>
                     <p>If you want to learn this hobbies but you are scared... It's time to begin, to learn and to practice, with tutorial, advice and professionnal help before the track.</p>
                 </div><!-- /.col-lg-4 -->
@@ -61,16 +61,18 @@
           <hr class="divider light my-4">
             <div class="row">
                 {% for trick in tricks %}
-                <div class="col-lg-3">
-                    {% set files = trick.tricksFiles|first %}
-                    <a href="get/trick/{{ trick.tricksId }}"><img class="" src="/files{% if files %}{{ files.filesUrl }}{% endif %}" alt="Trick placeholder image" width="140" height="140"></a>
-                    <h3>{{ trick.tricksName }}</h3>
-                    <p>{{ trick.tricksDescription }}</p>
-                </div>
+                    {% if loop.index < limitTricks %}
+                        <div class="col-lg-3">
+                            {% set files = trick.tricksFiles|first %}
+                            <a href="get/trick/{{ trick.tricksId }}"><img class="" src="/files{% if files %}{{ files.filesUrl }}{% endif %}" alt="Trick placeholder image" width="140" height="140"></a>
+                            <h3>{{ trick.tricksName }}</h3>
+                            <p>{{ trick.tricksDescription[:50] }}...</p>
+                        </div>
+                    {% endif %}
                 {% endfor %}
             </div>
-          <a class="btn btn-primary btn-xl js-scroll-trigger" href="#tricks">ALL TRICKS</a>
-          <a class="btn btn-primary btn-xl js-scroll-trigger" href="/projet6/admin/create/trick" style="margin-left:20px">ADD TRICKS</a>
+          <a id="allTricksLimit" class="btn btn-primary btn-xl js-scroll-trigger" href="{{ path("app_homepage") }}?action=getAllTricks">ALL TRICKS</a>
+          <a class="btn btn-primary btn-xl js-scroll-trigger" href="{{ path("createTricks") }}" style="margin-left:20px">ADD TRICKS</a>
         </div>
       </div>
     </div>
@@ -88,10 +90,10 @@
           </div>
           <div class="row">
               <div class="col-md-4 offset-md-2" text-center>
-                  <img src="/img/contact.png" style="max-height:320px"/>
+                  <img src="/img/contact.png" class="mt-2" style="max-height:320px"/>
               </div>
               <div class="col-md-4" text-center>
-                  <form name="contactForm" id="contactForm" methode="post" action="index.php?action=contactMe">
+{#                  <form name="contactForm" id="contactForm" methode="post" action="index.php?action=contactMe">
                   <div class="control-group">
                     <div class="form-group floating-label-form-group controls">
                       <input type="text" class="form-control" placeholder="Name" id="envoiName"  name="envoiName" required data-validation-required-message="Entrez votre nom.">
@@ -115,7 +117,13 @@
                   <div class="form-group text-left">
                     <button type="submit" class="btn btn-primary  btn-xl" id="sendMessageButton">SEND MESSAGE</button>
                   </div>
-                </form>
+                </form>#}
+                {{ form_start(contactForm) }}
+                    {{ form_row(contactForm.name) }}
+                    {{ form_row(contactForm.email) }}
+                    {{ form_row(contactForm.message) }}
+                    <button type="submit" class="btn btn-primary">SEND MESSAGE</button>
+                {{ form_end(contactForm) }}
             </div>
         </div>
     </div>

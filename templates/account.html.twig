@@ -22,8 +22,61 @@
       <div class="row justify-content-center">
         <div class="col-lg-8 mt-5 mb-5">
             <div class="row  justify-content-md-center">
-                <div class="col-8 ">
-                    <p>{{ user.pseudo }}</p>
+                <div class="col-8">
+                    <div class="row-fluid user-infos cyruxx">
+                        <div class="row">
+                            <h3 class="bg-orange">User information</h3>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-4 ">
+                                {% if user.userFiles %}
+                                    <div class="userPicture rounded-circle" ><img class="addProfileImage" src="/files{{ user.userFiles.filesUrl }}" alt="User Pic"></div>
+                                {% else %}
+                                    <div class="userPicture rounded-circle" style="max-width:100px"><img class="rounded-circle addProfileImage" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=100" alt="User Pic"></div>
+                                {% endif %}
+                            </div>
+                            <div class="col-8">
+                                <strong id="userPseudo">{{ user.pseudo|capitalize }}</strong><br>
+                                <table class="table table-condensed table-responsive table-user-information">
+                                    <tbody>
+                                    <tr>
+                                        <td>Mail</td>
+                                        <td id="userEmail">{{ user.email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Password</td>
+                                        <td><a href="{{path('updatePassword')}}">Change password</a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {#//Modal#}
+                        <div id="modalAddUerPhoto" class="modal" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Add new user photo</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <label for="update_file_tricks_dropzone">Chose your file</label>
+                                        <form id="addUserPhotoDropzoneForm" action="{{path('uploadFile')}}" class="dropzone" method="post" enctype="multipart/form-data">
+                                            <div class="fallback">
+                                                <input id="add_user_photo_dropzone" name="add_user_photo_dropzone" type="file"/>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary addUserPhoto">ADD THIS PHOTO</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
