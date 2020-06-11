@@ -229,11 +229,11 @@ class TricksController extends AbstractController {
      * @Route("projet6/admin/delete/trick/{trickId}", name="deleteTricks")
      * @return JsonResponse
      */
-    public function deleteTricks(Request $request, int $trickId) {
+    public function deleteTricks(int $trickId) {
         $em = $this->getDoctrine()->getManager();
-        $tricks = $em->getRepository(Tricks::class)->find($trickId);
+        $trick = $em->getRepository(Tricks::class)->find($trickId);
 
-        $em->remove($tricks);
+        $em->remove($trick);
         $em->flush();
         
         $tricks = $em->getRepository(Tricks::class)->findAll();
