@@ -5,7 +5,7 @@
 -- Dumped from database version 10.6
 -- Dumped by pg_dump version 10.6
 
--- Started on 2020-06-04 09:52:52
+-- Started on 2020-06-18 11:09:20
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -26,7 +26,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2849 (class 0 OID 0)
+-- TOC entry 2848 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -156,7 +156,7 @@ CREATE TABLE public.users (
     users_pseudo text,
     users_email text,
     users_password text,
-    users_files_id integer
+    users_photo text
 );
 
 
@@ -178,7 +178,7 @@ CREATE SEQUENCE public.users_users_id_seq
 ALTER TABLE public.users_users_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2833 (class 0 OID 303279)
+-- TOC entry 2832 (class 0 OID 303279)
 -- Dependencies: 196
 -- Data for Name: files; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -192,6 +192,7 @@ COPY public.files (files_id, files_name, files_url, files_size, files_date, file
 69	_received_2034637816830953.jpg	/_received_2034637816830953.jpg	\N	\N	image	\N
 7	snow3.jpeg	/snow3.jpeg	\N	\N	image	3
 8	snow4.jpeg	/snow4.jpeg	\N	\N	image	4
+70	_received_2034637816830953.jpg	/_received_2034637816830953.jpg	\N	\N	image	\N
 10	snow6.jpeg	/snow6.jpeg	\N	\N	image	5
 11	adrien.jpg	/user/adrien.jpg	\N	\N	image	\N
 12	erwan.jpg	/user/erwan.jpg	\N	\N	image	\N
@@ -204,6 +205,7 @@ COPY public.files (files_id, files_name, files_url, files_size, files_date, file
 20	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
 40	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
 43	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
+74	snow18.jpeg	/snow18.jpeg	\N	\N	/image	7
 49	testvideo	testvideo.link	\N	\N	Video	\N
 50	_received_2034637816830953.jpg	/_received_2034637816830953.jpg	\N	\N	image	\N
 51	_received_2034637816830953.jpg	/_received_2034637816830953.jpg	\N	\N	image	\N
@@ -215,11 +217,17 @@ COPY public.files (files_id, files_name, files_url, files_size, files_date, file
 63	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
 64	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
 65	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
+75	_received_2034637816830953.jpeg	/_received_2034637816830953.jpeg	\N	\N	image	\N
+76	default	https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=100	\N	\N	image	\N
+77	4d0dcdca32364346931a17d186584153.jpeg	/4d0dcdca32364346931a17d186584153.jpeg	\N	\N	\N	\N
+78	GoPro: Alaskan Playground with John Jackson	https://www.youtube.com/embed/1TJ08caetkw	\N	\N	video	3
+79	snow14.jpg	/snow14.jpg	\N	\N	image	10
+80	snow20	/snow20.jpg	\N	\N	\N	11
 \.
 
 
 --
--- TOC entry 2837 (class 0 OID 311527)
+-- TOC entry 2836 (class 0 OID 311527)
 -- Dependencies: 200
 -- Data for Name: groupe; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -233,81 +241,70 @@ COPY public.groupe (group_id, group_name) FROM stdin;
 
 
 --
--- TOC entry 2834 (class 0 OID 303285)
+-- TOC entry 2833 (class 0 OID 303285)
 -- Dependencies: 197
 -- Data for Name: message; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.message (message_id, message_content, message_users_id, message_tricks_id, message_date) FROM stdin;
-1	One of the hardest tricks to explain ! Congrats	1	1	2020-04-27
-2	How do you place your tail at the begining of this tricks ?	2	1	2020-04-27
-3	You must push your board with your tail	1	1	2020-04-27
-15	Je test	\N	\N	\N
-16	Je test	\N	\N	\N
-17	test	\N	\N	\N
-18	test	70	11	2020-05-15
-19	test	70	11	2020-05-15
+22	Beautiful photo, I hope you will continue to show your tricks !	96	1	2020-06-16
+23	Try to catch this moment with a GoPro at the last time	96	1	2020-06-16
+24	I have a last question about this practice.	96	1	2020-06-16
 \.
 
 
 --
--- TOC entry 2835 (class 0 OID 303291)
+-- TOC entry 2834 (class 0 OID 303291)
 -- Dependencies: 198
 -- Data for Name: tricks; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.tricks (tricks_id, tricks_name, tricks_description, tricks_date, tricks_group_id) FROM stdin;
-2	Sad	Seizure of the backside edge of the board, between the two feet, with the front hand	\N	2
 3	Indy 	Seizure of the frontside edge of the board, between the two feet, with the rear hand.	\N	3
 4	Stalefish	Grasping the backside of the board between the two feet with the back hand	\N	2
 5	Tail grab	Seizure of the rear part of the board, with the back hand	\N	1
 6	Nose grab	Seizure of the front part of the board, with the front hand	\N	1
-7	Japan air	Seizure of the front of the board, with the front hand, on the side of the frontside edge	\N	1
 8	Seat belt	Seizure of the frontside edge at the back with the front hand	\N	1
 9	Truck driver	Seizure of the front and rear edges with each hand (like holding a car steering wheel)	\N	1
-11	test	test	\N	3
-12	test	test	\N	3
+7	Japan air XL	Seizure of the front of the board, with the front hand, on the side of the frontside edge	\N	1
+10	Rotation 360	Turn on 360 degrees during your flight	\N	3
 1	Mute 	Grasping the frontside edge of the board between the two feet with the front hand.	\N	1
+11	Rotation 180°	Turn on 360 degrees and receive your flight on your back	\N	3
 \.
 
 
 --
--- TOC entry 2836 (class 0 OID 303297)
+-- TOC entry 2835 (class 0 OID 303297)
 -- Dependencies: 199
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users (users_id, users_pseudo, users_email, users_password, users_files_id) FROM stdin;
-1	gatineau85	adgat34@gmail.com	gatineau85	11
-2	erwan53	ermail53@gmail.com	erwan53	12
-3	aldesc17	aldesc17@gmail.com	aldesc17	13
-70	charles	charles@gmail.com	$2y$10$h5MKlPJzXm5XfOtRbMJuDOjiHAUN790jbusUqL/j6WkLUGLNxB8he	69
-91	ericPatrice	ericPatrice@gmail.com	$2y$10$dORsHvRfehoyUeB1ufGBbOzZkhNdDjetF9/E/VHfnym8AM2ZOVyEW	\N
-92	test	test@gmail.com	$2y$10$pjDGg0auqjzC4aTlQIAGxeP9q4RJwOMgtRxwVe4doYKuMymj62Him	\N
-90	zanz	zanz@gmail.com	$2y$10$OWv6DmeJ2NhAKdZKCxNSGeLqVrk87hZ98NppR8c8uES1C3HUTo/l2	\N
+COPY public.users (users_id, users_pseudo, users_email, users_password, users_photo) FROM stdin;
+97	alexis33	alexis33@gmail.com	$2y$10$k3wPmKKXBz9FPKJwYJ9/CuJ/pcbrpSPwGDzq55DbjyBDs5r5eqvn.	\N
+96	gatineau85	adgat34@gmail.com	$2y$10$yk8G8accmJZnJubGlKG18ufgCIih7dre.f1gHlpib0e3wK5TgTgci	adrien.jpg
 \.
 
 
 --
--- TOC entry 2850 (class 0 OID 0)
+-- TOC entry 2849 (class 0 OID 0)
 -- Dependencies: 202
 -- Name: files_files_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.files_files_id_seq', 69, true);
+SELECT pg_catalog.setval('public.files_files_id_seq', 78, true);
 
 
 --
--- TOC entry 2851 (class 0 OID 0)
+-- TOC entry 2850 (class 0 OID 0)
 -- Dependencies: 201
 -- Name: message_message_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.message_message_id_seq', 19, true);
+SELECT pg_catalog.setval('public.message_message_id_seq', 24, true);
 
 
 --
--- TOC entry 2852 (class 0 OID 0)
+-- TOC entry 2851 (class 0 OID 0)
 -- Dependencies: 203
 -- Name: tricks_tricks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -316,12 +313,12 @@ SELECT pg_catalog.setval('public.tricks_tricks_id_seq', 114, true);
 
 
 --
--- TOC entry 2853 (class 0 OID 0)
+-- TOC entry 2852 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: users_users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_users_id_seq', 92, true);
+SELECT pg_catalog.setval('public.users_users_id_seq', 97, true);
 
 
 --
@@ -405,16 +402,7 @@ ALTER TABLE ONLY public.tricks
     ADD CONSTRAINT tricks_tricks_group_id_fkey FOREIGN KEY (tricks_group_id) REFERENCES public.groupe(group_id);
 
 
---
--- TOC entry 2711 (class 2606 OID 319725)
--- Name: users users_users_files_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_users_files_id_fkey FOREIGN KEY (users_files_id) REFERENCES public.files(files_id);
-
-
--- Completed on 2020-06-04 09:52:52
+-- Completed on 2020-06-18 11:09:20
 
 --
 -- PostgreSQL database dump complete

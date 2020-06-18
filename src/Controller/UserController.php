@@ -67,9 +67,8 @@ class UserController extends AbstractController
 
             $this->addFlash('success', 'Registration is success');
 
-            return $this->render("register.html.twig",[
-                'form' => $form->createView(),
-            ]);
+            return $this->redirectToRoute('app_login');
+
         }
 
         return $this->render("register.html.twig",[
@@ -122,8 +121,6 @@ class UserController extends AbstractController
      */
     public function getOwnAccount()
     {
-//        $em = $this->getDoctrine()->getManager();
-//        $user = $em->getRepository(User::class)->find($id);
         $user = $this->getUser();
         return $this->render("account.html.twig", [
             'user'  => $user,
@@ -153,27 +150,26 @@ class UserController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-
+        $user->setPhoto($request->request->get('fileName'));
         
-        //Création du fichier
-        $file = new Files();
-        $file->setFilesName($request->request->get('fileName'));
-        $file->setFilesType("image");
-        $file->setFilesUrl('/' . $request->request->get('fileName'));
-
-        //Insertion de la FK
-        $user->setUserFiles($file);
-
-        //MAJ du file
-        $em->persist($file);
+//        //Création du fichier
+//        $file = new Files();
+//        $file->setFilesName($request->request->get('fileName'));
+//        $file->setFilesType("image");
+//        $file->setFilesUrl('/' . $request->request->get('fileName'));
+//
+//        //Insertion de la FK
+//        $user->setUserFiles($file);
+//
+//        //MAJ du file
+//        $em->persist($file);
 
         //MAJ du user
         $em->persist($user);
         $em->flush();
+        $this->addFlash('success', 'Your photo is updated.');
         
-        return $this->render("account.html.twig", [
-            'user'  => $user,
-        ]);
+        return $this->redirectToRoute('app_account');
     }
         
     /**
@@ -203,9 +199,7 @@ class UserController extends AbstractController
             
             $this->addFlash('success', 'Update password is success');
 
-            return $this->render("account.html.twig",[
-                'user' => $user,
-            ]);
+            return $this->redirectToRoute('app_account');
         }
 
         return $this->render("updatePassword.html.twig", [

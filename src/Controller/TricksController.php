@@ -51,7 +51,7 @@ class TricksController extends AbstractController {
         }
         if ($request->query->get('action')){
             if ($request->query->get('action') == "getAllTricks"){
-                $limit = count($tricks);
+                $limit = count($tricks) + 1;
             }
         };
 
@@ -69,6 +69,7 @@ class TricksController extends AbstractController {
     public function getTrick(Request $request, int $trickId) {
         $em = $this->getDoctrine()->getManager();
         $trick = $em->getRepository(Tricks::class)->find($trickId);
+        $limit = 3;
 
         //Création du nouveau message
         $message = new Message();
@@ -87,13 +88,18 @@ class TricksController extends AbstractController {
             
             $em->persist($message);
             $em->flush();
-//            return $this->redirectToRoute('app_homepage',[
-//                    'trick' => $trick,
-//                    'form' => $form->createView(),
-//            ]);
+            
+            $this->addFlash('success', 'Your message is add to this tricks.');
+            return $this->redirectToRoute('getTrick',['trickId' => $trickId]);
         }
+        if ($request->query->get('action')){
+            if ($request->query->get('action') == "getAllMessage"){
+                $limit = count($em->getRepository(Message::class)->findAll()) + 1;
+            }
+        };
 
         return $this->render("trick.html.twig", [
+                    'limitMessage' => $limit,
                     'trick' => $trick,
                     'form' => $form->createView(),
         ]);
@@ -180,15 +186,16 @@ class TricksController extends AbstractController {
 //                    $fileTrick->setFilesDate(new DateTime('NOW'));
                     $fileTrick->setFilesTricks($tricks);
                     $em->persist($fileTrick);
+                    
+                    $this->addFlash('success', 'This trick is created.');
+                    return $this->redirectToRoute('createTricks');
                 };
             };
             
             $em->persist($tricks);
             $em->flush();
         }
-//        return new JsonResponse(array(
-//            'status' => "success",
-//        ));
+
         return $this->render("createTrick.html.twig", [
             'groups' => $groups,
             'status' => "succes"
@@ -212,14 +219,18 @@ class TricksController extends AbstractController {
 
             $em->persist($tricks);
             $em->flush();
+        
+            $this->addFlash('success', 'This trick was update !');
+            return $this->redirectToRoute('updateTricks', ['trickId' => $trickId]);
         }
         
         // $form->handleRequest($request);
         
         return $this->render("updateTricks.html.twig", [
-//            'formImage' => $formImage->createView(),
+            // 'form' => $form->createView(),
             'trick' => $tricks,
-            'groups' => $groups
+            'groups' => $groups,
+            'status' => "succes"
         ]);
     }
 
@@ -232,15 +243,18 @@ class TricksController extends AbstractController {
     public function deleteTricks(int $trickId) {
         $em = $this->getDoctrine()->getManager();
         $trick = $em->getRepository(Tricks::class)->find($trickId);
-
+        $messages = $em->getRepository(Message::class)->findBy(array('messageTricksId' => $trickId));
+        
+        foreach($messages as $message){
+            $em->remove($message);
+        } 
+                
         $em->remove($trick);
         $em->flush();
-        
-        $tricks = $em->getRepository(Tricks::class)->findAll();
-        
-        return $this->render("home.html.twig", [
-            'tricks' => $tricks,
-        ]);
+                
+        $this->addFlash('success', 'The delete of this tricks is a success !');
+        return $this->redirectToRoute('app_homepage',['limit'=>10]);
+
     }
     
     /**
@@ -254,13 +268,11 @@ class TricksController extends AbstractController {
         $em->remove($file);
         $em->flush();
         
-        return new JsonResponse(array(
-            'status' => "success",
-        ));
-//        return new JsonResponse(array(
-//            'status' => "erreur",
-//            'message' => "Erreur lors de la copie du fichier"
-//        ));
+        $this->addFlash('success', 'This file was delete !');
+        return $this->redirectToRoute('getTrick', [
+                    'trickId' => $trickId,
+        ]);
+
     }
     
     /**
@@ -271,25 +283,52 @@ class TricksController extends AbstractController {
         $em = $this->getDoctrine()->getManager();
         $trick = $em->getRepository(Tricks::class)->find($trickId);
         $file = $em->getRepository(Files::class)->find($fileId);
-        $groups = $em->getRepository(Group::class)->findAll();
         
         if($request->request->get("fileName")){
             $file->setFilesName($request->request->get("fileName"));
-            $file->setFilesUrl("/".$request->request->get("fileName"));
+            $file->setFilesUrl($request->request->get("fileUrl"));
             // $file->setFilesDate($request->request->get("fileDate"));
             $file->setFilesTricks($trick);
             
             $em->persist($file);
             $em->flush();
+            
+            $this->addFlash('success', 'This file was update !');
         }
         
         // $form = $this->createForm(TricksType::class, $tricks);
         // $form->handleRequest($request);
         
-        return $this->render("updateTricks.html.twig", [
-            // 'form' => $form->createView(),
-            'trick' => $trick,
-            'groups' => $groups
+        return $this->redirectToRoute('updateTricks', [
+                    'trickId' => $trickId,
+        ]);
+    }
+        
+    /**
+     * @Route("projet6/admin/update/trick/{trickId}/create/file", name="createFile")
+     * @return JsonResponse
+     */
+    public function createFile(Request $request, int $trickId) {
+        $em = $this->getDoctrine()->getManager();
+        $trick = $em->getRepository(Tricks::class)->find($trickId);
+        $file = new Files();
+        $groups = $em->getRepository(Group::class)->findAll();
+        
+        if($request->request->get("fileName")){
+            $file->setFilesName($request->request->get("fileName"));
+            $file->setFilesUrl("/".$request->request->get("fileUrl"));
+            $file->setFilesType($request->request->get("fileType"));
+//             $file->setFilesDate($request->request->get("fileDate"));
+            $file->setFilesTricks($trick);
+            
+            $em->persist($file);
+            $em->flush();
+            
+            $this->addFlash('success', 'This file was created !');
+        }
+        
+        return $this->redirectToRoute('updateTricks', [
+                    'trickId' => $trickId,
         ]);
     }
     

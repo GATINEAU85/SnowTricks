@@ -31,13 +31,13 @@ To show us the differents use case that can be use by the actor of the project.
 
 ### Diagram Class
 
-![Class diagram](http://51.15.234.228/projet5/public/files/uml/DiagramClass.png)
+![Class diagram](http://51.15.234.228/projet6/public/files/uml/DiagramClass.png)
 
 ### Diagram Sequence
 
 #### Tricks sequence
 
-![Sequence diagram on the visit use package](http://51.15.234.228/projet5/public/files/uml/TricksSequence.png)
+![Sequence diagram on the visit use package](http://51.15.234.228/projet6/public/files/uml/TricksSequence.png)
 
 #### User sequence
 
@@ -49,7 +49,7 @@ To show us the differents use case that can be use by the actor of the project.
 
 ### Data Model
 
-![Data Model](http://51.15.234.228/projet5/public/files/uml/DataModel.jpg)
+![Data Model](http://51.15.234.228/projet6/public/files/uml/DataModel.jpg)
 
 ## Install 
 

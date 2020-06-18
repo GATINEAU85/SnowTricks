@@ -3,9 +3,18 @@ $(".delete").click(function () {
     confirm('This file will be delete from this tricks');
 });
 
-$(".update").click(function () {
+$(".updatePicture").click(function () {
     $('#modalUpdateFile').modal();
     $("#fileId").val($(this).attr("file"));
+    $(".imagePart").show();
+    $(".videoPart").hide();
+});
+
+$(".updateVideo").click(function () {
+    $('#modalUpdateFile').modal();
+    $("#fileId").val($(this).attr("file"));
+    $(".videoPart").show();
+    $(".imagePart").hide();
 });
 
 $(".deleteTricks").click(function () {
@@ -18,15 +27,27 @@ $(".updateFile").click(function () {
     var insertionChamp = {};
     var fileId = $("#fileId").val();
     var trickId = $("#trickId").val();
+    var videoInput = $("#videoLink").val();
 
-    if (updateFileTricksDropzoneForm.dropzone.files.length !== 0) {
-        var logoDropzoneUpdate = updateFileTricksDropzoneForm.dropzone.files[0];
-        insertionChamp["fileName"] = logoDropzoneUpdate.name;
-        insertionChamp["fileType"] = "image";
-        insertionChamp["fileSize"] = logoDropzoneUpdate.width;
-        insertionChamp["fileDate"] = $.now();
-    }
+    if (videoInput !== ""){
+        if($("#videoLink").val() !== ""){
+            insertionChamp["fileName"] = $("#videoName").val();
+            insertionChamp["fileType"] = "video";
+            insertionChamp["fileUrl"] = $("#videoLink").val();
+            insertionChamp["fileDate"] = $.now();
+        };
+    }else{
+        if (updateFileTricksDropzoneForm.dropzone.files.length !== 0) {
+            var logoDropzoneUpdate = updateFileTricksDropzoneForm.dropzone.files[0];
+            insertionChamp["fileName"] = logoDropzoneUpdate.name;
+            insertionChamp["fileType"] = "image";
+            insertionChamp["fileUrl"] = "/" + logoDropzoneUpdate.name;
+            insertionChamp["fileDate"] = $.now();
+        };
+    };
 
+    $('#modalUpdateFile').modal("hide");
+    
     $.ajax({
         // url : 'insertDb', 
         url: "/projet6/admin/update/trick/" + trickId + "/update/file/" + fileId,

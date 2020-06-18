@@ -23,11 +23,7 @@
         <div class="col-lg-8 mt-5 mb-5">
             <div class="row  justify-content-md-center">
                 <div class="col-8 ">
-                    {% for message in app.flashes('success') %}
-                        <div class="alert alert-success">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
+                    {{ include('alerts.html.twig') }}
                     <form action="{{ path('app_login') }}" method="post">
                         {% if error %}
                             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>

@@ -117,6 +117,70 @@ $(".addFileInTab").click(function () {
     $("#videoLink").val("");
 });
 
+
+//Add file from the modal to the datatable on the page
+$(".addFileInCarrousel").click(function () {
+    //Création du tableau de parametre envoi 
+    var insertionChamp = {};
+    var fileId = $("#fileId").val();
+    var trickId = $("#trickId").val();
+    var videoInput = $("#videoLink").val();
+
+    if (videoInput !== ""){
+        if($("#videoLink").val() !== ""){
+            var fileName = $("#videoName").val();
+            var fileUrl = $("#videoLink").val();
+            var fileType = "video";
+            var fileDate = $.now();
+            $('#modalAddFile').modal("hide");
+            $("#videoName").val("");
+            $("#videoLink").val("");
+        };
+    }else{
+        if (addFileTricksDropzoneForm.dropzone.files.length !== 0) {
+            var fileDropzoneUpdate = addFileTricksDropzoneForm.dropzone.files[0];
+            var fileName = fileDropzoneUpdate.name;
+            var fileUrl = "/" + fileDropzoneUpdate.name;
+            var fileType = "image";
+            var fileDate = $.now();
+            addFileTricksDropzoneForm.dropzone.files.forEach(function(file) { 
+                file.previewElement.remove(); 
+            });
+        };
+    }
+
+    $.ajax({
+        // url : 'insertDb', 
+        url: "/projet6/admin/update/trick/" + trickId + "/create/file",
+        type: 'POST',
+        cache: true,
+        data: {
+            fileName : fileName,
+            fileUrl : fileUrl,
+            fileType : fileType,
+            fileDate : fileDate
+        },
+        success: function (data) {
+            if(data.status == 'succes'){
+                //Dans le cas ou on a déja enregistré le fichier
+                $("#statusFilesCreation")
+                    .removeClass('alert-danger')
+                    .addClass('alert alert-success ta-c w-100')
+                    .html("This file is created.")
+                    .fadeIn(1000)
+                    .delay(2000)
+                    .fadeOut(1000);
+            }
+        },
+        error : function (){
+            $("#statusFilesCreation")
+                .addClass('alert alert-danger ta-c w-100')
+                .html("An error was occured.")
+                .fadeIn(500);
+        }
+    });
+});
+
 //$(".removeFileTricks").click(function () {
 //    confirm('This file will not be insert on the creation off this trick.');
 //});
@@ -155,6 +219,7 @@ $(".createTricks").click(function () {
             trickData.files.push(file);
         });
     }
+    $('#modalAddFile').modal("hide");
 
     $.ajax({
         // url : 'insertDb', 
