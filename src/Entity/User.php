@@ -60,6 +60,11 @@ class User implements UserInterface
     private $confirmPassword;
 
     /**
+     * @var string|null
+     */
+    private $token;
+    
+    /**
      * @ORM\OneToOne(targetEntity="App\Entity\Files", cascade={"persist"})
      * @ORM\JoinColumn(name="users_files_id", referencedColumnName="files_id")
      */
@@ -122,7 +127,19 @@ class User implements UserInterface
     {
         $this->confirmPassword = $confirmPassword;
     }
+    
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
 
+    public function setToken(string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+    
     public function getUserFiles(): ?Files
     {
         return $this->userFiles;

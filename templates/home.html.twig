@@ -66,6 +66,10 @@
                             {% set files = trick.tricksFiles|first %}
                             <a href="get/trick/{{ trick.tricksId }}"><img class="" src="/files{% if files %}{{ files.filesUrl }}{% endif %}" alt="Trick placeholder image" width="140" height="140"></a>
                             <h3>{{ trick.tricksName }}</h3>
+                            {% if is_granted('ROLE_USER') %}
+                                <a href="{{ path ('deleteTricks', {trickId : trick.tricksId})}}"><i class="fa fa-trash"></i></a>
+                                <a href="{{ path ('updateTricks', {trickId : trick.tricksId})}}"><i class="fa fa-edit"></i></a>
+                           {% endif %}
                             <p>{{ trick.tricksDescription[:50] }}...</p>
                         </div>
                     {% endif %}

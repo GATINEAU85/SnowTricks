@@ -33,21 +33,25 @@
         <div class="col-lg-8 mt-5 mb-5">
             <div class="container">
                 <div id="carouselFile" class="carouselFile" style="color:black;margin:auto">
-                    {% for file in trick.tricksFiles %}
-                      <div class='image d-block p-10 cur-p' style="width: 100%; display: inline-block">
-                        <img class='image p-10 cur-p w-100 col-12' src='/files{{file.filesUrl}}' height="" style="max-width:60%; margin:auto"/>
-                      </div>
-                    {% endfor %}
+                    {% if trick.tricksFiles %}
+                        {% for file in trick.tricksFiles %}
+                          <div class='image d-block p-10 cur-p' style="width: 100%; display: inline-block">
+                            <img class='image p-10 cur-p w-100 col-12' src='/files{{file.filesUrl}}' height="" style="max-width:60%; margin:auto"/>
+                          </div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </div>
             <div class="row" style="margin-top:20px">
                 <div class="col-12">
                     <div id='carouselFiles' class="carouselFiles carousel slide">
-                        {% for file in trick.tricksFiles %}
-                          <div class='image p-10 cur-p col-12'>
-                            <img class='image p-10 cur-p img-fluid' src='/files{{file.filesUrl}}' height=""/>
-                          </div>
-                        {% endfor %}
+                        {% if trick.tricksFiles %}
+                            {% for file in trick.tricksFiles %}
+                              <div class='image p-10 cur-p col-12'>
+                                <img class='image p-10 cur-p img-fluid' src='/files{{file.filesUrl}}' height=""/>
+                              </div>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
