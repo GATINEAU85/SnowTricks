@@ -18,7 +18,6 @@ Dropzone.prototype.defaultOptions.init = function () {
 
 
 Dropzone.options.updateFileTricksDropzoneForm = {
-    paramName: "updateFileTricksDropzoneForm",
     addRemoveLinks: true,
     dictRemoveFile: 'DELETE',
     paramName: "file", // The name that will be used to transfer the file
@@ -26,13 +25,13 @@ Dropzone.options.updateFileTricksDropzoneForm = {
     autoprocessQueue: false,
     init: function() {
         this.on("addedfile", function() {
-            if (this.files[1]!=null){
+            if (this.files[1]!== null){
                 this.removeFile(this.files[0]);
             }
         });
         this.on("success", function(file, response) {
             //si on a une erreur sur le chargement
-            if(response.status == "error"){
+            if(response.status === "error"){
                 alert (response.message);
                 return;
             }/*else{
@@ -46,7 +45,6 @@ Dropzone.options.updateFileTricksDropzoneForm = {
 };
 
 Dropzone.options.addFileUserDropzoneForm = {
-    paramName: "addFileUserDropzoneForm",
     addRemoveLinks: true,
     dictRemoveFile: 'DELETE',
     paramName: "file", // The name that will be used to transfer the file
@@ -54,13 +52,13 @@ Dropzone.options.addFileUserDropzoneForm = {
     autoprocessQueue: false,
     init: function() {
         this.on("addedfile", function() {
-            if (this.files[1]!=null){
+            if (this.files[1]!== null){
                 this.removeFile(this.files[0]);
             }
         });
         this.on("success", function(file, response) {
             //si on a une erreur sur le chargement
-            if(response.status == "error"){
+            if(response.status === "error"){
                 alert (response.message);
                 return;
             }/*else{
@@ -75,7 +73,6 @@ Dropzone.options.addFileUserDropzoneForm = {
 
 
 Dropzone.options.addUserPhotoDropzoneForm = {
-    paramName: "addFileUserDropzoneForm",
     addRemoveLinks: true,
     dictRemoveFile: 'DELETE',
     paramName: "file", // The name that will be used to transfer the file
@@ -83,13 +80,13 @@ Dropzone.options.addUserPhotoDropzoneForm = {
     autoprocessQueue: false,
     init: function() {
         this.on("addedfile", function() {
-            if (this.files[1]!=null){
+            if (this.files[1]!== null){
                 this.removeFile(this.files[0]);
             }
         });
         this.on("success", function(file, response) {
             //si on a une erreur sur le chargement
-            if(response.status == "error"){
+            if(response.status === "error"){
                 alert (response.message);
                 return;
             }/*else{

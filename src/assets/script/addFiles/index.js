@@ -1,13 +1,13 @@
  //USE WITH SYMFONY IMAGE FORM
 $(document).ready(function() {
     // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
-    var $container = $('div#tricks_tricksFiles');
+    var $container = $("div#tricks_tricksFiles");
 
     // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
-    var index = $container.find(':input').length;
+    var index = $container.find(":input").length;
 
     // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
-    $('#add_category').click(function(e) {
+    $("#add_category").click(function(e) {
       addCategory($container);
 
       e.preventDefault(); // évite qu'un # apparaisse dans l'URL
@@ -15,7 +15,7 @@ $(document).ready(function() {
     });
 
     // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
-    if (index == 0) {
+    if (index === 0) {
       addCategory($container);
     } else {
       // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
@@ -29,7 +29,7 @@ $(document).ready(function() {
       // Dans le contenu de l'attribut « data-prototype », on remplace :
       // - le texte "__name__label__" qu'il contient par le label du champ
       // - le texte "__name__" qu'il contient par le numéro du champ
-      var template = $container.attr('data-prototype')
+      var template = $container.attr("data-prototype")
         .replace(/__name__label__/g, 'File n°' + (index+1))
         .replace(/__name__/g,        index)
       ;
@@ -50,7 +50,7 @@ $(document).ready(function() {
     // La fonction qui ajoute un lien de suppression d'une catégorie
     function addDeleteLink($prototype) {
       // Création du lien
-      var $deleteLink = $('<a href="#" class="btn btn-danger">Delete</a>');
+      var $deleteLink = $("<a href='#' class='btn btn-danger'>Delete</a>");
 
       // Ajout du lien
       $prototype.append($deleteLink);
@@ -67,11 +67,11 @@ $(document).ready(function() {
   
 //USE WITH DROPZONE
 $(".remove").click(function () {
-    confirm('This file will be remove from this add.');
+    confirm("This file will be remove from this add.");
 });
 
 $(".addPicture").click(function () {
-    $('#modalAddFile').modal();
+    $("#modalAddFile").modal();
     $(".imagePart").show();
     $(".videoPart").hide();
 });
@@ -109,7 +109,7 @@ $(".addFileInTab").click(function () {
             addFileTricksDropzoneForm.dropzone.files.forEach(function(file) { 
                 file.previewElement.remove(); 
             });
-            $('#modalAddFile').modal("hide");
+            $("#modalAddFile").modal("hide");
         };
     }
     
@@ -132,7 +132,7 @@ $(".addFileInCarrousel").click(function () {
             var fileUrl = $("#videoLink").val();
             var fileType = "video";
             var fileDate = $.now();
-            $('#modalAddFile').modal("hide");
+            $("#modalAddFile").modal("hide");
             $("#videoName").val("");
             $("#videoLink").val("");
         };
@@ -161,11 +161,11 @@ $(".addFileInCarrousel").click(function () {
             fileDate : fileDate
         },
         success: function (data) {
-            if(data.status == 'succes'){
+            if(data.status === "succes"){
                 //Dans le cas ou on a déja enregistré le fichier
                 $("#statusFilesCreation")
                     .removeClass('alert-danger')
-                    .addClass('alert alert-success ta-c w-100')
+                    .addClass("alert alert-success ta-c w-100")
                     .html("This file is created.")
                     .fadeIn(1000)
                     .delay(2000)
@@ -174,7 +174,7 @@ $(".addFileInCarrousel").click(function () {
         },
         error : function (){
             $("#statusFilesCreation")
-                .addClass('alert alert-danger ta-c w-100')
+                .addClass("alert alert-danger ta-c w-100")
                 .html("An error was occured.")
                 .fadeIn(500);
         }
@@ -199,11 +199,11 @@ $(".createTricks").click(function () {
         };
     }else{
         if ($("#nameTricks").val() !== "") {
-            $("#nameTricks").addClass('is-invalid').focus();
+            $("#nameTricks").addClass("is-invalid").focus();
             return;
         };
         if ($("#descriptionTricks").val() !== "" || $("#descriptionTricks").val().length < 25) {
-            $("#descriptionTricks").addClass('is-invalid').focus();
+            $("#descriptionTricks").addClass("is-invalid").focus();
             return;
         }
     }
