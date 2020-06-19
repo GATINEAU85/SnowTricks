@@ -109,7 +109,7 @@ class TricksController extends AbstractController {
      * @Route("projet6/admin/create/trick", name="createTrick")
      * @return JsonResponse
      */
-    public function createTrick(Request $request, SluggerInterface $slugger) {
+    public function createTrick(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $newFilename = $this->getParameter('files_directory');
 
@@ -130,7 +130,6 @@ class TricksController extends AbstractController {
         if ($form->isSubmitted() && $form->isValid()) {
             $tabFiles = [];
             foreach ($formFiles as $formFile) {
-//                var_dump($formFile);
                 $originalFilename = pathinfo($formFile['file']->getClientOriginalName(), PATHINFO_FILENAME);
                 $originalFilename = $originalFilename . '.' . $formFile['file']->guessExtension();
                 try {
@@ -140,10 +139,8 @@ class TricksController extends AbstractController {
                     $file->setFilesUrl('/' . $newFilename);
                     
                     $tabFiles[] = $file;
-                    var_dump($file);
 //                    $em->persist($file);
                 }catch (Exception $ex) {
-                    var_dump($ex);
                 }
             };
 //            $tricks = $form->getData();
@@ -178,7 +175,6 @@ class TricksController extends AbstractController {
 //            var_dump($request->request->get('files'));
             if($request->request->get('files')){
                 foreach ($request->request->get('files') as $file) {
-                    var_dump($file);
                     $fileTrick = new Files;
                     $fileTrick->setFilesName($file["fileName"]);
                     $fileTrick->setFilesUrl($file["fileUrl"]);
@@ -261,7 +257,7 @@ class TricksController extends AbstractController {
      * @Route("projet6/admin/update/trick/{trickId}/delete/file/{fileId}", name="deleteFile")
      * @return JsonResponse
      */
-    public function deleteFile(Request $request, int $trickId, int $fileId) {
+    public function deleteFile(int $trickId, int $fileId) {
         $em = $this->getDoctrine()->getManager();
         $file = $em->getRepository(Files::class)->find($fileId);
         
@@ -312,7 +308,6 @@ class TricksController extends AbstractController {
         $em = $this->getDoctrine()->getManager();
         $trick = $em->getRepository(Tricks::class)->find($trickId);
         $file = new Files();
-        $groups = $em->getRepository(Group::class)->findAll();
         
         if($request->request->get("fileName")){
             $file->setFilesName($request->request->get("fileName"));
