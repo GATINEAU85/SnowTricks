@@ -17,23 +17,18 @@ $(".updateVideo").click(function () {
     $(".imagePart").hide();
 });
 
-$(".deleteTricks").click(function () {
-    confirm('This tricks will be remove from SnowTricks, are you sure you want to delete this ?');
-});
-
-
 $(".updateFile").click(function () {
     //Création du tableau de parametre envoi 
     var insertionChamp = {};
     var fileId = $("#fileId").val();
     var trickId = $("#trickId").val();
-    var videoInput = $("#videoLink").val();
+    var videoInput = $("#videoLinkUpdate").val();
 
     if (videoInput !== ""){
-        if($("#videoLink").val() !== ""){
-            insertionChamp["fileName"] = $("#videoName").val();
+        if($("#videoLinkUpdate").val() !== ""){
+            insertionChamp["fileName"] = $("#videoNameUpdate").val();
             insertionChamp["fileType"] = "video";
-            insertionChamp["fileUrl"] = $("#videoLink").val();
+            insertionChamp["fileUrl"] = $("#videoLinkUpdate").val();
             insertionChamp["fileDate"] = $.now();
         };
     }else{
@@ -55,11 +50,23 @@ $(".updateFile").click(function () {
         cache: true,
         data: insertionChamp,
         success: function (data) {
-            $("#messageUpdate")
-                .addClass('alert alert-success ta-c w-100')
-                .html("The file was update.")
-                .delay(1000)
-                .fadeOut(1000);
+            if(data.status === "success"){
+                //Dans le cas ou on a déja enregistré le fichier
+                $("#statusFilesCreation")
+                    .removeClass('alert-danger')
+                    .addClass("alert alert-success ta-c w-100")
+                    .html("This file is updated.")
+                    .fadeIn(1000)
+                    .delay(2000)
+                    .fadeOut(1000);
+                    document.location.reload();
+            }
+        },
+        error : function (){
+            $("#statusFilesCreation")
+                .addClass("alert alert-danger ta-c w-100")
+                .html("An error was occured.")
+                .fadeIn(500);
         }
     });
 });

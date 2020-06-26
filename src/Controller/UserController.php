@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Files;
+use App\Entity\Message;
 use App\Form\SecurityType;
 use App\Form\UpdatePasswordType;
 use App\Form\RegisterType;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 use DateTime;
 
@@ -167,9 +169,7 @@ class UserController extends AbstractController
         //MAJ du user
         $em->persist($user);
         $em->flush();
-        $this->addFlash('success', 'Your photo is updated.');
-        
-        return $this->redirectToRoute('app_account');
+        return new JsonResponse(array('status' => 'success'));
     }
         
     /**
@@ -198,7 +198,6 @@ class UserController extends AbstractController
             $em->flush();
             
             $this->addFlash('success', 'Update password is success');
-
             return $this->redirectToRoute('app_account');
         }
 
@@ -206,5 +205,28 @@ class UserController extends AbstractController
             'user'  => $user,
             'form' => $form->createView(),
         ]);
+    }     
+    
+    /**
+     * @Route("projet6/admin/delete/account", name="deleteAccount")
+     * @return JsonResponse
+     */
+    public function deleteAccount(Request $request)
+    {
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $messages = $em->getRepository(Message::class)->findByMessageUserId($user);
+        foreach ($messages as $message){
+            $em->remove($message);
+        }
+        $em->remove($user);
+        $session = $this->get('session');
+        $session = new Session();
+        $session->invalidate();        
+        $em->flush();
+            
+        $this->addFlash('success', 'Good Bye, see you soon !');
+
+        return $this->redirectToRoute('app_homepage');
     }
 }

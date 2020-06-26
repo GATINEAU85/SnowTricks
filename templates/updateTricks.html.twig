@@ -29,11 +29,11 @@
                     </div>
                 </div>
                 {{ include('alerts.html.twig') }}
-{#                <div class="row">
-                    <div id="statusFilesCreation"></div>
-                </div>#}
-                    
-                
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 offset-1 mt-5">
+                        <div id="statusFilesCreation"></div>
+                    </div>
+                </div>
                 <div class="row justify-content-center">
                     <div class="col-lg-8 mt-5 mb-5">
                         <div class="container mb-5">
@@ -88,10 +88,10 @@
                                     </div>
                                     <div class="modal-body videoPart" >
                                         <div class="col-12">
-                                            <label for="videoName">Video name</label>
-                                            <input class="form-control" name="videoName" id="videoName" placeholder="Video name"/>
-                                            <label for="videoLink">Video integration link</label>
-                                            <input class="form-control" name="videoLink" id="videoLink" placeholder="Video link"/>
+                                            <label for="videoNameUpdate">Video name</label>
+                                            <input class="form-control" name="videoNameUpdate" id="videoNameUpdate" placeholder="Video name"/>
+                                            <label for="videoLinkUpdate">Video integration link</label>
+                                            <input class="form-control" name="videoLinkUpdate" id="videoLinkUpdate" placeholder="Video link"/>
                                         </div>
                                     </div>
                                     <div class="modal-body imagePart">
@@ -167,7 +167,7 @@
                         <form action="{{ path ('updateTricks', {trickId : trick.tricksId} ) }}" id="" name="" method="POST">
                             <div class="row">
                                 <div class="col-6">
-                                    <input class="form-control" name="nameTricksUpdate" value="{{ trick.tricksName }}"/>
+                                    <input class="form-control" name="nameTricksUpdate" value="{{ trick.tricksName }}" required/>
                                 </div>
                                 <div class="col-6">
                                     <select class="form-control" name='groupTricksUpdate'>
@@ -183,7 +183,7 @@
                             </div>      
                             <div class="row mt-3">
                                 <div class="col-12">
-                                    <textarea class="form-control" name="descriptionTricksUpdate">{{ trick.tricksDescription }}</textarea>
+                                    <textarea class="form-control" name="descriptionTricksUpdate" required>{{ trick.tricksDescription }}</textarea>
                                 </div>            
                             </div>            
 

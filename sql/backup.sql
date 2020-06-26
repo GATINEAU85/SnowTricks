@@ -5,7 +5,7 @@
 -- Dumped from database version 10.6
 -- Dumped by pg_dump version 10.6
 
--- Started on 2020-06-18 11:09:20
+-- Started on 2020-06-26 10:38:31
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -184,45 +184,27 @@ ALTER TABLE public.users_users_id_seq OWNER TO postgres;
 --
 
 COPY public.files (files_id, files_name, files_url, files_size, files_date, files_type, files_tricks_id) FROM stdin;
-66	_received_2034637816830953.jpg	/_received_2034637816830953.jpg	\N	\N	image	\N
 2	mute2.jpg	/mute2.jpg	4485	\N	image	1
 3	mute3.jpg	/mute3.jpg	9985	\N	image	1
-67	FOCUS_mobile3.png	/FOCUS_mobile3.png	\N	\N	image	\N
-68	_received_2034637816830953.jpg	/_received_2034637816830953.jpg	\N	\N	image	\N
-69	_received_2034637816830953.jpg	/_received_2034637816830953.jpg	\N	\N	image	\N
 7	snow3.jpeg	/snow3.jpeg	\N	\N	image	3
 8	snow4.jpeg	/snow4.jpeg	\N	\N	image	4
-70	_received_2034637816830953.jpg	/_received_2034637816830953.jpg	\N	\N	image	\N
 10	snow6.jpeg	/snow6.jpeg	\N	\N	image	5
 11	adrien.jpg	/user/adrien.jpg	\N	\N	image	\N
 12	erwan.jpg	/user/erwan.jpg	\N	\N	image	\N
 13	alexis.jpg	/user/alexis.jpg	\N	\N	image	\N
+16	snow13.jpg	/snow13.jpg	\N	\N	image	9
+117	mute3.jpg	/mute3.jpg	\N	\N	image	9
+116	Best Of Snowboarding 2016! Part 1.	https://www.youtube.com/embed/o7OB24ACnVM	\N	\N	video	9
+119	snow4.jpeg	/snow4.jpeg	\N	\N	image	137
 9	snow5.jpeg	/snow5.jpeg	\N	\N	image	6
 15	snow12.jpg	/snow12.jpg	\N	\N	image	8
-16	snow13.jpg	/snow13.jpg	\N	\N	image	9
-17	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-18	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-20	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-40	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-43	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-74	snow18.jpeg	/snow18.jpeg	\N	\N	/image	7
-49	testvideo	testvideo.link	\N	\N	Video	\N
-50	_received_2034637816830953.jpg	/_received_2034637816830953.jpg	\N	\N	image	\N
-51	_received_2034637816830953.jpg	/_received_2034637816830953.jpg	\N	\N	image	\N
-58	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-59	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-60	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-61	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-62	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-63	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-64	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-65	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-75	_received_2034637816830953.jpeg	/_received_2034637816830953.jpeg	\N	\N	image	\N
-76	default	https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=100	\N	\N	image	\N
-77	4d0dcdca32364346931a17d186584153.jpeg	/4d0dcdca32364346931a17d186584153.jpeg	\N	\N	\N	\N
 78	GoPro: Alaskan Playground with John Jackson	https://www.youtube.com/embed/1TJ08caetkw	\N	\N	video	3
 79	snow14.jpg	/snow14.jpg	\N	\N	image	10
 80	snow20	/snow20.jpg	\N	\N	\N	11
+91	snow18.jpeg	/snow18.jpeg	\N	\N	Picture	129
+92	snow16.jpg	//snow16.jpg	\N	\N	image	129
+93	snow17.jpg	//snow17.jpg	\N	\N	image	129
+94	snow19.jpg	//snow19.jpg	\N	\N	image	129
 \.
 
 
@@ -247,9 +229,6 @@ COPY public.groupe (group_id, group_name) FROM stdin;
 --
 
 COPY public.message (message_id, message_content, message_users_id, message_tricks_id, message_date) FROM stdin;
-22	Beautiful photo, I hope you will continue to show your tricks !	96	1	2020-06-16
-23	Try to catch this moment with a GoPro at the last time	96	1	2020-06-16
-24	I have a last question about this practice.	96	1	2020-06-16
 \.
 
 
@@ -266,10 +245,11 @@ COPY public.tricks (tricks_id, tricks_name, tricks_description, tricks_date, tri
 6	Nose grab	Seizure of the front part of the board, with the front hand	\N	1
 8	Seat belt	Seizure of the frontside edge at the back with the front hand	\N	1
 9	Truck driver	Seizure of the front and rear edges with each hand (like holding a car steering wheel)	\N	1
-7	Japan air XL	Seizure of the front of the board, with the front hand, on the side of the frontside edge	\N	1
 10	Rotation 360	Turn on 360 degrees during your flight	\N	3
 1	Mute 	Grasping the frontside edge of the board between the two feet with the front hand.	\N	1
 11	Rotation 180°	Turn on 360 degrees and receive your flight on your back	\N	3
+129	Japan air XL	Seizure between your tails and your nose of the board. When you're on flight, you must turn your left foot to tuch your right hand.	\N	1
+137	test	testetestetestetestetestetestetestetestetestetestetestetestetestetestetestetestetestetestetestetesteteste	\N	1
 \.
 
 
@@ -280,8 +260,6 @@ COPY public.tricks (tricks_id, tricks_name, tricks_description, tricks_date, tri
 --
 
 COPY public.users (users_id, users_pseudo, users_email, users_password, users_photo) FROM stdin;
-97	alexis33	alexis33@gmail.com	$2y$10$k3wPmKKXBz9FPKJwYJ9/CuJ/pcbrpSPwGDzq55DbjyBDs5r5eqvn.	\N
-96	gatineau85	adgat34@gmail.com	$2y$10$yk8G8accmJZnJubGlKG18ufgCIih7dre.f1gHlpib0e3wK5TgTgci	adrien.jpg
 \.
 
 
@@ -291,7 +269,7 @@ COPY public.users (users_id, users_pseudo, users_email, users_password, users_ph
 -- Name: files_files_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.files_files_id_seq', 78, true);
+SELECT pg_catalog.setval('public.files_files_id_seq', 119, true);
 
 
 --
@@ -300,7 +278,7 @@ SELECT pg_catalog.setval('public.files_files_id_seq', 78, true);
 -- Name: message_message_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.message_message_id_seq', 24, true);
+SELECT pg_catalog.setval('public.message_message_id_seq', 26, true);
 
 
 --
@@ -309,7 +287,7 @@ SELECT pg_catalog.setval('public.message_message_id_seq', 24, true);
 -- Name: tricks_tricks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.tricks_tricks_id_seq', 114, true);
+SELECT pg_catalog.setval('public.tricks_tricks_id_seq', 137, true);
 
 
 --
@@ -318,7 +296,7 @@ SELECT pg_catalog.setval('public.tricks_tricks_id_seq', 114, true);
 -- Name: users_users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_users_id_seq', 97, true);
+SELECT pg_catalog.setval('public.users_users_id_seq', 101, true);
 
 
 --
@@ -402,7 +380,7 @@ ALTER TABLE ONLY public.tricks
     ADD CONSTRAINT tricks_tricks_group_id_fkey FOREIGN KEY (tricks_group_id) REFERENCES public.groupe(group_id);
 
 
--- Completed on 2020-06-18 11:09:20
+-- Completed on 2020-06-26 10:38:32
 
 --
 -- PostgreSQL database dump complete

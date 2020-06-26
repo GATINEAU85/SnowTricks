@@ -95,7 +95,7 @@ $(".addFileInTab").click(function () {
             var videoName = $("#videoName").val();
             var videoUrl = $("#videoLink").val();
 //            $("#contentTabFile").append("<tr><td>" + videoName + "</td><td class='cur-p'>" + videoUrl + "</td><td>Video</td><td><a class='removeFileTricks cur-p'><i class='fas fa-trash'></i></a></td></tr>")
-            $("#contentTabFile").append("<tr><td>" + videoName + "</td><td class='cur-p'>" + videoUrl + "</td><td>Video</td></tr>")
+            $("#contentTabFile").append("<tr><td>" + videoName + "</td><td class='cur-p'>" + videoUrl + "</td><td>video</td></tr>")
             $('#modalAddFile').modal("hide");
         };
     }else{
@@ -105,7 +105,7 @@ $(".addFileInTab").click(function () {
             pictureUrl = "/" + fileDropzoneUpdate.name;
             insertionChamp["fileDate"] = $.now();
 //            $("#contentTabFile").append("<tr><td>" + pictureName + "</td><td class='cur-p'>" + pictureUrl + "</td><td>Picture</td><td><a class='removeFileTricks cur-p'><i class='fas fa-trash'></i></a></td></tr>")
-            $("#contentTabFile").append("<tr><td>" + pictureName + "</td><td class='cur-p'>" + pictureUrl + "</td><td>Picture</td></tr>")
+            $("#contentTabFile").append("<tr><td>" + pictureName + "</td><td class='cur-p'>" + pictureUrl + "</td><td>image</td></tr>")
             addFileTricksDropzoneForm.dropzone.files.forEach(function(file) { 
                 file.previewElement.remove(); 
             });
@@ -133,8 +133,8 @@ $(".addFileInCarrousel").click(function () {
             var fileType = "video";
             var fileDate = $.now();
             $("#modalAddFile").modal("hide");
-            $("#videoName").val("");
-            $("#videoLink").val("");
+            $("#videoNameUpdate").val("");
+            $("#videoLinkUpdate").val("");
         };
     }else{
         if (addFileTricksDropzoneForm.dropzone.files.length !== 0) {
@@ -148,6 +148,7 @@ $(".addFileInCarrousel").click(function () {
             });
         };
     }
+    $('#modalAddFile').modal("hide");
 
     $.ajax({
         // url : 'insertDb', 
@@ -161,7 +162,7 @@ $(".addFileInCarrousel").click(function () {
             fileDate : fileDate
         },
         success: function (data) {
-            if(data.status === "succes"){
+            if(data.status === "success"){
                 //Dans le cas ou on a déja enregistré le fichier
                 $("#statusFilesCreation")
                     .removeClass('alert-danger')
@@ -170,6 +171,7 @@ $(".addFileInCarrousel").click(function () {
                     .fadeIn(1000)
                     .delay(2000)
                     .fadeOut(1000);
+                    document.location.reload();
             }
         },
         error : function (){
@@ -188,9 +190,9 @@ $(".addFileInCarrousel").click(function () {
 //Create the tricks with all the files
 $(".createTricks").click(function () {
     //Création du tableau de parametre envoi 
-    if ($("#nameTricks").val() !== "" || $("#descriptionTricks").val() !== "" ) {
-        $("#nameTricks").removeClass('is-invalid');
-        $("#descriptionTricks").removeClass('is-invalid');
+    $("#nameTricks").removeClass('is-invalid');
+    $("#descriptionTricks").removeClass('is-invalid');
+    if ($("#nameTricks").val() !== "" && $("#descriptionTricks").val() !== "" && $("#descriptionTricks").val().length > 50 ) {
         var trickData = {
             nameTricks: $("#nameTricks").val(),
             groupTricks: $("#groupTricks").val(),
@@ -198,11 +200,11 @@ $(".createTricks").click(function () {
             files: []
         };
     }else{
-        if ($("#nameTricks").val() !== "") {
+        if ($("#nameTricks").val() === "") {
             $("#nameTricks").addClass("is-invalid").focus();
             return;
         };
-        if ($("#descriptionTricks").val() !== "" || $("#descriptionTricks").val().length < 25) {
+        if ($("#descriptionTricks").val() === "" || $("#descriptionTricks").val().length < 50) {
             $("#descriptionTricks").addClass("is-invalid").focus();
             return;
         }
@@ -228,7 +230,7 @@ $(".createTricks").click(function () {
         cache: true,
         data: trickData,
         success: function (data) {
-            if(data.status == 'succes'){
+            if(data.status === 'success'){
                 //Dans le cas ou on a déja enregistré le fichier
                 $("#statusTricksCreation")
                     .removeClass('alert-danger')

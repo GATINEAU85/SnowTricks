@@ -36,25 +36,34 @@
         <div class="col-lg-8 mt-5 mb-5">
             <div class="container mb-5">
                 <div id="carouselFile" class="carouselFile" style="color:black;margin:auto">
-                    {% if trick.tricksFiles %}
-                        {% for file in trick.tricksFiles %}
-                          <div class='image d-block p-10 cur-p' style="width: 100%; display: inline-block">
-                            <img class='image p-10 cur-p w-100 col-12' src='/files{{file.filesUrl}}' height="" style="max-width:60%; margin:auto"/>
-                          </div>
-                        {% endfor %}
-                    {% endif %}
+                    {% for file in trick.tricksFiles %}
+                        {% if file.filesType == "video" %}
+                            <div class='embed-responsive embed-responsive-16by9 p-10 cur-p text-center' style="width:100%; display: inline-block">
+                                <iframe class="embed-responsive-item p-5" src='{{file.filesUrl}}' frameborder="0" style="min-height:100%" allowfullscreen></iframe>
+                            </div>
+                        {% else %}
+                            <div class='image d-block p-10 cur-p' style="width: 100%; display: inline-block">
+                                <img class='image p-10 cur-p w-100 col-12' src='/files{{file.filesUrl}}' height="" style="max-width:70%; margin:auto"/>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
-            <div class="row" style="margin-top:20px">
+            <div class="row mt-3" style="margin-top:20px">
                 <div class="col-12">
                     <div id='carouselFiles' class="carouselFiles carousel slide">
-                        {% if trick.tricksFiles %}
-                            {% for file in trick.tricksFiles %}
-                              <div class='image p-10 cur-p col-12'>
-                                <img class='image p-10 cur-p img-fluid' src='/files{{file.filesUrl}}' height=""/>
-                              </div>
-                            {% endfor %}
-                        {% endif %}
+                        {% for file in trick.tricksFiles %}
+                            {% if file.filesType == "video" %}
+                                <div class='image p-10 cur-p col-12'>
+                                    {% set videoName = file.filesUrl|split('/')  %}
+                                    <img class='image p-10 cur-p img-fluid' src='https://img.youtube.com/vi/{{videoName|last}}/default.jpg' height=""/>
+                                </div>
+                            {% else %}
+                                <div class='image p-10 cur-p col-12'>
+                                    <img class='image p-10 cur-p img-fluid' src='/files{{file.filesUrl}}' height=""/>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
             </div>

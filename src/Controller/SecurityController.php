@@ -79,6 +79,7 @@ class SecurityController extends AbstractController
                 $mailer->send($message);
 
                 $this->addFlash('success', "An email was send to your mail adresse to show you your new password.");
+                return $this->redirectToRoute('forgotPassword');
             }
             else{
                 $this->addFlash('danger',"User doesn't exist.");

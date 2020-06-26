@@ -47,7 +47,7 @@ class TricksController extends AbstractController {
                 ->setBody($this->renderView('emails/contact.html.twig', compact('contact')),'text/html');
             
             $mailer->send($message);
-            $this->addFlash('message', 'This message is send.');
+            $this->addFlash('success', 'This message is send.');
         }
         if ($request->query->get('action')){
             if ($request->query->get('action') == "getAllTricks"){
@@ -149,7 +149,7 @@ class TricksController extends AbstractController {
             $tricks->addTricksFiles($tabFiles);
             $em->persist($tricks);
             $em->flush();
-//            return $this->redirectToRoute('task_success');
+//        return $this->redirectToRoute('task_success');
         }
 
         return $this->render("createTrick.html.twig", [
@@ -182,14 +182,15 @@ class TricksController extends AbstractController {
 //                    $fileTrick->setFilesDate(new DateTime('NOW'));
                     $fileTrick->setFilesTricks($tricks);
                     $em->persist($fileTrick);
-                    
-                    $this->addFlash('success', 'This trick is created.');
-                    return $this->redirectToRoute('createTricks');
-                };
-            };
+                }
+            }
             
             $em->persist($tricks);
             $em->flush();
+            
+            return new JsonResponse(array('status' => 'success'));
+            // $this->addFlash('success', 'This trick is created.');
+            // return $this->redirectToRoute('createTricks');
         }
 
         return $this->render("createTrick.html.twig", [
@@ -249,7 +250,7 @@ class TricksController extends AbstractController {
         $em->flush();
                 
         $this->addFlash('success', 'The delete of this tricks is a success !');
-        return $this->redirectToRoute('app_homepage',['limit'=>10]);
+        return $this->redirectToRoute('app_homepage');
 
     }
     
@@ -289,7 +290,7 @@ class TricksController extends AbstractController {
             $em->persist($file);
             $em->flush();
             
-            $this->addFlash('success', 'This file was update !');
+            return new JsonResponse(array('status' => 'success'));
         }
         
         // $form = $this->createForm(TricksType::class, $tricks);
@@ -311,7 +312,7 @@ class TricksController extends AbstractController {
         
         if($request->request->get("fileName")){
             $file->setFilesName($request->request->get("fileName"));
-            $file->setFilesUrl("/".$request->request->get("fileUrl"));
+            $file->setFilesUrl($request->request->get("fileUrl"));
             $file->setFilesType($request->request->get("fileType"));
 //             $file->setFilesDate($request->request->get("fileDate"));
             $file->setFilesTricks($trick);
@@ -319,7 +320,7 @@ class TricksController extends AbstractController {
             $em->persist($file);
             $em->flush();
             
-            $this->addFlash('success', 'This file was created !');
+            return new JsonResponse(array('status' => 'success'));
         }
         
         return $this->redirectToRoute('updateTricks', [
