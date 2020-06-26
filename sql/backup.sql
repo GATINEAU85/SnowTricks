@@ -5,7 +5,7 @@
 -- Dumped from database version 10.6
 -- Dumped by pg_dump version 10.6
 
--- Started on 2020-06-04 09:52:52
+-- Started on 2020-06-26 10:38:31
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -26,7 +26,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2849 (class 0 OID 0)
+-- TOC entry 2848 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -156,7 +156,7 @@ CREATE TABLE public.users (
     users_pseudo text,
     users_email text,
     users_password text,
-    users_files_id integer
+    users_photo text
 );
 
 
@@ -178,48 +178,38 @@ CREATE SEQUENCE public.users_users_id_seq
 ALTER TABLE public.users_users_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2833 (class 0 OID 303279)
+-- TOC entry 2832 (class 0 OID 303279)
 -- Dependencies: 196
 -- Data for Name: files; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.files (files_id, files_name, files_url, files_size, files_date, files_type, files_tricks_id) FROM stdin;
-66	_received_2034637816830953.jpg	/_received_2034637816830953.jpg	\N	\N	image	\N
 2	mute2.jpg	/mute2.jpg	4485	\N	image	1
 3	mute3.jpg	/mute3.jpg	9985	\N	image	1
-67	FOCUS_mobile3.png	/FOCUS_mobile3.png	\N	\N	image	\N
-68	_received_2034637816830953.jpg	/_received_2034637816830953.jpg	\N	\N	image	\N
-69	_received_2034637816830953.jpg	/_received_2034637816830953.jpg	\N	\N	image	\N
 7	snow3.jpeg	/snow3.jpeg	\N	\N	image	3
 8	snow4.jpeg	/snow4.jpeg	\N	\N	image	4
 10	snow6.jpeg	/snow6.jpeg	\N	\N	image	5
 11	adrien.jpg	/user/adrien.jpg	\N	\N	image	\N
 12	erwan.jpg	/user/erwan.jpg	\N	\N	image	\N
 13	alexis.jpg	/user/alexis.jpg	\N	\N	image	\N
+16	snow13.jpg	/snow13.jpg	\N	\N	image	9
+117	mute3.jpg	/mute3.jpg	\N	\N	image	9
+116	Best Of Snowboarding 2016! Part 1.	https://www.youtube.com/embed/o7OB24ACnVM	\N	\N	video	9
+119	snow4.jpeg	/snow4.jpeg	\N	\N	image	137
 9	snow5.jpeg	/snow5.jpeg	\N	\N	image	6
 15	snow12.jpg	/snow12.jpg	\N	\N	image	8
-16	snow13.jpg	/snow13.jpg	\N	\N	image	9
-17	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-18	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-20	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-40	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-43	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-49	testvideo	testvideo.link	\N	\N	Video	\N
-50	_received_2034637816830953.jpg	/_received_2034637816830953.jpg	\N	\N	image	\N
-51	_received_2034637816830953.jpg	/_received_2034637816830953.jpg	\N	\N	image	\N
-58	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-59	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-60	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-61	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-62	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-63	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-64	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
-65	C:\\wamp64\\www\\projet6/public/files/	/C:\\wamp64\\www\\projet6/public/files/	\N	\N	\N	\N
+78	GoPro: Alaskan Playground with John Jackson	https://www.youtube.com/embed/1TJ08caetkw	\N	\N	video	3
+79	snow14.jpg	/snow14.jpg	\N	\N	image	10
+80	snow20	/snow20.jpg	\N	\N	\N	11
+91	snow18.jpeg	/snow18.jpeg	\N	\N	Picture	129
+92	snow16.jpg	//snow16.jpg	\N	\N	image	129
+93	snow17.jpg	//snow17.jpg	\N	\N	image	129
+94	snow19.jpg	//snow19.jpg	\N	\N	image	129
 \.
 
 
 --
--- TOC entry 2837 (class 0 OID 311527)
+-- TOC entry 2836 (class 0 OID 311527)
 -- Dependencies: 200
 -- Data for Name: groupe; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -233,95 +223,80 @@ COPY public.groupe (group_id, group_name) FROM stdin;
 
 
 --
--- TOC entry 2834 (class 0 OID 303285)
+-- TOC entry 2833 (class 0 OID 303285)
 -- Dependencies: 197
 -- Data for Name: message; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.message (message_id, message_content, message_users_id, message_tricks_id, message_date) FROM stdin;
-1	One of the hardest tricks to explain ! Congrats	1	1	2020-04-27
-2	How do you place your tail at the begining of this tricks ?	2	1	2020-04-27
-3	You must push your board with your tail	1	1	2020-04-27
-15	Je test	\N	\N	\N
-16	Je test	\N	\N	\N
-17	test	\N	\N	\N
-18	test	70	11	2020-05-15
-19	test	70	11	2020-05-15
 \.
 
 
 --
--- TOC entry 2835 (class 0 OID 303291)
+-- TOC entry 2834 (class 0 OID 303291)
 -- Dependencies: 198
 -- Data for Name: tricks; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.tricks (tricks_id, tricks_name, tricks_description, tricks_date, tricks_group_id) FROM stdin;
-2	Sad	Seizure of the backside edge of the board, between the two feet, with the front hand	\N	2
 3	Indy 	Seizure of the frontside edge of the board, between the two feet, with the rear hand.	\N	3
 4	Stalefish	Grasping the backside of the board between the two feet with the back hand	\N	2
 5	Tail grab	Seizure of the rear part of the board, with the back hand	\N	1
 6	Nose grab	Seizure of the front part of the board, with the front hand	\N	1
-7	Japan air	Seizure of the front of the board, with the front hand, on the side of the frontside edge	\N	1
 8	Seat belt	Seizure of the frontside edge at the back with the front hand	\N	1
 9	Truck driver	Seizure of the front and rear edges with each hand (like holding a car steering wheel)	\N	1
-11	test	test	\N	3
-12	test	test	\N	3
+10	Rotation 360	Turn on 360 degrees during your flight	\N	3
 1	Mute 	Grasping the frontside edge of the board between the two feet with the front hand.	\N	1
+11	Rotation 180°	Turn on 360 degrees and receive your flight on your back	\N	3
+129	Japan air XL	Seizure between your tails and your nose of the board. When you're on flight, you must turn your left foot to tuch your right hand.	\N	1
+137	test	testetestetestetestetestetestetestetestetestetestetestetestetestetestetestetestetestetestetestetesteteste	\N	1
 \.
 
 
 --
--- TOC entry 2836 (class 0 OID 303297)
+-- TOC entry 2835 (class 0 OID 303297)
 -- Dependencies: 199
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users (users_id, users_pseudo, users_email, users_password, users_files_id) FROM stdin;
-1	gatineau85	adgat34@gmail.com	gatineau85	11
-2	erwan53	ermail53@gmail.com	erwan53	12
-3	aldesc17	aldesc17@gmail.com	aldesc17	13
-70	charles	charles@gmail.com	$2y$10$h5MKlPJzXm5XfOtRbMJuDOjiHAUN790jbusUqL/j6WkLUGLNxB8he	69
-91	ericPatrice	ericPatrice@gmail.com	$2y$10$dORsHvRfehoyUeB1ufGBbOzZkhNdDjetF9/E/VHfnym8AM2ZOVyEW	\N
-92	test	test@gmail.com	$2y$10$pjDGg0auqjzC4aTlQIAGxeP9q4RJwOMgtRxwVe4doYKuMymj62Him	\N
-90	zanz	zanz@gmail.com	$2y$10$OWv6DmeJ2NhAKdZKCxNSGeLqVrk87hZ98NppR8c8uES1C3HUTo/l2	\N
+COPY public.users (users_id, users_pseudo, users_email, users_password, users_photo) FROM stdin;
 \.
 
 
 --
--- TOC entry 2850 (class 0 OID 0)
+-- TOC entry 2849 (class 0 OID 0)
 -- Dependencies: 202
 -- Name: files_files_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.files_files_id_seq', 69, true);
+SELECT pg_catalog.setval('public.files_files_id_seq', 119, true);
 
 
 --
--- TOC entry 2851 (class 0 OID 0)
+-- TOC entry 2850 (class 0 OID 0)
 -- Dependencies: 201
 -- Name: message_message_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.message_message_id_seq', 19, true);
+SELECT pg_catalog.setval('public.message_message_id_seq', 26, true);
 
 
 --
--- TOC entry 2852 (class 0 OID 0)
+-- TOC entry 2851 (class 0 OID 0)
 -- Dependencies: 203
 -- Name: tricks_tricks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.tricks_tricks_id_seq', 114, true);
+SELECT pg_catalog.setval('public.tricks_tricks_id_seq', 137, true);
 
 
 --
--- TOC entry 2853 (class 0 OID 0)
+-- TOC entry 2852 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: users_users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_users_id_seq', 92, true);
+SELECT pg_catalog.setval('public.users_users_id_seq', 101, true);
 
 
 --
@@ -405,16 +380,7 @@ ALTER TABLE ONLY public.tricks
     ADD CONSTRAINT tricks_tricks_group_id_fkey FOREIGN KEY (tricks_group_id) REFERENCES public.groupe(group_id);
 
 
---
--- TOC entry 2711 (class 2606 OID 319725)
--- Name: users users_users_files_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_users_files_id_fkey FOREIGN KEY (users_files_id) REFERENCES public.files(files_id);
-
-
--- Completed on 2020-06-04 09:52:52
+-- Completed on 2020-06-26 10:38:32
 
 --
 -- PostgreSQL database dump complete

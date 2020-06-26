@@ -20,7 +20,7 @@ var tableFiles = $('#dataTableFiles').DataTable({
                 var url = "projet6/public/get/trick/" + fileId;
 
                 if (idx.ctrlKey){
-                    window.open(url,'_blank')
+                    window.open(url,'_blank');
                 }else{
                     document.location.href = url;
                 }
@@ -34,7 +34,7 @@ $('#dataTableFiles a.remove').click(function(){
     if(confirm("You will delete this upload. Are you sure ?")){
         var fileId = tableFiles.row(this.parentElement.parentElement).data()[0];
         $.ajax({
-            url: 'projet6/admin/delete/upload/' + fileId,
+            url: 'projet6/admin/delete/upload/' + fileId
         })
         tableFiles.row(this.parentElement.parentElement).remove().draw( false );
     }

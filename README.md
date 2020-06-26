@@ -1,7 +1,7 @@
 # Adrien GATINEAU
 
 Hello, I'm Adrien GATINEAU. I create for my studies a communautary website on the area of the snowboard. Enjoy your discovery of Snowtricks 
-[SnowTricks](http://51.15.234.228/projet5/public/index.php?action=home)
+[SnowTricks](http://51.15.234.228:8000/projet6/public/home)
 
 ## Method
 This project was maintened and versionned by GitHub
@@ -31,13 +31,13 @@ To show us the differents use case that can be use by the actor of the project.
 
 ### Diagram Class
 
-![Class diagram](http://51.15.234.228/projet5/public/files/uml/DiagramClass.png)
+![Class diagram](http://51.15.234.228/projet6/public/files/uml/DiagramClass.png)
 
 ### Diagram Sequence
 
 #### Tricks sequence
 
-![Sequence diagram on the visit use package](http://51.15.234.228/projet5/public/files/uml/TricksSequence.png)
+![Sequence diagram on the visit use package](http://51.15.234.228/projet6/public/files/uml/TricksSequence.png)
 
 #### User sequence
 
@@ -49,7 +49,7 @@ To show us the differents use case that can be use by the actor of the project.
 
 ### Data Model
 
-![Data Model](http://51.15.234.228/projet5/public/files/uml/DataModel.jpg)
+![Data Model](http://51.15.234.228/projet6/public/files/uml/DataModel.jpg)
 
 ## Install 
 

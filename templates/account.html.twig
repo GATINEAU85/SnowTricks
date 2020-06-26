@@ -26,11 +26,13 @@
                     <div class="row-fluid user-infos cyruxx">
                         <div class="row">
                             <h3 class="bg-orange">User information</h3>
+                            <div id="messageUpdate"></div>
                         </div>
+                        {{ include('alerts.html.twig') }}
                         <div class="row mt-3">
                             <div class="col-4 ">
-                                {% if user.userFiles %}
-                                    <div class="userPicture rounded-circle" ><img class="addProfileImage" src="/files{{ user.userFiles.filesUrl }}" alt="User Pic"></div>
+                                {% if user.photo %}
+                                    <div class="userPicture rounded-circle" ><img class="addProfileImage" src="/files/{{ user.photo }}" alt="User Pic"></div>
                                 {% else %}
                                     <div class="userPicture rounded-circle" style="max-width:100px"><img class="rounded-circle addProfileImage" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=100" alt="User Pic"></div>
                                 {% endif %}
@@ -46,6 +48,10 @@
                                     <tr>
                                         <td>Password</td>
                                         <td><a href="{{path('updatePassword')}}">Change password</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><a href="{{path('deleteAccount')}}"  onclick="return confirm('Your account will be delete, are you sure you want to quit Snowtricks ?')" class="text-danger">Delete account</a></td>
                                     </tr>
                                     </tbody>
                                 </table>

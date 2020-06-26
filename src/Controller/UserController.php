@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Files;
+use App\Entity\Message;
 use App\Form\SecurityType;
 use App\Form\UpdatePasswordType;
 use App\Form\RegisterType;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 use DateTime;
 
@@ -67,9 +69,8 @@ class UserController extends AbstractController
 
             $this->addFlash('success', 'Registration is success');
 
-            return $this->render("register.html.twig",[
-                'form' => $form->createView(),
-            ]);
+            return $this->redirectToRoute('app_login');
+
         }
 
         return $this->render("register.html.twig",[
@@ -122,8 +123,6 @@ class UserController extends AbstractController
      */
     public function getOwnAccount()
     {
-//        $em = $this->getDoctrine()->getManager();
-//        $user = $em->getRepository(User::class)->find($id);
         $user = $this->getUser();
         return $this->render("account.html.twig", [
             'user'  => $user,
@@ -153,27 +152,24 @@ class UserController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-
+        $user->setPhoto($request->request->get('fileName'));
         
-        //Création du fichier
-        $file = new Files();
-        $file->setFilesName($request->request->get('fileName'));
-        $file->setFilesType("image");
-        $file->setFilesUrl('/' . $request->request->get('fileName'));
-
-        //Insertion de la FK
-        $user->setUserFiles($file);
-
-        //MAJ du file
-        $em->persist($file);
+//        //Création du fichier
+//        $file = new Files();
+//        $file->setFilesName($request->request->get('fileName'));
+//        $file->setFilesType("image");
+//        $file->setFilesUrl('/' . $request->request->get('fileName'));
+//
+//        //Insertion de la FK
+//        $user->setUserFiles($file);
+//
+//        //MAJ du file
+//        $em->persist($file);
 
         //MAJ du user
         $em->persist($user);
         $em->flush();
-        
-        return $this->render("account.html.twig", [
-            'user'  => $user,
-        ]);
+        return new JsonResponse(array('status' => 'success'));
     }
         
     /**
@@ -202,15 +198,35 @@ class UserController extends AbstractController
             $em->flush();
             
             $this->addFlash('success', 'Update password is success');
-
-            return $this->render("account.html.twig",[
-                'user' => $user,
-            ]);
+            return $this->redirectToRoute('app_account');
         }
 
         return $this->render("updatePassword.html.twig", [
             'user'  => $user,
             'form' => $form->createView(),
         ]);
+    }     
+    
+    /**
+     * @Route("projet6/admin/delete/account", name="deleteAccount")
+     * @return JsonResponse
+     */
+    public function deleteAccount(Request $request)
+    {
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $messages = $em->getRepository(Message::class)->findByMessageUserId($user);
+        foreach ($messages as $message){
+            $em->remove($message);
+        }
+        $em->remove($user);
+        $session = $this->get('session');
+        $session = new Session();
+        $session->invalidate();        
+        $em->flush();
+            
+        $this->addFlash('success', 'Good Bye, see you soon !');
+
+        return $this->redirectToRoute('app_homepage');
     }
 }

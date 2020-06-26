@@ -65,10 +65,11 @@ class User implements UserInterface
     private $token;
     
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Files", cascade={"persist"})
-     * @ORM\JoinColumn(name="users_files_id", referencedColumnName="files_id")
+     * @var string|null
+     *
+     * @ORM\Column(name="users_photo", type="string", length=255, nullable=true)
      */
-    private $userFiles;
+    private $photo;
 
     
     public function getId(): ?int
@@ -140,14 +141,15 @@ class User implements UserInterface
         return $this;
     }
     
-    public function getUserFiles(): ?Files
+
+    public function getPhoto(): ?string
     {
-        return $this->userFiles;
+        return $this->photo;
     }
 
-    public function setUserFiles(?Files $userFiles): self
+    public function setPhoto(?string $photo): self
     {
-        $this->userFiles = $userFiles;
+        $this->photo = $photo;
 
         return $this;
     }

@@ -34,6 +34,8 @@ $(".addUserPhoto").click(function () {
         fileName: addUserPhotoDropzoneForm.dropzone.files[0].name
     };
 
+    $('#modalAddUerPhoto').modal("hide");
+ 
     $.ajax({
         // url : 'insertDb', 
         url: "/projet6/admin/add/photoProfile",
@@ -41,11 +43,23 @@ $(".addUserPhoto").click(function () {
         cache: true,
         data: userData,
         success: function (data) {
+            if(data.status === "success"){
+                //Dans le cas ou on a déja enregistré le fichier
+                $("#messageUpdate")
+                    .removeClass('alert-danger')
+                    .addClass("alert alert-success ta-c w-100")
+                    .html("Your photo is update.")
+                    .fadeIn(1000)
+                    .delay(2000)
+                    .fadeOut(1000);
+                    document.location.reload();
+            }
+        },
+        error : function (){
             $("#messageUpdate")
-                .addClass('alert alert-success ta-c w-100')
-                .html("The file was update.")
-                .delay(1000)
-                .fadeOut(1000);
+                .addClass("alert alert-danger ta-c w-100")
+                .html("An error was occured.")
+                .fadeIn(500);
         }
     });
 });

@@ -1,13 +1,13 @@
  //USE WITH SYMFONY IMAGE FORM
 $(document).ready(function() {
     // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
-    var $container = $('div#tricks_tricksFiles');
+    var $container = $("div#tricks_tricksFiles");
 
     // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
-    var index = $container.find(':input').length;
+    var index = $container.find(":input").length;
 
     // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
-    $('#add_category').click(function(e) {
+    $("#add_category").click(function(e) {
       addCategory($container);
 
       e.preventDefault(); // évite qu'un # apparaisse dans l'URL
@@ -15,7 +15,7 @@ $(document).ready(function() {
     });
 
     // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
-    if (index == 0) {
+    if (index === 0) {
       addCategory($container);
     } else {
       // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
@@ -29,7 +29,7 @@ $(document).ready(function() {
       // Dans le contenu de l'attribut « data-prototype », on remplace :
       // - le texte "__name__label__" qu'il contient par le label du champ
       // - le texte "__name__" qu'il contient par le numéro du champ
-      var template = $container.attr('data-prototype')
+      var template = $container.attr("data-prototype")
         .replace(/__name__label__/g, 'File n°' + (index+1))
         .replace(/__name__/g,        index)
       ;
@@ -50,7 +50,7 @@ $(document).ready(function() {
     // La fonction qui ajoute un lien de suppression d'une catégorie
     function addDeleteLink($prototype) {
       // Création du lien
-      var $deleteLink = $('<a href="#" class="btn btn-danger">Delete</a>');
+      var $deleteLink = $("<a href='#' class='btn btn-danger'>Delete</a>");
 
       // Ajout du lien
       $prototype.append($deleteLink);
@@ -67,11 +67,11 @@ $(document).ready(function() {
   
 //USE WITH DROPZONE
 $(".remove").click(function () {
-    confirm('This file will be remove from this add.');
+    confirm("This file will be remove from this add.");
 });
 
 $(".addPicture").click(function () {
-    $('#modalAddFile').modal();
+    $("#modalAddFile").modal();
     $(".imagePart").show();
     $(".videoPart").hide();
 });
@@ -95,7 +95,7 @@ $(".addFileInTab").click(function () {
             var videoName = $("#videoName").val();
             var videoUrl = $("#videoLink").val();
 //            $("#contentTabFile").append("<tr><td>" + videoName + "</td><td class='cur-p'>" + videoUrl + "</td><td>Video</td><td><a class='removeFileTricks cur-p'><i class='fas fa-trash'></i></a></td></tr>")
-            $("#contentTabFile").append("<tr><td>" + videoName + "</td><td class='cur-p'>" + videoUrl + "</td><td>Video</td></tr>")
+            $("#contentTabFile").append("<tr><td>" + videoName + "</td><td class='cur-p'>" + videoUrl + "</td><td>video</td></tr>")
             $('#modalAddFile').modal("hide");
         };
     }else{
@@ -105,16 +105,82 @@ $(".addFileInTab").click(function () {
             pictureUrl = "/" + fileDropzoneUpdate.name;
             insertionChamp["fileDate"] = $.now();
 //            $("#contentTabFile").append("<tr><td>" + pictureName + "</td><td class='cur-p'>" + pictureUrl + "</td><td>Picture</td><td><a class='removeFileTricks cur-p'><i class='fas fa-trash'></i></a></td></tr>")
-            $("#contentTabFile").append("<tr><td>" + pictureName + "</td><td class='cur-p'>" + pictureUrl + "</td><td>Picture</td></tr>")
+            $("#contentTabFile").append("<tr><td>" + pictureName + "</td><td class='cur-p'>" + pictureUrl + "</td><td>image</td></tr>")
             addFileTricksDropzoneForm.dropzone.files.forEach(function(file) { 
                 file.previewElement.remove(); 
             });
-            $('#modalAddFile').modal("hide");
+            $("#modalAddFile").modal("hide");
         };
     }
     
     $("#videoName").val("");
     $("#videoLink").val("");
+});
+
+
+//Add file from the modal to the datatable on the page
+$(".addFileInCarrousel").click(function () {
+    //Création du tableau de parametre envoi 
+    var insertionChamp = {};
+    var fileId = $("#fileId").val();
+    var trickId = $("#trickId").val();
+    var videoInput = $("#videoLink").val();
+
+    if (videoInput !== ""){
+        if($("#videoLink").val() !== ""){
+            var fileName = $("#videoName").val();
+            var fileUrl = $("#videoLink").val();
+            var fileType = "video";
+            var fileDate = $.now();
+            $("#modalAddFile").modal("hide");
+            $("#videoNameUpdate").val("");
+            $("#videoLinkUpdate").val("");
+        };
+    }else{
+        if (addFileTricksDropzoneForm.dropzone.files.length !== 0) {
+            var fileDropzoneUpdate = addFileTricksDropzoneForm.dropzone.files[0];
+            var fileName = fileDropzoneUpdate.name;
+            var fileUrl = "/" + fileDropzoneUpdate.name;
+            var fileType = "image";
+            var fileDate = $.now();
+            addFileTricksDropzoneForm.dropzone.files.forEach(function(file) { 
+                file.previewElement.remove(); 
+            });
+        };
+    }
+    $('#modalAddFile').modal("hide");
+
+    $.ajax({
+        // url : 'insertDb', 
+        url: "/projet6/admin/update/trick/" + trickId + "/create/file",
+        type: 'POST',
+        cache: true,
+        data: {
+            fileName : fileName,
+            fileUrl : fileUrl,
+            fileType : fileType,
+            fileDate : fileDate
+        },
+        success: function (data) {
+            if(data.status === "success"){
+                //Dans le cas ou on a déja enregistré le fichier
+                $("#statusFilesCreation")
+                    .removeClass('alert-danger')
+                    .addClass("alert alert-success ta-c w-100")
+                    .html("This file is created.")
+                    .fadeIn(1000)
+                    .delay(2000)
+                    .fadeOut(1000);
+                    document.location.reload();
+            }
+        },
+        error : function (){
+            $("#statusFilesCreation")
+                .addClass("alert alert-danger ta-c w-100")
+                .html("An error was occured.")
+                .fadeIn(500);
+        }
+    });
 });
 
 //$(".removeFileTricks").click(function () {
@@ -124,9 +190,9 @@ $(".addFileInTab").click(function () {
 //Create the tricks with all the files
 $(".createTricks").click(function () {
     //Création du tableau de parametre envoi 
-    if ($("#nameTricks").val() !== "" || $("#descriptionTricks").val() !== "" ) {
-        $("#nameTricks").removeClass('is-invalid');
-        $("#descriptionTricks").removeClass('is-invalid');
+    $("#nameTricks").removeClass('is-invalid');
+    $("#descriptionTricks").removeClass('is-invalid');
+    if ($("#nameTricks").val() !== "" && $("#descriptionTricks").val() !== "" && $("#descriptionTricks").val().length > 50 ) {
         var trickData = {
             nameTricks: $("#nameTricks").val(),
             groupTricks: $("#groupTricks").val(),
@@ -134,12 +200,12 @@ $(".createTricks").click(function () {
             files: []
         };
     }else{
-        if ($("#nameTricks").val() !== "") {
-            $("#nameTricks").addClass('is-invalid').focus();
+        if ($("#nameTricks").val() === "") {
+            $("#nameTricks").addClass("is-invalid").focus();
             return;
         };
-        if ($("#descriptionTricks").val() !== "" || $("#descriptionTricks").val().length < 25) {
-            $("#descriptionTricks").addClass('is-invalid').focus();
+        if ($("#descriptionTricks").val() === "" || $("#descriptionTricks").val().length < 50) {
+            $("#descriptionTricks").addClass("is-invalid").focus();
             return;
         }
     }
@@ -155,6 +221,7 @@ $(".createTricks").click(function () {
             trickData.files.push(file);
         });
     }
+    $('#modalAddFile').modal("hide");
 
     $.ajax({
         // url : 'insertDb', 
@@ -163,7 +230,7 @@ $(".createTricks").click(function () {
         cache: true,
         data: trickData,
         success: function (data) {
-            if(data.status == 'succes'){
+            if(data.status === 'success'){
                 //Dans le cas ou on a déja enregistré le fichier
                 $("#statusTricksCreation")
                     .removeClass('alert-danger')

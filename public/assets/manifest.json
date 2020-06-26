@@ -2,8 +2,6 @@
   "assets/app.css": "/assets/app.css",
   "assets/app.js": "/assets/app.js",
   "assets/runtime.js": "/assets/runtime.js",
-  "assets/vendors~app.css": "/assets/vendors~app.css",
-  "assets/vendors~app.js": "/assets/vendors~app.js",
   "assets/fonts/fa-brands-400.woff2": "/assets/fonts/fa-brands-400.31015e86.woff2",
   "assets/fonts/fa-brands-400.ttf": "/assets/fonts/fa-brands-400.5818bbd0.ttf",
   "assets/fonts/fa-brands-400.eot": "/assets/fonts/fa-brands-400.607a7785.eot",
