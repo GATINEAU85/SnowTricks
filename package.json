@@ -1,0 +1,36 @@
+{
+    "devDependencies": {
+        "@symfony/webpack-encore": "^0.29.0",
+        "core-js": "^3.0.0",
+        "node-sass": "^4.14.0",
+        "regenerator-runtime": "^0.13.2",
+        "sass-loader": "7.0.1",
+        "webpack-notifier": "^1.6.0"
+    },
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.13.0",
+        "bootstrap": "^4.4.1",
+        "datatables": "^1.10.18",
+        "datatables.net-bs4": "^1.10.21",
+        "dropzone": "^5.7.0",
+        "font-awesome": "^4.7.0",
+        "jquery": "^3.5.0",
+        "jquery-ui": "^1.12.1",
+        "jquery-ui.1.11.1": "^1.11.1",
+        "jquery.ui.widget": "^1.10.3",
+        "paginationjs": "^2.1.5",
+        "popper.js": "^1.16.1",
+        "siema": "^1.5.1",
+        "simplelightbox": "^2.1.5",
+        "slick-carousel": "^1.8.1",
+        "themify-icons": "^1.0.0"
+    }
+}

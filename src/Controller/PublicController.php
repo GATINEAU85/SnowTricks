@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PublicController extends AbstractController
 {
     /**
-     * @Route("projet6/public/home", name="public_home")
+     * @Route("projet6/public/accueil", name="home")
      * @return Response
      */
     public function getHome()

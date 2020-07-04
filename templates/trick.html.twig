@@ -1,0 +1,154 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<body id="page-top">
+  <!-- Masthead -->
+  <header class="masthead" id="tricksBg">
+    <div class="container h-100 left-align">
+      <div class="row h-100">
+        <div class="col-lg-10 align-self-end">
+          <h1 class="text-uppercase font-weight-bold">{{ trick.tricksName }}</h1>
+        </div>
+        <div class="col-lg-8 align-self-baseline">
+          <a class="btn btn-primary btn-xl js-scroll-trigger" href="#">ALL TRICKS</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+<!-- Files Section -->
+  <section class="page-section" id="trick">
+    <div class="container">
+      <div class="row justify-content-center  mt-5">
+         <div class="col-lg-4 offset-2">
+             <span class="groupNameTricks">{{ trick.tricksGroupId.groupName }}</span>
+         </div>
+        {% if is_granted('ROLE_USER') %}
+         <div class="col-lg-4 offset-lg-2">
+            <a class="btn btn-primary btn-xl js-scroll-trigger" href="{{ path ('updateTricks', {trickId : trick.tricksId})}}">UPDATE</a>
+         </div>
+        {% endif %}
+      </div>
+      {{ include('alerts.html.twig') }}
+
+      
+      <div class="row justify-content-center">
+        <div class="col-lg-8 mt-5 mb-5">
+            <div class="container mb-5">
+                <div id="carouselFile" class="carouselFile" style="color:black;margin:auto">
+                    {% for file in trick.tricksFiles %}
+                        {% if file.filesType == "video" %}
+                            <div class='embed-responsive embed-responsive-16by9 p-10 cur-p text-center' style="width:100%; display: inline-block">
+                                <iframe class="embed-responsive-item p-5" src='{{file.filesUrl}}' frameborder="0" style="min-height:100%" allowfullscreen></iframe>
+                            </div>
+                        {% else %}
+                            <div class='image d-block p-10 cur-p' style="width: 100%; display: inline-block">
+                                <img class='image p-10 cur-p w-100 col-12' src='/files{{file.filesUrl}}' height="" style="max-width:70%; margin:auto"/>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row mt-3" style="margin-top:20px">
+                <div class="col-12">
+                    <div id='carouselFiles' class="carouselFiles carousel slide">
+                        {% for file in trick.tricksFiles %}
+                            {% if file.filesType == "video" %}
+                                <div class='image p-10 cur-p col-12'>
+                                    {% set videoName = file.filesUrl|split('/')  %}
+                                    <img class='image p-10 cur-p img-fluid' src='https://img.youtube.com/vi/{{videoName|last}}/default.jpg' height=""/>
+                                </div>
+                            {% else %}
+                                <div class='image p-10 cur-p col-12'>
+                                    <img class='image p-10 cur-p img-fluid' src='/files{{file.filesUrl}}' height=""/>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Tricks Section -->
+  <section class="page-section" id="trick">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 mt-5 mb-5">
+          <h2 class="mt-0">DESCRIPTION</h2>
+          <hr class="divider light my-4">
+            <div class="row">
+                <p>{{ trick.tricksDescription }}</p>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+   <!-- Comment Section -->
+  <section class="page-section" id="comments">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 mt-5 mb-5">
+          <h2 class="mt-0">COMMENT</h2>
+          <hr class="divider light my-4">
+            <div class="row">
+                <div class="col-12">
+                    {{ form_start(form) }}
+                        {{ form_row(form.messageContent) }}
+                        <button type="submit" class="btn btn-primary">SUBMIT</button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>   
+   
+   <!-- DIALOG Section -->
+  <section class="page-section" id="dialog">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 mt-5 mb-5">
+          <h2 class="mt-0">DISCUSSION</h2>
+          <hr class="divider light my-4">
+            <div class="row">
+                <div id="paginationMessage" class="col-12">
+                    {% if trick.tricksMessage %}
+                        {% for message in trick.tricksMessage|reverse %}
+                            {% if loop.index < limitMessage %}
+                                <div class="row" style="margin-bottom:20px">
+                                    <div class="col-2 center-align">
+                                        {% if message.messageUserId.photo %}
+                                            <img class='rounded-circle' src='/files/{{ message.messageUserId.photo }}' style="max-width:50px; width:100%"/>
+                                        {% else %}
+                                            <img class='rounded-circle' src='https://tanzolymp.com/images/default-non-user-no-photo-1.jpg' style="max-width:50px; width:100%"/>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-10">
+                                        <p class="conversationPseudo">{{ message.messageUserId.pseudo }} : {{ message.messageDate|date("m/d/Y") }}</p>
+                                        <p class="conversationContent">{{ message.messageContent }}</p>
+                                    </div>
+                                </div>
+                            {% elseif loop.index == limitMessage %}
+                                <div class="row" style="margin-bottom:20px">
+                                    <div class="col-12 text-center">
+                                        <a id="allMessageLimit" class="btn btn-primary btn-xl js-scroll-trigger" href="{{ path("getTrick", {trickId : trick.tricksId}) }}?action=getAllMessage">ALL MESSAGE</a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <p>No message</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+{% endblock %}

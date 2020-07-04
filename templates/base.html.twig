@@ -1,14 +1,98 @@
-<!DOCTYPE html>
+{#<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}#}
+{#                <link rel="stylesheet" href="{{ asset('assets/app.css') }}" />#}
+{#
     </head>
     <body>
         {% block body %}
             <div>HELLO</div>
         {% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}#}
+{#        {% block javascripts %}<script src="{{ asset('assets/app.js') }}"></script>{% endblock %}#}
+{#    </body>
+</html>
+#}
+{#-----------------------------------#}
+
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>SnowTricks</title>
+
+{#        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}#}
+        <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.png') }}" />
+        <link rel="stylesheet" href="{{ asset('assets/app.css') }}" />
+    </head>
+
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-shrink" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="#page-top"><img src="/img/favicon.png" style="min-height:40px"></a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu<svg class="svg-inline--fa fa-bars fa-w-14 ml-1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path></svg><!-- <i class="fas fa-bars ml-1"></i> --></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav text-uppercase ml-auto">
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path ('app_homepage') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path ('app_homepage') }}#community">Community</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path ('app_homepage') }}#tricks">All Tricks</a></li>
+                    <li class="nav-item" id="navContact"><a class="nav-link js-scroll-trigger" href="{{ path ('app_homepage') }}#contact">Contact</a></li>
+                    {% if is_granted('ROLE_USER') %}
+                        <li class="nav-item" id="navAccount"><a class="nav-link js-scroll-trigger" href="{{ path ('app_account') }}"><i class="fa fa-user"></i></a></li>
+                        <li class="nav-item" id="navContact"><a class="nav-link js-scroll-trigger" href="{{ path ('app_logout') }}"><i class="fa fa-sign-out-alt"></i></a></li>
+                    {% else %}
+                        <li class="nav-item" id="navContact"><a class="nav-link js-scroll-trigger" href="{{ path ('app_login') }}"><i class="fa fa-sign-in-alt"></i></a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% block body %}{% endblock%}
+    
+    <!-- Footer -->
+    <footer id="footer" style="padding-top:10px; margin-top:40px">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <ul class="list-inline text-center" id="footerNetwork">
+                        <li class="list-inline-item text-center">
+                            <a href="https://fr-fr.facebook.com/public/Adrien-Gatineau">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fas fa-circle fa-stack-2x" style="font-size:20px"></i>
+                                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse" style="color:#ff9100"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="list-inline-item text-center">
+                            <a href="https://fr.linkedin.com/in/adriengatineau">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fas fa-circle fa-stack-2x" style="font-size:20px"></i>
+                                    <i class="fab fa-linkedin-in fa-stack-1x fa-inverse" style="color:#ff9100"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+{#{% block javascripts %}<script src="{{ asset('assets/app.js') }}"></script><script src="{{ asset('assets/runtime.js') }}"></script>{% endblock %}#}
+
 </html>

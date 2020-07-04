@@ -1,0 +1,9 @@
+<p>
+    Hi {{ user.username }},
+    An initilization query was send to your SnowTricks account. 
+    To initialize your password, you must click on the above link : <br>
+    Pour réinitilisation votre mot de passe, veuillez cliquer sur le lien ci-dessous :<br>
+    <a href="{{ url('resetPassword', {pseudo : user.pseudo , token: user.token}) }}">Réinitialiser mon mot de passe</a><br>
+    <br>
+    Merci !
+</p>

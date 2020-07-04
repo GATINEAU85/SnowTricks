@@ -1,0 +1,144 @@
+{% extends "base.html.twig" %}
+{% set limit = 9 %}
+{% block body %}
+<body id="page-top">
+  <!-- Masthead -->
+  <header class="masthead" id="home">
+    <div class="container h-100 left-align">
+      <div class="row h-100">
+        <div class="col-lg-10 align-self-end">
+          <h1 class="text-uppercase font-weight-bold">SnowTricks</h1>
+        </div>
+        <div class="col-lg-10 align-self-end">
+          <h3 class="text-uppercase font-weight-bold">Discovery</h3>
+        </div>
+        <div class="col-lg-6 align-self-end">
+            <p>Passionate or professional about SnowBoard, this site is made for you. You don't have to be an expert to learn this sliding sport little by little.</p>
+        </div>
+        <div class="col-lg-8 align-self-baseline">
+          <a class="btn btn-primary btn-xl js-scroll-trigger" href="#tricks">ALL TRICKS</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Community Section -->
+  <section class="page-section" id="community">
+    <div class="container">
+      {{ include('alerts.html.twig') }}
+      <div class="row justify-content-center">
+        <div class="col-lg-8 text-center mt-5 mb-5">
+          <h2 class="mt-0">COMMUNITY</h2>
+          <hr class="divider light my-4">
+            <div class="row">
+                <div class="col-lg-4">
+                    <img class="rounded-circle mb-3" src="/img/feature-01.png" alt="Generic placeholder image" width="120" height="120">
+                    <h3>Passion</h3>
+                    <p>We are all gathered here around the same passion : the snowboard. Share this website and this community to you friends of tracks buddies, to improve the content of this site. </p>
+                </div><!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <img class="rounded-circle mb-3" src="/img/feature-02.png"  alt="Generic placeholder image" width="120" height="120">
+                    <h3>Fun</h3>
+                    <p>Here, you can share you're better photo of snow tricks with your friends. Enjoy it to communicate arround the avices to know when we are beginers.</p>
+                </div><!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <img class="rounded-circle mb-3" src="/img/feature-03.png" alt="Generic placeholder image" width="120" height="120">
+                    <h3>Curious</h3>
+                    <p>If you want to learn this hobbies but you are scared... It's time to begin, to learn and to practice, with tutorial, advice and professionnal help before the track.</p>
+                </div><!-- /.col-lg-4 -->
+            </div>
+          <a class="btn btn-primary btn-xl js-scroll-trigger" href="#contact">CONTACT US</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tricks Section -->
+  <section class="page-section" id="tricks">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 text-center mt-5 mb-5">
+          <h2 class="mt-0">ALL TRICKS</h2>
+          <hr class="divider light my-4">
+            <div class="row">
+                {% for trick in tricks %}
+                    {% if loop.index < limitTricks %}
+                        <div class="col-lg-3">
+                            {% set files = trick.tricksFiles|first %}
+                            <a href="get/trick/{{ trick.tricksId }}"  width="140" height="140"><img class="img-fluid" src="/files{% if files %}{{ files.filesUrl }}{% endif %}" alt="Trick placeholder image"></a>
+                            <h3>{{ trick.tricksName }}</h3>
+                            {% if is_granted('ROLE_USER') %}
+                                <a href="{{ path ('deleteTricks', {trickId : trick.tricksId})}}" onclick="return confirm('This tricks will be remove from SnowTricks, are you sure you want to delete this ?')"><i class="fa fa-trash"></i></a>
+                                <a href="{{ path ('updateTricks', {trickId : trick.tricksId})}}"><i class="fa fa-edit"></i></a>
+                           {% endif %}
+                            <p>{{ trick.tricksDescription[:50] }}...</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    {% if limitTricks <= 9 %}
+                        <a id="allTricksLimit" class="btn btn-primary btn-xl js-scroll-trigger" href="{{ path("app_homepage") }}?action=getAllTricks">ALL TRICKS</a>
+                    {% endif %}
+                    <a class="btn btn-primary btn-xl js-scroll-trigger" href="{{ path("createTricks") }}" style="margin-left:20px">ADD TRICKS</a>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Contact Section -->
+    <section class="page-section" id="contact">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 col-sm-12 text-center">
+              <h2 class="mt-0">CONTACT US</h2>
+              <hr class="divider my-4">
+              <p class="text-muted mb-5">Something was not clear, contact us to no more about SnowTricks</p>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-md-4 offset-md-2" text-center>
+                  <img src="/img/contact.png" class="mt-2" style="max-height:320px"/>
+              </div>
+              <div class="col-md-4" text-center>
+{#                  <form name="contactForm" id="contactForm" methode="post" action="index.php?action=contactMe">
+                  <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                      <input type="text" class="form-control" placeholder="Name" id="envoiName"  name="envoiName" required data-validation-required-message="Entrez votre nom.">
+                      <p class="help-block text-danger"></p>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                      <input type="email" class="form-control" placeholder="Email" id="envoiMail" name="envoiMail" required data-validation-required-message="Entrez votre adresse mail">
+                      <p class="help-block text-danger"></p>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                      <textarea rows="5" class="form-control" placeholder="Message" id="envoiMessage" name="envoiMessage" required data-validation-required-message="Entrez un message"></textarea>
+                      <p class="help-block text-danger"></p>
+                    </div>
+                  </div>
+                  <br>
+                  <div id="success"></div>
+                  <div class="form-group text-left">
+                    <button type="submit" class="btn btn-primary  btn-xl" id="sendMessageButton">SEND MESSAGE</button>
+                  </div>
+                </form>#}
+                {{ form_start(contactForm) }}
+                    {{ form_row(contactForm.name) }}
+                    {{ form_row(contactForm.email) }}
+                    {{ form_row(contactForm.message) }}
+                    <button type="submit" class="btn btn-primary">SEND MESSAGE</button>
+                {{ form_end(contactForm) }}
+            </div>
+        </div>
+    </div>
+   </section>
+            
+</body>
+{% endblock %}
