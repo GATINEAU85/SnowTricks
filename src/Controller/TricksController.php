@@ -20,10 +20,10 @@ class TricksController extends AbstractController {
     const ITEMS_PER_PAGE = 8;
 
     /**
-     * @Route("/public/index", name="app_index")
+     * @Route("/public/home", name="app_homepage")
      * @return JsonResponse
      */
-    public function getIndex(Request $request, \Swift_Mailer $mailer, PaginationService $pagination) {
+    public function getAllTricks(Request $request, \Swift_Mailer $mailer, PaginationService $pagination) {
         $em = $this->getDoctrine()->getManager();
         $tricks = $em->getRepository(Tricks::class)->findAll();
                 
@@ -56,51 +56,11 @@ class TricksController extends AbstractController {
         $query   = $em->createQuery("SELECT '*' FROM App\Entity\Tricks p ORDER BY p.tricksId ASC");
         $results = $pagination->paginate($query, $request, self::ITEMS_PER_PAGE);
 
-        return $this->render("index.html.twig", [
-            'limitTricks' => $limit,
-            'tricks' => $tricks,
-            'contactForm' => $form->createView(),
-            'lastPage' => $pagination->lastPage($results)
-        ]);
-    }
-
-    /**
-     * @Route("/public/home", name="app_homepage")
-     * @return JsonResponse
-     */
-    public function getAllTricks(Request $request, \Swift_Mailer $mailer) {
-        $em = $this->getDoctrine()->getManager();
-        $tricks = $em->getRepository(Tricks::class)->findAll();
-        $limit = 9;
-        
-        $form = $this->createForm(ContactType::class);
-        $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-            $contact = $form->getData();
-
-            // On crée le message
-            $message = (new \Swift_Message('Nouveau contact'))
-                // On attribue l'expéditeur
-                ->setFrom($contact['email'])
-                // On attribue le destinataire
-                ->setTo($this->getParameter('administrator_email'))
-                // On crée le texte avec la vue
-                ->setBody($this->renderView('emails/contact.html.twig', compact('contact')),'text/html');
-            
-            $mailer->send($message);
-            $this->addFlash('success', 'This message is send.');
-        }
-        if ($request->query->get('action')){
-            if ($request->query->get('action') == "getAllTricks"){
-                $limit = count($tricks) + 1;
-            }
-        };
-
         return $this->render("home.html.twig", [
             'limitTricks' => $limit,
             'tricks' => $tricks,
             'contactForm' => $form->createView(),
+            'lastPage' => $pagination->lastPage($results)
         ]);
     }
 
