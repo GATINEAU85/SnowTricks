@@ -1,7 +1,7 @@
 # Adrien GATINEAU
 
 Hello, I'm Adrien GATINEAU. I create for my studies a communautary website on the area of the snowboard. Enjoy your discovery of Snowtricks 
-[SnowTricks](http://51.15.234.228:8000/projet6/public/home)
+[SnowTricks](http://51.15.234.228:8000/public/home)
 
 ## Method
 This project was maintened and versionned by GitHub
