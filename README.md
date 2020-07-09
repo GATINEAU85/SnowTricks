@@ -41,11 +41,9 @@ UML diagram are present on the path : App\public\files\uml. It could be help you
 ```
 
 2. Data choices
-    1. Choose to import database.sql in your database (App/sql/database.sql) : `psql -d snowtricks -f sql/backup.sql`
-
-It's important to import this model of database to have a well function site.
-
-    2. Choose to import dataset thanks to the DataFixtures of the project. 
+    Choose to import database.sql in your database (App/sql/database.sql) : `psql -d snowtricks -f sql/backup.sql`
+    OR
+    Choose to import dataset thanks to the DataFixtures of the project. 
 
 ```php
     php bin/console doctrine:database:create : To create database which is configured on .env file
