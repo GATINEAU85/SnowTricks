@@ -32,7 +32,7 @@ class Files
     /**
      * @var string
      *
-     * @ORM\Column(name="files_name", type="string", length=255, nullable=false, unique=true)
+     * @ORM\Column(name="files_name", type="string", length=255, nullable=false)
      * @Assert\Length(max="255", minMessage="The name is to long. 255 characters maximum")
      * @Assert\NotBlank
      */

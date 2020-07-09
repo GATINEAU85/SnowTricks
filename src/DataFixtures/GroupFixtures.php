@@ -12,15 +12,12 @@ class GroupFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        foreach(self::LIST as $elmnt){
+        foreach(self::LIST as $key => $elmnt){
             $group = new Group();
             $group->setGroupName($elmnt);
-
+            $this->addReference(self::LIST[$key], $group);
             $manager->persist($group);
         }
         $manager->flush();
-
-        // other fixtures can get this object using the UserFixtures::ADMIN_USER_REFERENCE constant
-        $this->addReference(self::LIST, $group);
     }
 }

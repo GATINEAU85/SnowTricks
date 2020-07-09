@@ -20,7 +20,7 @@ class TricksController extends AbstractController {
     const ITEMS_PER_PAGE = 8;
 
     /**
-     * @Route("projet6/public/index", name="app_index")
+     * @Route("/public/index", name="app_index")
      * @return JsonResponse
      */
     public function getIndex(Request $request, \Swift_Mailer $mailer, PaginationService $pagination) {
@@ -65,7 +65,7 @@ class TricksController extends AbstractController {
     }
 
     /**
-     * @Route("projet6/public/home", name="app_homepage")
+     * @Route("/public/home", name="app_homepage")
      * @return JsonResponse
      */
     public function getAllTricks(Request $request, \Swift_Mailer $mailer) {
@@ -105,7 +105,7 @@ class TricksController extends AbstractController {
     }
 
     /**
-     * @Route("projet6/public/get/trick/{trickId}", name="getTrick")
+     * @Route("/public/get/trick/{trickId}", name="getTrick")
      * @return JsonResponse
      */
     public function getTrick(Request $request, int $trickId) {
@@ -148,7 +148,7 @@ class TricksController extends AbstractController {
     }
 
        /**
-     * @Route("projet6/admin/create/tricks", name="createTricks")
+     * @Route("/admin/create/tricks", name="createTricks")
      * @return JsonResponse
      */
     public function createTricks(Request $request) {
@@ -189,7 +189,7 @@ class TricksController extends AbstractController {
     }
     
     /**
-     * @Route("projet6/admin/update/trick/{trickId}", name="updateTricks")
+     * @Route("/admin/update/trick/{trickId}", name="updateTricks")
      * @return JsonResponse
      */
     public function updateTricks(Request $request, int $trickId) {
@@ -223,7 +223,7 @@ class TricksController extends AbstractController {
     
     
     /**
-     * @Route("projet6/admin/delete/trick/{trickId}", name="deleteTricks")
+     * @Route("/admin/delete/trick/{trickId}", name="deleteTricks")
      * @return JsonResponse
      */
     public function deleteTricks(int $trickId) {
@@ -244,7 +244,7 @@ class TricksController extends AbstractController {
     }
     
     /**
-     * @Route("projet6/admin/update/trick/{trickId}/delete/file/{fileId}", name="deleteFile")
+     * @Route("/admin/update/trick/{trickId}/delete/file/{fileId}", name="deleteFile")
      * @return JsonResponse
      */
     public function deleteFile(int $trickId, int $fileId) {
@@ -262,7 +262,7 @@ class TricksController extends AbstractController {
     }
     
     /**
-     * @Route("projet6/admin/update/trick/{trickId}/update/file/{fileId}", name="updateFile")
+     * @Route("/admin/update/trick/{trickId}/update/file/{fileId}", name="updateFile")
      * @return JsonResponse
      */
     public function updateFile(Request $request, int $trickId, int $fileId) {
@@ -287,7 +287,7 @@ class TricksController extends AbstractController {
     }
         
     /**
-     * @Route("projet6/admin/update/trick/{trickId}/create/file", name="createFile")
+     * @Route("/admin/update/trick/{trickId}/create/file", name="createFile")
      * @return JsonResponse
      */
     public function createFile(Request $request, int $trickId) {
@@ -313,7 +313,7 @@ class TricksController extends AbstractController {
     }
     
     /**
-     * @Route("projet6/admin/upload/file", name="uploadFile")
+     * @Route("/admin/upload/file", name="uploadFile")
      * @return JsonResponse
      */
     public function uploadFile() {

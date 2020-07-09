@@ -1,28 +1,27 @@
 <?php
-
 namespace App\DataFixtures;
 
+use DateTime;
 use App\Entity\Message;
 use App\DataFixtures\UserFixtures;
 use App\DataFixtures\TricksFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class MessageFixtures extends Fixture
+class MessageFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
         $group = new Message();
         $group->setMessageContent("Beautiful picture of this tricks. I will try to pic another on my next snow session.");
-        $group->setMessageDate(date("d-m-Y"));
-        $group->setMessageUserId($manager->getRepository(User::class)->find(1));
-        $group->setMessageTricksId($manager->getRepository(Tricks::class)->find(1));
-
+        $group->setMessageDate(new DateTime('NOW'));
+        $group->setMessageUserId($this->getReference(UserFixtures::USER_REFERENCE));
+        $group->setMessageTricksId($this->getReference(TricksFixtures::MUTE));
         $manager->persist($group);
+        
         $manager->flush();
 
-        // other fixtures can get this object using the UserFixtures::ADMIN_USER_REFERENCE constant
-        $this->addReference(self::LIST, $group);
     }
     
     public function getDependencies()

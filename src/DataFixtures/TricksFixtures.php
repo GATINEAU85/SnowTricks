@@ -10,101 +10,100 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class TricksFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const MUTE = 'mute';
+    public const INDY = 'indy';
+    public const STALEFISH = 'stalefish';
+    public const TAIL_GRAB = 'tail_grab';
+    public const NOSE_GRAB = 'nose_grab';
+    public const SEA_BELT = 'sea_belt';
+    public const TRUCK_DRIVER = 'truck_driver';
+    public const ROTATION_360 = 'rotation_360';
+    public const ROTATION_180 = 'rotation_180';
+    public const JAPAN_AIR = 'japan_air';
+    public const ROCKET_AIR = 'rocket_air';
+
     public function load(ObjectManager $manager)
     {
+        
         $mute = new Tricks();
         $mute->setTricksName('Mute');
-        $mute->setTricksDescriptions('Grasping the frontside edge of the board between the two feet with the front hand.');
-        $mute->setTricksDate(date("d-m-Y"));
-        $groupMute = $manager->getRepository(Group::class)->find(1);
-        $mute->setTricksGroupId($groupMute);
+        $mute->setTricksDescription('Grasping the frontside edge of the board between the two feet with the front hand.');
+//        $groupMute = $manager->getRepository(Group::class)->find(1);
+        $mute->setTricksGroupId($this->getReference(GroupFixtures::LIST[1]));
+        $this->addReference(self::MUTE, $mute);
         $manager->persist($mute);
         
         $indy = new Tricks();
         $indy->setTricksName('Indy');
-        $indy->setTricksDescriptions('Seizure of the frontside edge of the board, between the two feet, with the rear hand.');
-        $indy->setTricksDate(date("d-m-Y"));
-        $groupIndy = $manager->getRepository(Group::class)->find(3);
-        $indy->setTricksGroupId($groupIndy);
+        $indy->setTricksDescription('Seizure of the frontside edge of the board, between the two feet, with the rear hand.');
+        $indy->setTricksGroupId($this->getReference(GroupFixtures::LIST[2]));
+        $this->addReference(self::INDY, $indy);
         $manager->persist($indy);
         
         $stalefish = new Tricks();
         $stalefish->setTricksName('Stalefish');
-        $stalefish->setTricksDescriptions('Grasping the backside of the board between the two feet with the back hand');
-        $stalefish->setTricksDate(date("d-m-Y"));
-        $groupStalefish = $manager->getRepository(Group::class)->find(2);
-        $stalefish->setTricksGroupId($groupStalefish);
+        $stalefish->setTricksDescription('Grasping the backside of the board between the two feet with the back hand');
+        $stalefish->setTricksGroupId($this->getReference(GroupFixtures::LIST[1]));
+        $this->addReference(self::STALEFISH, $stalefish);
         $manager->persist($stalefish);
         
         $tailGrab = new Tricks();
         $tailGrab->setTricksName('Tail grab');
-        $tailGrab->setTricksDescriptions('Seizure of the rear part of the board, with the back hand');
-        $tailGrab->setTricksDate(date("d-m-Y"));
-        $groupTailGrab = $manager->getRepository(Group::class)->find(1);
-        $tailGrab->setTricksGroupId($groupTailGrab);
+        $tailGrab->setTricksDescription('Seizure of the rear part of the board, with the back hand');
+        $tailGrab->setTricksGroupId($this->getReference(GroupFixtures::LIST[1]));
+        $this->addReference(self::TAIL_GRAB, $tailGrab);
         $manager->persist($tailGrab);
         
         $noseGrab = new Tricks();
         $noseGrab->setTricksName('Nose grab');
-        $noseGrab->setTricksDescriptions('Seizure of the front part of the board, with the front hand');
-        $noseGrab->setTricksDate(date("d-m-Y"));
-        $groupNoseGrab = $manager->getRepository(Group::class)->find(1);
-        $noseGrab->setTricksGroupId($groupNoseGrab);
+        $noseGrab->setTricksDescription('Seizure of the front part of the board, with the front hand');
+        $noseGrab->setTricksGroupId($this->getReference(GroupFixtures::LIST[3]));
+        $this->addReference(self::NOSE_GRAB, $noseGrab);
         $manager->persist($noseGrab);
         
         $seatBelt = new Tricks();
         $seatBelt->setTricksName('Seat belt');
-        $seatBelt->setTricksDescriptions('Seizure of the frontside edge at the back with the front hand');
-        $seatBelt->setTricksDate(date("d-m-Y"));
-        $groupSeatBelt = $manager->getRepository(Group::class)->find(1);
-        $seatBelt->setTricksGroupId($groupSeatBelt);
+        $seatBelt->setTricksDescription('Seizure of the frontside edge at the back with the front hand');
+        $seatBelt->setTricksGroupId($this->getReference(GroupFixtures::LIST[1]));
+        $this->addReference(self::SEA_BELT, $seatBelt);
         $manager->persist($seatBelt);
     
         $truckDriver = new Tricks();
         $truckDriver->setTricksName('Truck driver');
-        $truckDriver->setTricksDescriptions('Seizure of the front and rear edges with each hand (like holding a car steering wheel)');
-        $truckDriver->setTricksDate(date("d-m-Y"));
-        $groupTruckDriver = $manager->getRepository(Group::class)->find(1);
-        $truckDriver->setTricksGroupId($groupTruckDriver);
+        $truckDriver->setTricksDescription('Seizure of the front and rear edges with each hand (like holding a car steering wheel)');
+        $truckDriver->setTricksGroupId($this->getReference(GroupFixtures::LIST[1]));
+        $this->addReference(self::TRUCK_DRIVER, $truckDriver);
         $manager->persist($truckDriver);
             
         $rotation360 = new Tricks();
         $rotation360->setTricksName('Rotation 360°');
-        $rotation360->setTricksDescriptions('Grasping the frontside edge of the board between the two feet with the front hand.');
-        $rotation360->setTricksDate(date("d-m-Y"));
-        $groupRotation360 = $manager->getRepository(Group::class)->find(3);
-        $rotation360->setTricksGroupId($groupRotation360);
+        $rotation360->setTricksDescription('Grasping the frontside edge of the board between the two feet with the front hand.');
+        $rotation360->setTricksGroupId($this->getReference(GroupFixtures::LIST[1]));
+        $this->addReference(self::ROTATION_360, $rotation360);
         $manager->persist($rotation360);
             
         $rotation180 = new Tricks();
         $rotation180->setTricksName('Rotation 180°');
-        $rotation180->setTricksDescriptions('Turn on 360 degrees during your flight');
-        $rotation180->setTricksDate(date("d-m-Y"));
-        $groupRotation180 = $manager->getRepository(Group::class)->find(3);
-        $rotation180->setTricksGroupId($groupRotation180);
+        $rotation180->setTricksDescription('Turn on 360 degrees during your flight');
+        $rotation180->setTricksGroupId($this->getReference(GroupFixtures::LIST[1]));
+        $this->addReference(self::ROTATION_180, $rotation180);
         $manager->persist($rotation180);
                     
         $japanAir = new Tricks();
         $japanAir->setTricksName('Japan air');
-        $japanAir->setTricksDescriptions("Seizure between your tails and your nose of the board. When you're on flight, you must turn your left foot to tuch your right hand.");
-        $japanAir->setTricksDate(date("d-m-Y"));
-        $groupJapanAir = $manager->getRepository(Group::class)->find(1);
-        $japanAir->setTricksGroupId($groupJapanAir);
+        $japanAir->setTricksDescription("Seizure between your tails and your nose of the board. When you're on flight, you must turn your left foot to tuch your right hand.");
+        $japanAir->setTricksGroupId($this->getReference(GroupFixtures::LIST[1]));
+        $this->addReference(self::JAPAN_AIR, $japanAir);
         $manager->persist($japanAir);
-        
-        $manager->flush();       
-        
+                
         $rocketAir = new Tricks();
         $rocketAir->setTricksName('Rocket air');
-        $rocketAir->setTricksDescriptions("The front hand grabs the toe edge in front of the front foot (mute) and the back leg is boned while the board points perpendicular to the ground.");
-        $rocketAir->setTricksDate(date("d-m-Y"));
-        $groupRocketAir = $manager->getRepository(Group::class)->find(1);
-        $rocketAir->setTricksGroupId($groupRocketAir);
+        $rocketAir->setTricksDescription("The front hand grabs the toe edge in front of the front foot (mute) and the back leg is boned while the board points perpendicular to the ground.");
+        $rocketAir->setTricksGroupId($this->getReference(GroupFixtures::LIST[1]));
+        $this->addReference(self::ROCKET_AIR, $rocketAir);
         $manager->persist($rocketAir);
         
         $manager->flush();
-
-        $this->addReference($mute, $indy, $stalefish, $tailGrab, $noseGrab, $seatBelt, $truckDriver, $rotation180, $rotation360, $japanAir,$rocketAir);
     }
     
     public function getDependencies()

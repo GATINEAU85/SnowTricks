@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {    
     /**
-     * @Route("/projet6/public/login", name="app_login")
+     * @Route("/public/login", name="app_login")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {   
@@ -32,7 +32,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/projet6/admin/logout", name="app_logout")
+     * @Route("/admin/logout", name="app_logout")
      */
     public function logout()
     {
@@ -41,7 +41,7 @@ class SecurityController extends AbstractController
     }
     
      /**
-     * @Route("/projet6/public/forgotPassword", name="forgotPassword")
+     * @Route("/public/forgotPassword", name="forgotPassword")
      */
     public function forgotPassword(Request $request, \Swift_Mailer $mailer)
     {
@@ -83,7 +83,7 @@ class SecurityController extends AbstractController
     /**
      * Réinitilisation du mot de passe si le token est correct
      * 
-     * @Route("/projet6/public/resetPassword", name="resetPassword")
+     * @Route("/public/resetPassword", name="resetPassword")
      */
     public function resetPassword(Request $request, $pseudo, $token)
     {

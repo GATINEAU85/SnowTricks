@@ -155,17 +155,6 @@ class User implements UserInterface
         return $this;
     }
 
-//    public function removeTricksFiles(Files $tricksFiles): self {
-//        if ($this->tricksFiles->contains($tricksFiles)) {
-//            $this->tricksFiles->removeElement($tricksFiles);
-//            // set the owning side to null (unless already changed)
-//            if ($tricksFiles->getFilesTricks() === $this) {
-//                $tricksFiles->setFilesTricks(null);
-//            }
-//        }
-//        return $this;
-//    }
-
     /**
      * A visual identifier that represents this user.
      *

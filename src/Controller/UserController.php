@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class UserController extends AbstractController
 {    
     /**
-     * @Route("projet6/public/create/user", name="createUser")
+     * @Route("/public/create/user", name="createUser")
      * @return JsonResponse
      */
     public function createUser(Request $request)
@@ -50,7 +50,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("projet6/admin/get/account", name="app_account")
+     * @Route("/admin/get/account", name="app_account")
      * @return JsonResponse
      */
     public function getOwnAccount()
@@ -62,7 +62,7 @@ class UserController extends AbstractController
     }
     
     /**
-     * @Route("projet6/admin/get/user/{id}", name="getOwnUser")
+     * @Route("/admin/get/user/{id}", name="getOwnUser")
      * @return JsonResponse
      */
     public function getOwnUser(int $id)
@@ -76,7 +76,7 @@ class UserController extends AbstractController
     }
     
     /**
-     * @Route("projet6/admin/add/photoProfile", name="addPhotoProfile")
+     * @Route("/admin/add/photoProfile", name="addPhotoProfile")
      * @return JsonResponse
      */
     public function addPhotoProfile(Request $request)
@@ -92,7 +92,7 @@ class UserController extends AbstractController
     }
         
     /**
-     * @Route("projet6/admin/update/password", name="updatePassword")
+     * @Route("/admin/update/password", name="updatePassword")
      * @return JsonResponse
      */
     public function updatePassword(Request $request)
@@ -119,7 +119,7 @@ class UserController extends AbstractController
     }     
     
     /**
-     * @Route("projet6/admin/delete/account", name="deleteAccount")
+     * @Route("/admin/delete/account", name="deleteAccount")
      * @return JsonResponse
      */
     public function deleteAccount()

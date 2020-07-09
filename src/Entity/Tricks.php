@@ -13,7 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="tricks")
  * @ORM\Entity
  */
-class Tricks {
+class Tricks
+{
 
     /**
      * @var int
@@ -41,14 +42,6 @@ class Tricks {
      * @Assert\Length(min="25", minMessage="The description is to short. 25 characters minimum")
      */
     private $tricksDescription;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="tricks_date", type="datetime", nullable=false)
-     * @Assert\Date
-     */
-    private $tricksDate;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Files", mappedBy="filesTricks", cascade={"remove"})
@@ -95,16 +88,6 @@ class Tricks {
 
     public function setTricksDescription(?string $tricksDescription): self {
         $this->tricksDescription = $tricksDescription;
-
-        return $this;
-    }
-
-    public function getTricksDate(): ?\DateTimeInterface {
-        return $this->tricksDate;
-    }
-
-    public function setTricksDate(?\DateTimeInterface $tricksDate): self {
-        $this->tricksDate = $tricksDate;
 
         return $this;
     }
