@@ -70,11 +70,15 @@
                         <div class="col-lg-3">
                             {% set files = trick.tricksFiles|first %}
                             <a href="get/trick/{{ trick.tricksId }}"  width="140" height="140">
-                                {% if files.filesType == "video" %}
-                                    {% set videoName = files.filesUrl|split('/')  %}
-                                    <img class='image p-10 cur-p img-fluid' src='https://img.youtube.com/vi/{{videoName|last}}/default.jpg' height=""/>
-                                {% else %}               
-                                    <img class="img-fluid" src="/files{% if files %}{{ files.filesUrl }}{% endif %}" alt="Trick placeholder image">
+                                {% if files %}
+                                    {% if files.filesType == "video" %}
+                                        {% set videoName = files.filesUrl|split('/')  %}
+                                        <img class='image p-10 cur-p img-fluid' src='https://img.youtube.com/vi/{{videoName|last}}/default.jpg' height=""/>
+                                    {% else %}               
+                                        <img class="img-fluid" src="/files{% if files %}{{ files.filesUrl }}{% endif %}" alt="Trick placeholder image">
+                                    {% endif %}
+                                {% else %}
+                                        <img class="img-fluid" src="https://www.freeiconspng.com/uploads/no-image-icon-11.PNG" alt="Trick placeholder image">
                                 {% endif %}
                             </a>
                             <h3>{{ trick.tricksName }}</h3>

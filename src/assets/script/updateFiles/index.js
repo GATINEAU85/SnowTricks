@@ -55,7 +55,7 @@ $(".updateFile").click(function () {
     
     $.ajax({
         // url : 'insertDb', 
-        url: "/projet6/admin/update/trick/" + trickId + "/update/file/" + fileId,
+        url: "/admin/update/trick/" + trickId + "/update/file/" + fileId,
         type: 'POST',
         cache: true,
         data: insertionChamp,

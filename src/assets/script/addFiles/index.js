@@ -95,7 +95,7 @@ $(".addFileInCarrousel").click(function () {
 
     $.ajax({
         // url : 'insertDb', 
-        url: "/projet6/admin/update/trick/" + trickId + "/create/file",
+        url: "/admin/update/trick/" + trickId + "/create/file",
         type: 'POST',
         cache: true,
         data: {
@@ -161,12 +161,21 @@ $(".createTricks").click(function () {
             };
             trickData.files.push(file);
         });
+    }else{
+        $("#statusTricksCreation")
+                .html("You must insert at least one file.")
+                .addClass('alert alert-danger ta-c w-100')
+                .fadeIn(1000)
+                .delay(2000)
+                .fadeOut(1000)
+                .focus();
+        return;
     }
     $('#modalAddFile').modal("hide");
 
     $.ajax({
         // url : 'insertDb', 
-        url: "/projet6/admin/create/tricks",
+        url: "/admin/create/tricks",
         type: 'POST',
         cache: true,
         data: trickData,
@@ -179,7 +188,8 @@ $(".createTricks").click(function () {
                     .html("This trick is created.")
                     .fadeIn(1000)
                     .delay(2000)
-                    .fadeOut(1000);
+                    .fadeOut(1000)
+                    .focus();
                 document.location.reload();
             }
         },
