@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,7 +16,7 @@ class Group
     /**
      * @var int
      *
-     * @ORM\Column(name="group_id", type="integer", nullable=false)
+     * @ORM\Column(name="group_id", type="integer", nullable=false, unique=true)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="group_group_id_seq", allocationSize=1, initialValue=1)
@@ -27,6 +28,7 @@ class Group
      * @var string|null
      *
      * @ORM\Column(name="group_name", type="string", length=255, nullable=false)
+     * @Assert\Length(max="255", minMessage="The name is to long. 255 characters maximum")
      */
     private $groupName;
 

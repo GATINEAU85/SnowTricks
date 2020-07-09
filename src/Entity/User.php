@@ -1,13 +1,10 @@
 <?php
 
 namespace App\Entity;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Security\Core\User\UserInterface;
 
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,7 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="users")
  * @ORM\Entity
- * @UniqueEntity("pseudo", message="Pseudo already use")
+ * @UniqueEntity("pseudo", message="Pseudo is already use")
+ * @UniqueEntity("mail", message="Mail is already use")
  */
 class User implements UserInterface
 {
@@ -30,27 +28,30 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @var string|null
+     * @var string
      *
      * @ORM\Column(name="users_pseudo", type="string", length=255, nullable=false, unique=true)
      * @Assert\NotBlank
+     * @Assert\NotNull
      */
     private $pseudo;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="users_email", type="text", nullable=false)
+     * @ORM\Column(name="users_email", type="string", nullable=false, unique=true)
      * @Assert\Email()
      * @Assert\NotBlank
      */
     private $email;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="users_password", type="text", nullable=false)
+     * @ORM\Column(name="users_password", type="string", nullable=false)
      * @Assert\Length(min="8", minMessage="Password to short")
+     * @Assert\NotBlank
+
      */
     private $password;
     
@@ -60,12 +61,12 @@ class User implements UserInterface
     private $confirmPassword;
 
     /**
-     * @var string|null
+     * @var string
      */
     private $token;
     
     /**
-     * @var string|null
+     * @var string
      *
      * @ORM\Column(name="users_photo", type="string", length=255, nullable=true)
      */

@@ -65,7 +65,14 @@
                     {% if loop.index < limitTricks %}
                         <div class="col-lg-3">
                             {% set files = trick.tricksFiles|first %}
-                            <a href="get/trick/{{ trick.tricksId }}"  width="140" height="140"><img class="img-fluid" src="/files{% if files %}{{ files.filesUrl }}{% endif %}" alt="Trick placeholder image"></a>
+                            <a href="get/trick/{{ trick.tricksId }}"  width="140" height="140">
+                                {% if files.filesType == "video" %}
+                                    {% set videoName = files.filesUrl|split('/')  %}
+                                    <img class='image p-10 cur-p img-fluid' src='https://img.youtube.com/vi/{{videoName|last}}/default.jpg' height=""/>
+                                {% else %}               
+                                    <img class="img-fluid" src="/files{% if files %}{{ files.filesUrl }}{% endif %}" alt="Trick placeholder image">
+                                {% endif %}
+                            </a>
                             <h3>{{ trick.tricksName }}</h3>
                             {% if is_granted('ROLE_USER') %}
                                 <a href="{{ path ('deleteTricks', {trickId : trick.tricksId})}}" onclick="return confirm('This tricks will be remove from SnowTricks, are you sure you want to delete this ?')"><i class="fa fa-trash"></i></a>
@@ -104,31 +111,6 @@
                   <img src="/img/contact.png" class="mt-2" style="max-height:320px"/>
               </div>
               <div class="col-md-4" text-center>
-{#                  <form name="contactForm" id="contactForm" methode="post" action="index.php?action=contactMe">
-                  <div class="control-group">
-                    <div class="form-group floating-label-form-group controls">
-                      <input type="text" class="form-control" placeholder="Name" id="envoiName"  name="envoiName" required data-validation-required-message="Entrez votre nom.">
-                      <p class="help-block text-danger"></p>
-                    </div>
-                  </div>
-                  <div class="control-group">
-                    <div class="form-group floating-label-form-group controls">
-                      <input type="email" class="form-control" placeholder="Email" id="envoiMail" name="envoiMail" required data-validation-required-message="Entrez votre adresse mail">
-                      <p class="help-block text-danger"></p>
-                    </div>
-                  </div>
-                  <div class="control-group">
-                    <div class="form-group floating-label-form-group controls">
-                      <textarea rows="5" class="form-control" placeholder="Message" id="envoiMessage" name="envoiMessage" required data-validation-required-message="Entrez un message"></textarea>
-                      <p class="help-block text-danger"></p>
-                    </div>
-                  </div>
-                  <br>
-                  <div id="success"></div>
-                  <div class="form-group text-left">
-                    <button type="submit" class="btn btn-primary  btn-xl" id="sendMessageButton">SEND MESSAGE</button>
-                  </div>
-                </form>#}
                 {{ form_start(contactForm) }}
                     {{ form_row(contactForm.name) }}
                     {{ form_row(contactForm.email) }}

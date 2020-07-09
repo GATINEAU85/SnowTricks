@@ -25,11 +25,21 @@ $(".updateFile").click(function () {
     var videoInput = $("#videoLinkUpdate").val();
 
     if (videoInput !== ""){
-        if($("#videoLinkUpdate").val() !== ""){
+        if($("#videoLinkUpdate").val() !== "" && $("#videoNameUpdate").val() !== ""){
             insertionChamp["fileName"] = $("#videoNameUpdate").val();
             insertionChamp["fileType"] = "video";
             insertionChamp["fileUrl"] = $("#videoLinkUpdate").val();
             insertionChamp["fileDate"] = $.now();
+        }else{
+            if($("#videoNameUpdate").val() !== ""){
+                $("#videoNameUpdate").addClass("is-invalid").focus();
+                $("#videoNameUpdateMessage").html("The name field is empty.");
+                return;
+            }else if($("#videoLinkUpdate").val() !== ""){
+                $("#videoLinkUpdate").addClass("is-invalid").focus();
+                $("#videoLinkUpdateMessage").html("The URL field is empty.");
+                return;
+            }
         };
     }else{
         if (updateFileTricksDropzoneForm.dropzone.files.length !== 0) {

@@ -12,50 +12,14 @@ Differentes issues are made. They was been gradually resolved during the develop
 ## Project
 
 This project took place in continuity with my work-study training in web development at openclassrooms.
-
-### Use case
-
-To show us the differents use case that can be use by the actor of the project. 
-
-#### Tricks use case
-
-![Use case diagram on the tricks use package](http://51.15.234.228/projet6/public/files/uml/UseCaseTricks.png)
-
-#### User use case
-
-![Use case diagram on the user use package](http://51.15.234.228/projet6/public/files/uml/UseCaseUser.png)
-
-#### Discuss use case
-
-![Use case diagram on the discussion use package](http://51.15.234.228/projet6/public/files/uml/UseCaseDiscuss.png)
-
-### Diagram Class
-
-![Class diagram](http://51.15.234.228/projet6/public/files/uml/DiagramClass.png)
-
-### Diagram Sequence
-
-#### Tricks sequence
-
-![Sequence diagram on the visit use package](http://51.15.234.228/projet6/public/files/uml/TricksSequence.png)
-
-#### User sequence
-
-![Sequence diagram on the administration use package](http://51.15.234.228/projet6/public/files/uml/UserSequence.png)
-
-#### Discuss sequence
-
-![Sequence diagram on the discussion use package](http://51.15.234.228/projet6/public/files/uml/DiscussSequence.png)
-
-### Data Model
-
-![Data Model](http://51.15.234.228/projet6/public/files/uml/DataModel.jpg)
+UML diagram are present on the path : App\public\files\uml. It could be help you to understand this projet. 
 
 ## Install 
 
-1. Run command : `git https://github.com/GATINEAU85/SnowTricks.git`
-2. Run command : `cd projet6`
+1. Run command : `git clone https://github.com/GATINEAU85/SnowTricks.git`
+2. Run command : `cd snowtricks`
 3. Run command in bash `composer install`
+4. Set environnement variables of the project thanks to the file that I joined you.
 
 ## More 
 
@@ -63,9 +27,16 @@ To show us the differents use case that can be use by the actor of the project.
 ```php
     DATABASE_URL=pgsql://user:password@host:port/database
 ```
-2. Import database.sql in your database (App/sql/database.sql) : `psql -d snowtricks -f sql/backup.sql`
+2. Data choices
+    1. Choose to import database.sql in your database (App/sql/database.sql) : `psql -d snowtricks -f sql/backup.sql`
 
 It's important to import this model of database to have a well function site.
+
+    2. Choose to import dataset thanks to the DataFixtures of the project. 
+
+```php
+    php bin/console doctrine:fixtures:load
+```
 
 ## Code Analyse
 

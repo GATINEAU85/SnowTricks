@@ -7,20 +7,62 @@ use App\Entity\Tricks;
 use App\Entity\Files;
 use App\Entity\Group;
 use App\Entity\Message;
-use App\Service\FileUploader;
 use App\Form\MessageType;
 use App\Form\ContactType;
 use App\Form\TricksType;
+use App\Service\PaginationService;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\String\Slugger\SluggerInterface;
-//use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TricksController extends AbstractController {
+    const ITEMS_PER_PAGE = 8;
+
+    /**
+     * @Route("projet6/public/index", name="app_index")
+     * @return JsonResponse
+     */
+    public function getIndex(Request $request, \Swift_Mailer $mailer, PaginationService $pagination) {
+        $em = $this->getDoctrine()->getManager();
+        $tricks = $em->getRepository(Tricks::class)->findAll();
+                
+        $limit = 9;
+        
+        $form = $this->createForm(ContactType::class);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $contact = $form->getData();
+
+            // On crée le message
+            $message = (new \Swift_Message('Nouveau contact'))
+                // On attribue l'expéditeur
+                ->setFrom($contact['email'])
+                // On attribue le destinataire
+                ->setTo($this->getParameter('administrator_email'))
+                // On crée le texte avec la vue
+                ->setBody($this->renderView('emails/contact.html.twig', compact('contact')),'text/html');
+            
+            $mailer->send($message);
+            $this->addFlash('success', 'This message is send.');
+        }
+        if ($request->query->get('action')){
+            if ($request->query->get('action') == "getAllTricks"){
+                $limit = count($tricks) + 1;
+            }
+        };
+        
+        $query   = $em->createQuery("SELECT '*' FROM App\Entity\Tricks p ORDER BY p.tricksId ASC");
+        $results = $pagination->paginate($query, $request, self::ITEMS_PER_PAGE);
+
+        return $this->render("index.html.twig", [
+            'limitTricks' => $limit,
+            'tricks' => $tricks,
+            'contactForm' => $form->createView(),
+            'lastPage' => $pagination->lastPage($results)
+        ]);
+    }
 
     /**
      * @Route("projet6/public/home", name="app_homepage")
@@ -102,59 +144,6 @@ class TricksController extends AbstractController {
                     'limitMessage' => $limit,
                     'trick' => $trick,
                     'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("projet6/admin/create/trick", name="createTrick")
-     * @return JsonResponse
-     */
-    public function createTrick(Request $request) {
-        $em = $this->getDoctrine()->getManager();
-        $newFilename = $this->getParameter('files_directory');
-
-        //Création du nouveau message
-        $tricks = new Tricks();
-        $form = $this->createForm(TricksType::class, $tricks);
-        $form->handleRequest($request);
-
-//        $tricks->setTricksName($form->get('tricksName')->getData());
-//        $tricks->setTricksDescription($form->get('tricksDescription')->getData());
-//        $tricks->setTricksGroupId($form->get('tricksGroupId')->getData());
-//        $tricks->setTricksDate(new \DateTime("NOW"));
-        
-
-        $formFiles = $form->get('tricksFiles')->getData();
-
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-            $tabFiles = [];
-            foreach ($formFiles as $formFile) {
-                $originalFilename = pathinfo($formFile['file']->getClientOriginalName(), PATHINFO_FILENAME);
-                $originalFilename = $originalFilename . '.' . $formFile['file']->guessExtension();
-                try {
-                    $formFile['file']->move($newFilename, $originalFilename);
-                    $file = new Files();
-                    $file->setFilesName($newFilename);
-                    $file->setFilesUrl('/' . $newFilename);
-                    
-                    $tabFiles[] = $file;
-//                    $em->persist($file);
-                }catch (Exception $ex) {
-                }
-            };
-//            $tricks = $form->getData();
-//            
-//            var_dump($tricks);
-            $tricks->addTricksFiles($tabFiles);
-            $em->persist($tricks);
-            $em->flush();
-//        return $this->redirectToRoute('task_success');
-        }
-
-        return $this->render("createTrick.html.twig", [
-            'form' => $form->createView(),
-            'status' => "ok"
         ]);
     }
 
@@ -284,7 +273,6 @@ class TricksController extends AbstractController {
         if($request->request->get("fileName")){
             $file->setFilesName($request->request->get("fileName"));
             $file->setFilesUrl($request->request->get("fileUrl"));
-            // $file->setFilesDate($request->request->get("fileDate"));
             $file->setFilesTricks($trick);
             
             $em->persist($file);
@@ -292,9 +280,6 @@ class TricksController extends AbstractController {
             
             return new JsonResponse(array('status' => 'success'));
         }
-        
-        // $form = $this->createForm(TricksType::class, $tricks);
-        // $form->handleRequest($request);
         
         return $this->redirectToRoute('updateTricks', [
                     'trickId' => $trickId,
@@ -314,7 +299,6 @@ class TricksController extends AbstractController {
             $file->setFilesName($request->request->get("fileName"));
             $file->setFilesUrl($request->request->get("fileUrl"));
             $file->setFilesType($request->request->get("fileType"));
-//             $file->setFilesDate($request->request->get("fileDate"));
             $file->setFilesTricks($trick);
             
             $em->persist($file);

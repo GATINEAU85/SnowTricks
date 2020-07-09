@@ -24,7 +24,7 @@ class Message
     private $messageId;
 
     /**
-     * @var string|null
+     * @var string
      *
      * @ORM\Column(name="message_content", type="string", length=255, nullable=false)
      * @Assert\NotBlank
@@ -33,9 +33,10 @@ class Message
     private $messageContent;
 
     /**
-     * @var \DateTime|null
+     * @var \DateTime
      *
-     * @ORM\Column(name="message_date", type="datetime", nullable=true)
+     * @ORM\Column(name="message_date", type="datetime", nullable=false)
+     * @Assert\DateTime(message="This field must be a datetime value")
      */
     private $messageDate;
 

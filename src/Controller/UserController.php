@@ -4,22 +4,16 @@ namespace App\Controller;
 
 
 use App\Entity\User;
-use App\Entity\Files;
 use App\Entity\Message;
-use App\Form\SecurityType;
 use App\Form\UpdatePasswordType;
 use App\Form\RegisterType;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Session\Session;
-
-use DateTime;
 
 class UserController extends AbstractController
 {    
@@ -30,38 +24,15 @@ class UserController extends AbstractController
     public function createUser(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-//        $newFilename = $this->getParameter('files_directory');
-
         //Création du nouveau message
         $user = new User();
         $form = $this->createForm(RegisterType::class, $user);
         $form->handleRequest($request);
-        
-//        $formFiles = $form->get('userFiles')->getData();
-        
+                
         if ($form->isSubmitted() && $form->isValid()) {
-            //Insertion des données du user
-//            var_dump($formFiles[0]['file']);
             $user = $form->getData();
             $user->setPassword(password_hash($user->getPassword(),PASSWORD_BCRYPT));
             $user->setRoles(array('ROLE_ADMIN'));
-            
-//            //Déplacement du fichier
-//            $originalFilename = pathinfo($formFiles['file']->getClientOriginalName(), PATHINFO_FILENAME);
-//            $originalFilename = $originalFilename . '.' . $formFiles['file']->guessExtension();
-//            $formFiles['file']->move($newFilename, $originalFilename);
-//            
-//            //Création du fichier
-//            $file = new Files();
-//            $file->setFilesName($newFilename);
-//            $file->setFilesUrl('/' . $newFilename);
-//            
-//            //Insertion de la FK
-////            $user->setUserFiles($file->getFilesName());
-//            $user->setFiles($file);
-//            
-//            //MAJ du file
-//            $em->persist($file);
             
             //MAJ du user
             $em->persist($user);
@@ -77,46 +48,7 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    
-//        /**
-//     * @Route("projet6/public/create/account", name="createAccount")
-//     * @return JsonResponse
-//     */
-//    public function createAccount(Request $request)
-//    {
-//        $em = $this->getDoctrine()->getManager();
-//        $newFilename = $this->getParameter('files_directory');
-//
-//        if($request->request->get('userPseudo')){
-//            //Création du nouveau message
-//            $user = new User();
-//
-//            //Insertion des données du user
-//            $user->setPseudo($request->request->get('userPseudo'));
-//            $user->setEmail($request->request->get('userEmail'));
-//            $user->setPassword(password_hash($request->request->get('userPassword'),PASSWORD_BCRYPT));
-//            $user->setRoles(array('ROLE_ADMIN'));
-//
-//            //Création du fichier
-//            $file = new Files();
-//            $file->setFilesName($request->request->get('fileName'));
-//            $file->setFilesType("image");
-//            $file->setFilesUrl('/' . $request->request->get('fileName'));
-//
-//            //Insertion de la FK
-//            $user->setUserFiles($file);
-//
-//            //MAJ du file
-//            $em->persist($file);
-//
-//            //MAJ du user
-//            $em->persist($user);
-//            $em->flush();
-//        }
-//        
-//        return $this->render("register.html.twig");
-//    }
-    
+
     /**
      * @Route("projet6/admin/get/account", name="app_account")
      * @return JsonResponse
@@ -143,7 +75,6 @@ class UserController extends AbstractController
         ]);
     }
     
-        
     /**
      * @Route("projet6/admin/add/photoProfile", name="addPhotoProfile")
      * @return JsonResponse
@@ -154,18 +85,6 @@ class UserController extends AbstractController
         $user = $this->getUser();
         $user->setPhoto($request->request->get('fileName'));
         
-//        //Création du fichier
-//        $file = new Files();
-//        $file->setFilesName($request->request->get('fileName'));
-//        $file->setFilesType("image");
-//        $file->setFilesUrl('/' . $request->request->get('fileName'));
-//
-//        //Insertion de la FK
-//        $user->setUserFiles($file);
-//
-//        //MAJ du file
-//        $em->persist($file);
-
         //MAJ du user
         $em->persist($user);
         $em->flush();
@@ -183,14 +102,6 @@ class UserController extends AbstractController
 
         $form = $this->createForm(UpdatePasswordType::class, $user);
         $form->handleRequest($request);
-
-//        $password = $request->request->get('password');
-//        $confirmPassword = $request->request->get('confirmPassword');
-//        if ($password === $confirmPassword){
-//            $form->handleRequest($request);
-//        }else{
-//            throw new \RuntimeException('The two password are not the same.');
-//        }
                
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword(password_hash($user->getPassword(),PASSWORD_BCRYPT));
@@ -211,7 +122,7 @@ class UserController extends AbstractController
      * @Route("projet6/admin/delete/account", name="deleteAccount")
      * @return JsonResponse
      */
-    public function deleteAccount(Request $request)
+    public function deleteAccount()
     {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();

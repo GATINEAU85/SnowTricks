@@ -3,18 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\SecurityType;
 use App\Form\ResetPasswordType;
 use App\Form\ForgotPasswordType;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SecurityController extends AbstractController
 {    
@@ -23,20 +19,13 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {   
-//        $form = $this->createForm(SecurityType::class);
-//        if ($form->isSubmitted() && $form->isValid()) {
-            // get the login error if there is one
-            $error = $authenticationUtils->getLastAuthenticationError();
-            // last username entered by the user
-            $lastUsername = $authenticationUtils->getLastUsername();
-//        }else{
-//            $error = '';
-//            $lastUsername = '';
-//        }
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
 
         
         return $this->render('login.html.twig', [
-//            'form' => $form->createView(),
             'last_username' => $lastUsername, 
             'error' => $error
         ]);
