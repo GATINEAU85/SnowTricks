@@ -1,82 +1,12 @@
- //USE WITH SYMFONY IMAGE FORM
-$(document).ready(function() {
-    // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
-    var $container = $("div#tricks_tricksFiles");
-
-    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
-    var index = $container.find(":input").length;
-
-    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
-    $("#add_category").click(function(e) {
-      addCategory($container);
-
-      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
-      return false;
-    });
-
-    // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
-    if (index === 0) {
-      addCategory($container);
-    } else {
-      // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
-      $container.children('div').each(function() {
-        addDeleteLink($(this));
-      });
-    }
-
-    // La fonction qui ajoute un formulaire CategoryType
-    function addCategory($container) {
-      // Dans le contenu de l'attribut « data-prototype », on remplace :
-      // - le texte "__name__label__" qu'il contient par le label du champ
-      // - le texte "__name__" qu'il contient par le numéro du champ
-      var template = $container.attr("data-prototype")
-        .replace(/__name__label__/g, 'File n°' + (index+1))
-        .replace(/__name__/g,        index)
-      ;
-
-      // On crée un objet jquery qui contient ce template
-      var $prototype = $(template);
-
-      // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
-      addDeleteLink($prototype);
-
-      // On ajoute le prototype modifié à la fin de la balise <div>
-      $container.append($prototype);
-
-      // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
-      index++;
-    }
-
-    // La fonction qui ajoute un lien de suppression d'une catégorie
-    function addDeleteLink($prototype) {
-      // Création du lien
-      var $deleteLink = $("<a href='#' class='btn btn-danger'>Delete</a>");
-
-      // Ajout du lien
-      $prototype.append($deleteLink);
-
-      // Ajout du listener sur le clic du lien pour effectivement supprimer la catégorie
-      $deleteLink.click(function(e) {
-        $prototype.remove();
-
-        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
-        return false;
-      });
-    }
-});
-  
-//USE WITH DROPZONE
-$(".remove").click(function () {
-    confirm("This file will be remove from this add.");
-});
-
 $(".addPicture").click(function () {
+    $('#fileType').val("image");
     $("#modalAddFile").modal();
     $(".imagePart").show();
     $(".videoPart").hide();
 });
 
 $(".addVideo").click(function () {
+    $('#fileType').val("video");
     $('#modalAddFile').modal();
     $(".videoPart").show();
     $(".imagePart").hide();
@@ -86,26 +16,38 @@ $(".addVideo").click(function () {
 $(".addFileInTab").click(function () {
     //Création du tableau de parametre envoi 
     var insertionChamp = {};
-    var fileId = $("#fileId").val();
-    var trickId = $("#trickId").val();
-    var videoInput = $("#videoLink").val();
+    var fileType = $('#fileType').val();
 
-    if (videoInput !== ""){
-        if($("#videoLink").val() !== ""){
+    if (fileType === "video"){
+        if($("#videoLink").val() !== "" && $("#videoName").val() !== ""){
             var videoName = $("#videoName").val();
             var videoUrl = $("#videoLink").val();
-//            $("#contentTabFile").append("<tr><td>" + videoName + "</td><td class='cur-p'>" + videoUrl + "</td><td>Video</td><td><a class='removeFileTricks cur-p'><i class='fas fa-trash'></i></a></td></tr>")
-            $("#contentTabFile").append("<tr><td>" + videoName + "</td><td class='cur-p'>" + videoUrl + "</td><td>video</td></tr>")
+            //$("#contentTabFile").append("<tr><td>" + videoName + "</td><td class='cur-p'>" + videoUrl + "</td><td>Video</td><td><a class='removeFileTricks cur-p'><i class='fas fa-trash'></i></a></td></tr>")
+            $("#contentTabFile").append("<tr><td>" + videoName + "</td><td class='cur-p'>" + videoUrl + "</td><td>video</td></tr>");
             $('#modalAddFile').modal("hide");
+        }else{
+            $("#videoName").removeClass("is-invalid");
+            $("#videoNameMessage").html("");
+            $("#videoLink").removeClass("is-invalid");
+            $("#videoLinkMessage").html("");
+            if($("#videoName").val() === ""){
+                $("#videoName").addClass("is-invalid").focus();
+                $("#videoNameMessage").html("The name field is empty.");
+                return;
+            }else if($("#videoLink").val() === ""){
+                $("#videoLink").addClass("is-invalid").focus();
+                $("#videoLinkMessage").html("The URL field is empty.");
+                return;
+            }
         };
-    }else{
+    }else if(fileType === 'image') {
         if (addFileTricksDropzoneForm.dropzone.files.length !== 0) {
             var fileDropzoneUpdate = addFileTricksDropzoneForm.dropzone.files[0];
             pictureName = fileDropzoneUpdate.name;
             pictureUrl = "/" + fileDropzoneUpdate.name;
             insertionChamp["fileDate"] = $.now();
-//            $("#contentTabFile").append("<tr><td>" + pictureName + "</td><td class='cur-p'>" + pictureUrl + "</td><td>Picture</td><td><a class='removeFileTricks cur-p'><i class='fas fa-trash'></i></a></td></tr>")
-            $("#contentTabFile").append("<tr><td>" + pictureName + "</td><td class='cur-p'>" + pictureUrl + "</td><td>image</td></tr>")
+            //$("#contentTabFile").append("<tr><td>" + pictureName + "</td><td class='cur-p'>" + pictureUrl + "</td><td>Picture</td><td><a class='removeFileTricks cur-p'><i class='fas fa-trash'></i></a></td></tr>")
+            $("#contentTabFile").append("<tr><td>" + pictureName + "</td><td class='cur-p'>" + pictureUrl + "</td><td>image</td></tr>");
             addFileTricksDropzoneForm.dropzone.files.forEach(function(file) { 
                 file.previewElement.remove(); 
             });
@@ -124,19 +66,34 @@ $(".addFileInCarrousel").click(function () {
     var insertionChamp = {};
     var fileId = $("#fileId").val();
     var trickId = $("#trickId").val();
+    var fileType = $('#fileType').val();
     var videoInput = $("#videoLink").val();
 
-    if (videoInput !== ""){
-        if($("#videoLink").val() !== ""){
+    if (fileType === "video"){
+        if($("#videoLink").val() !== "" && $("#videoName").val() !== ""){
             var fileName = $("#videoName").val();
             var fileUrl = $("#videoLink").val();
             var fileType = "video";
             var fileDate = $.now();
-            $("#modalAddFile").modal("hide");
+            $('#modalAddFile').modal("hide");
             $("#videoNameUpdate").val("");
             $("#videoLinkUpdate").val("");
+        }else{
+            $("#videoName").removeClass("is-invalid");
+            $("#videoNameMessage").html("");
+            $("#videoLink").removeClass("is-invalid");
+            $("#videoLinkMessage").html("");
+            if($("#videoName").val() === ""){
+                $("#videoName").addClass("is-invalid").focus();
+                $("#videoNameMessage").html("The name field is empty.");
+                return;
+            }else if($("#videoLink").val() === ""){
+                $("#videoLink").addClass("is-invalid").focus();
+                $("#videoLinkMessage").html("The URL field is empty.");
+                return;
+            }
         };
-    }else{
+    }else if (fileType === "image"){
         if (addFileTricksDropzoneForm.dropzone.files.length !== 0) {
             var fileDropzoneUpdate = addFileTricksDropzoneForm.dropzone.files[0];
             var fileName = fileDropzoneUpdate.name;
@@ -152,7 +109,7 @@ $(".addFileInCarrousel").click(function () {
 
     $.ajax({
         // url : 'insertDb', 
-        url: "/projet6/admin/update/trick/" + trickId + "/create/file",
+        url: "/admin/update/trick/" + trickId + "/create/file",
         type: 'POST',
         cache: true,
         data: {
@@ -183,16 +140,16 @@ $(".addFileInCarrousel").click(function () {
     });
 });
 
-//$(".removeFileTricks").click(function () {
-//    confirm('This file will not be insert on the creation off this trick.');
-//});
-
 //Create the tricks with all the files
 $(".createTricks").click(function () {
     //Création du tableau de parametre envoi 
     $("#nameTricks").removeClass('is-invalid');
     $("#descriptionTricks").removeClass('is-invalid');
     if ($("#nameTricks").val() !== "" && $("#descriptionTricks").val() !== "" && $("#descriptionTricks").val().length > 50 ) {
+        $("#nameTricks").removeClass("is-invalid");
+        $("#nameTricksMessage").html("");
+        $("#descriptionTricks").removeClass("is-invalid");
+        $("#descriptionTricksMessage").html("");
         var trickData = {
             nameTricks: $("#nameTricks").val(),
             groupTricks: $("#groupTricks").val(),
@@ -200,12 +157,18 @@ $(".createTricks").click(function () {
             files: []
         };
     }else{
+        $("#nameTricks").removeClass("is-invalid");
+        $("#nameTricksMessage").html("");
+        $("#descriptionTricks").removeClass("is-invalid");
+        $("#descriptionTricksMessage").html("");
         if ($("#nameTricks").val() === "") {
             $("#nameTricks").addClass("is-invalid").focus();
+            $("#nameTricksMessage").html("The name field is empty.");
             return;
         };
         if ($("#descriptionTricks").val() === "" || $("#descriptionTricks").val().length < 50) {
             $("#descriptionTricks").addClass("is-invalid").focus();
+            $("#descriptionTricksMessage").html("Your description is to short or empty. 50 characters minimum are required.");
             return;
         }
     }
@@ -220,12 +183,21 @@ $(".createTricks").click(function () {
             };
             trickData.files.push(file);
         });
+    }else{
+        $("#statusTricksCreation")
+                .html("You must insert at least one file.")
+                .addClass('alert alert-danger ta-c w-100')
+                .fadeIn(1000)
+                .delay(2000)
+                .fadeOut(1000)
+                .focus();
+        return;
     }
     $('#modalAddFile').modal("hide");
 
     $.ajax({
         // url : 'insertDb', 
-        url: "/projet6/admin/create/tricks",
+        url: "/admin/create/tricks",
         type: 'POST',
         cache: true,
         data: trickData,
@@ -238,7 +210,9 @@ $(".createTricks").click(function () {
                     .html("This trick is created.")
                     .fadeIn(1000)
                     .delay(2000)
-                    .fadeOut(1000);
+                    .fadeOut(1000)
+                    .focus();
+                document.location.reload();
             }
         },
         error : function (){

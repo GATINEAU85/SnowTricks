@@ -9,7 +9,7 @@ $(".createUser").click(function () {
 
     $.ajax({
         // url : 'insertDb', 
-        url: "/projet6/public/create/account",
+        url: "/public/create/account",
         type: 'POST',
         cache: true,
         data: userData,
@@ -38,7 +38,7 @@ $(".addUserPhoto").click(function () {
  
     $.ajax({
         // url : 'insertDb', 
-        url: "/projet6/admin/add/photoProfile",
+        url: "/admin/add/photoProfile",
         type: 'POST',
         cache: true,
         data: userData,

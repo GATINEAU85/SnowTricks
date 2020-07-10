@@ -10,7 +10,7 @@
           <h1 class="text-uppercase font-weight-bold">Create tricks</h1>
         </div>
         <div class="col-lg-8 align-self-baseline">
-          <a class="btn btn-primary btn-xl js-scroll-trigger" href="/projet6/public/home#tricks">ALL TRICKS</a>
+          <a class="btn btn-primary btn-xl js-scroll-trigger" href="{{ path ('app_homepage') }}#tricks">ALL TRICKS</a>
         </div>
       </div>
     </div>
@@ -23,16 +23,6 @@
         <div class="col-lg-8 mt-5 mb-5">
             <div class="row  justify-content-md-center">
                 <div class="col-10 ">
-{#                    {{ form_start(form) }}
-                        {{ form_row(form.tricksName) }}
-                        {{ form_row(form.tricksDescription) }}
-                        {{ form_row(form.tricksGroupId) }}
-                        {{ form_row(form.tricksFiles) }}
-                        <a href="#" id="add_category" class="btn btn-default">Add files</a>#}
-{#                        {{ form_row(form.tricksFiles) }}#}
-{#                        <button type="submit" class="btn btn-primary">SUBMIT</button>
-                    {{ form_end(form) }}#}
-{#                    <form action="{{ path ('createTricks') }}" id="" name="" method="POST">#}
                     {{ include('alerts.html.twig') }}
                     <div id="statusTricksCreation"></div>
                     <form>
@@ -40,6 +30,7 @@
                             <div class="col-6">
                                 <label for="nameTricks">Name</label>
                                 <input class="form-control" id='nameTricks' name="nameTricks" placeholder="Name" required/>
+                                <small id="nameTricksMessage" class='text-danger'></small>
                             </div>
                             <div class="col-6">
                                 <label for="groupTricks">Groups</label>
@@ -54,6 +45,7 @@
                             <div class="col-12">
                                 <label for="descriptionTricks">Description</label>
                                 <textarea class="form-control" id="descriptionTricks" name="descriptionTricks" required></textarea>
+                                <small id="descriptionTricksMessage" class='text-danger'></small>
                             </div>            
                         </div>            
                         <div class="row mt-3">
@@ -96,12 +88,17 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
+                                <input type="hidden" id="fileType"/>
                                 <div class="modal-body videoPart" >
                                     <div class="col-12">
                                         <label for="videoName">Video name</label>
-                                        <input class="form-control" name="videoName" id="videoName" placeholder="Video name"/>
+                                        <input class="form-control" name="videoName" id="videoName" placeholder="Video name" required/>
+                                        <small id="videoNameMessage" class='text-danger'></small>
+                                    </div>
+                                    <div class="col-12">
                                         <label for="videoLink">Video integration link</label>
-                                        <input class="form-control" name="videoLink" id="videoLink" placeholder="Video link"/>
+                                        <input class="form-control" name="videoLink" id="videoLink" placeholder="Video link" required/>
+                                        <small id="videoLinkMessage" class='text-danger'></small>
                                     </div>
                                 </div>
                                 <div class="modal-body imagePart">

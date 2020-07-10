@@ -3,47 +3,36 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\SecurityType;
 use App\Form\ResetPasswordType;
 use App\Form\ForgotPasswordType;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SecurityController extends AbstractController
 {    
     /**
-     * @Route("/projet6/public/login", name="app_login")
+     * @Route("/public/login", name="app_login")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {   
-//        $form = $this->createForm(SecurityType::class);
-//        if ($form->isSubmitted() && $form->isValid()) {
-            // get the login error if there is one
-            $error = $authenticationUtils->getLastAuthenticationError();
-            // last username entered by the user
-            $lastUsername = $authenticationUtils->getLastUsername();
-//        }else{
-//            $error = '';
-//            $lastUsername = '';
-//        }
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
 
         
         return $this->render('login.html.twig', [
-//            'form' => $form->createView(),
             'last_username' => $lastUsername, 
             'error' => $error
         ]);
     }
 
     /**
-     * @Route("/projet6/admin/logout", name="app_logout")
+     * @Route("/admin/logout", name="app_logout")
      */
     public function logout()
     {
@@ -52,7 +41,7 @@ class SecurityController extends AbstractController
     }
     
      /**
-     * @Route("/projet6/public/forgotPassword", name="forgotPassword")
+     * @Route("/public/forgotPassword", name="forgotPassword")
      */
     public function forgotPassword(Request $request, \Swift_Mailer $mailer)
     {
@@ -94,7 +83,7 @@ class SecurityController extends AbstractController
     /**
      * Réinitilisation du mot de passe si le token est correct
      * 
-     * @Route("/projet6/public/resetPassword", name="resetPassword")
+     * @Route("/public/resetPassword", name="resetPassword")
      */
     public function resetPassword(Request $request, $pseudo, $token)
     {
