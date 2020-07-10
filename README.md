@@ -40,10 +40,14 @@ UML diagram are present on the path : App\public\files\uml. It could be help you
     DATABASE_URL=pgsql://user:password@host:port/database
 ```
 
-2. Data choices
+2. Data choices : 
+
     Choose to import database.sql in your database (App/sql/database.sql) : `psql -d snowtricks -f sql/backup.sql`
-    OR
+
+OR
+
     Choose to import dataset thanks to the DataFixtures of the project. 
+
 
 ```php
     php bin/console doctrine:database:create : To create database which is configured on .env file
