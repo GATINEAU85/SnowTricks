@@ -13,12 +13,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="tricks")
  * @ORM\Entity
  */
-class Tricks {
+class Tricks
+{
 
     /**
      * @var int
      *
-     * @ORM\Column(name="tricks_id", type="integer", nullable=false)
+     * @ORM\Column(name="tricks_id", type="integer", nullable=false, unique=true)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="tricks_tricks_id_seq", allocationSize=1, initialValue=1)
@@ -26,7 +27,7 @@ class Tricks {
     private $tricksId;
 
     /**
-     * @var string|null
+     * @var string
      *
      * @ORM\Column(name="tricks_name", type="string", length=255, nullable=false)
      * @Assert\NotBlank
@@ -34,7 +35,7 @@ class Tricks {
     private $tricksName;
 
     /**
-     * @var string|null
+     * @var string
      *
      * @ORM\Column(name="tricks_description", type="text", nullable=false)
      * @Assert\NotBlank
@@ -43,14 +44,8 @@ class Tricks {
     private $tricksDescription;
 
     /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="tricks_date", type="datetime", nullable=false)
-     */
-    private $tricksDate;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Files", mappedBy="filesTricks", cascade={"remove"})
+     * @Assert\NotNull
      */
     private $tricksFiles;
 
@@ -93,16 +88,6 @@ class Tricks {
 
     public function setTricksDescription(?string $tricksDescription): self {
         $this->tricksDescription = $tricksDescription;
-
-        return $this;
-    }
-
-    public function getTricksDate(): ?\DateTimeInterface {
-        return $this->tricksDate;
-    }
-
-    public function setTricksDate(?\DateTimeInterface $tricksDate): self {
-        $this->tricksDate = $tricksDate;
 
         return $this;
     }
