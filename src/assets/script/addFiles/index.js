@@ -1,15 +1,12 @@
-//USE WITH DROPZONE
-$(".remove").click(function () {
-    confirm("This file will be remove from this add.");
-});
-
 $(".addPicture").click(function () {
+    $('#fileType').val("image");
     $("#modalAddFile").modal();
     $(".imagePart").show();
     $(".videoPart").hide();
 });
 
 $(".addVideo").click(function () {
+    $('#fileType').val("video");
     $('#modalAddFile').modal();
     $(".videoPart").show();
     $(".imagePart").hide();
@@ -19,11 +16,9 @@ $(".addVideo").click(function () {
 $(".addFileInTab").click(function () {
     //Création du tableau de parametre envoi 
     var insertionChamp = {};
-    var fileId = $("#fileId").val();
-    var trickId = $("#trickId").val();
-    var videoInput = $("#videoLink").val();
+    var fileType = $('#fileType').val();
 
-    if (videoInput !== ""){
+    if (fileType === "video"){
         if($("#videoLink").val() !== "" && $("#videoName").val() !== ""){
             var videoName = $("#videoName").val();
             var videoUrl = $("#videoLink").val();
@@ -31,17 +26,21 @@ $(".addFileInTab").click(function () {
             $("#contentTabFile").append("<tr><td>" + videoName + "</td><td class='cur-p'>" + videoUrl + "</td><td>video</td></tr>");
             $('#modalAddFile').modal("hide");
         }else{
-            if($("#videoName").val() !== ""){
+            $("#videoName").removeClass("is-invalid");
+            $("#videoNameMessage").html("");
+            $("#videoLink").removeClass("is-invalid");
+            $("#videoLinkMessage").html("");
+            if($("#videoName").val() === ""){
                 $("#videoName").addClass("is-invalid").focus();
                 $("#videoNameMessage").html("The name field is empty.");
                 return;
-            }else if($("#videoLink").val() !== ""){
+            }else if($("#videoLink").val() === ""){
                 $("#videoLink").addClass("is-invalid").focus();
                 $("#videoLinkMessage").html("The URL field is empty.");
                 return;
             }
         };
-    }else{
+    }else if(fileType === 'image') {
         if (addFileTricksDropzoneForm.dropzone.files.length !== 0) {
             var fileDropzoneUpdate = addFileTricksDropzoneForm.dropzone.files[0];
             pictureName = fileDropzoneUpdate.name;
@@ -67,19 +66,34 @@ $(".addFileInCarrousel").click(function () {
     var insertionChamp = {};
     var fileId = $("#fileId").val();
     var trickId = $("#trickId").val();
+    var fileType = $('#fileType').val();
     var videoInput = $("#videoLink").val();
 
-    if (videoInput !== ""){
-        if($("#videoLink").val() !== ""){
+    if (fileType === "video"){
+        if($("#videoLink").val() !== "" && $("#videoName").val() !== ""){
             var fileName = $("#videoName").val();
             var fileUrl = $("#videoLink").val();
             var fileType = "video";
             var fileDate = $.now();
-            $("#modalAddFile").modal("hide");
+            $('#modalAddFile').modal("hide");
             $("#videoNameUpdate").val("");
             $("#videoLinkUpdate").val("");
+        }else{
+            $("#videoName").removeClass("is-invalid");
+            $("#videoNameMessage").html("");
+            $("#videoLink").removeClass("is-invalid");
+            $("#videoLinkMessage").html("");
+            if($("#videoName").val() === ""){
+                $("#videoName").addClass("is-invalid").focus();
+                $("#videoNameMessage").html("The name field is empty.");
+                return;
+            }else if($("#videoLink").val() === ""){
+                $("#videoLink").addClass("is-invalid").focus();
+                $("#videoLinkMessage").html("The URL field is empty.");
+                return;
+            }
         };
-    }else{
+    }else if (fileType === "image"){
         if (addFileTricksDropzoneForm.dropzone.files.length !== 0) {
             var fileDropzoneUpdate = addFileTricksDropzoneForm.dropzone.files[0];
             var fileName = fileDropzoneUpdate.name;
@@ -132,6 +146,10 @@ $(".createTricks").click(function () {
     $("#nameTricks").removeClass('is-invalid');
     $("#descriptionTricks").removeClass('is-invalid');
     if ($("#nameTricks").val() !== "" && $("#descriptionTricks").val() !== "" && $("#descriptionTricks").val().length > 50 ) {
+        $("#nameTricks").removeClass("is-invalid");
+        $("#nameTricksMessage").html("");
+        $("#descriptionTricks").removeClass("is-invalid");
+        $("#descriptionTricksMessage").html("");
         var trickData = {
             nameTricks: $("#nameTricks").val(),
             groupTricks: $("#groupTricks").val(),
@@ -139,6 +157,10 @@ $(".createTricks").click(function () {
             files: []
         };
     }else{
+        $("#nameTricks").removeClass("is-invalid");
+        $("#nameTricksMessage").html("");
+        $("#descriptionTricks").removeClass("is-invalid");
+        $("#descriptionTricksMessage").html("");
         if ($("#nameTricks").val() === "") {
             $("#nameTricks").addClass("is-invalid").focus();
             $("#nameTricksMessage").html("The name field is empty.");

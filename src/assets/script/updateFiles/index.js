@@ -1,10 +1,6 @@
-
-$(".delete").click(function () {
-    confirm('This file will be delete from this tricks');
-});
-
 $(".updatePicture").click(function () {
     $('#modalUpdateFile').modal();
+    $('#fileTypeUpdate').val("image");
     $("#fileId").val($(this).attr("file"));
     $(".imagePart").show();
     $(".videoPart").hide();
@@ -12,6 +8,7 @@ $(".updatePicture").click(function () {
 
 $(".updateVideo").click(function () {
     $('#modalUpdateFile').modal();
+    $('#fileTypeUpdate').val("video");
     $("#fileId").val($(this).attr("file"));
     $(".videoPart").show();
     $(".imagePart").hide();
@@ -22,26 +19,30 @@ $(".updateFile").click(function () {
     var insertionChamp = {};
     var fileId = $("#fileId").val();
     var trickId = $("#trickId").val();
-    var videoInput = $("#videoLinkUpdate").val();
+    var fileType = $('#fileTypeUpdate').val();
 
-    if (videoInput !== ""){
+    if (fileType === "video"){
         if($("#videoLinkUpdate").val() !== "" && $("#videoNameUpdate").val() !== ""){
             insertionChamp["fileName"] = $("#videoNameUpdate").val();
             insertionChamp["fileType"] = "video";
             insertionChamp["fileUrl"] = $("#videoLinkUpdate").val();
             insertionChamp["fileDate"] = $.now();
         }else{
-            if($("#videoNameUpdate").val() !== ""){
+            $("#videoName").removeClass("is-invalid");
+            $("#videoNameUpdateMessage").html("");
+            $("#videoLink").removeClass("is-invalid");
+            $("#videoLinkUpdateMessage").html("");
+            if($("#videoNameUpdate").val() === ""){
                 $("#videoNameUpdate").addClass("is-invalid").focus();
                 $("#videoNameUpdateMessage").html("The name field is empty.");
                 return;
-            }else if($("#videoLinkUpdate").val() !== ""){
+            }else if($("#videoLinkUpdate").val() === ""){
                 $("#videoLinkUpdate").addClass("is-invalid").focus();
                 $("#videoLinkUpdateMessage").html("The URL field is empty.");
                 return;
             }
         };
-    }else{
+    }else if (fileType === "image"){
         if (updateFileTricksDropzoneForm.dropzone.files.length !== 0) {
             var logoDropzoneUpdate = updateFileTricksDropzoneForm.dropzone.files[0];
             insertionChamp["fileName"] = logoDropzoneUpdate.name;
