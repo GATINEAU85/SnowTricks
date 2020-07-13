@@ -128,7 +128,7 @@ $(".addFileInCarrousel").click(function () {
                     .fadeIn(1000)
                     .delay(2000)
                     .fadeOut(1000);
-                    document.location.reload();
+                setTimeout(function(){document.location.reload();},3000);
             }
         },
         error : function (){
@@ -212,7 +212,7 @@ $(".createTricks").click(function () {
                     .delay(2000)
                     .fadeOut(1000)
                     .focus();
-                document.location.reload();
+                setTimeout(function(){document.location.reload();},3000);
             }
         },
         error : function (){
