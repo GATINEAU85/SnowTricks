@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="users")
  * @ORM\Entity
  * @UniqueEntity("pseudo", message="Pseudo is already use")
- * @UniqueEntity("mail", message="Mail is already use")
+ * @UniqueEntity("email", message="Mail is already use")
  */
 class User implements UserInterface
 {
