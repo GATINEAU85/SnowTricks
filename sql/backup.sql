@@ -5,7 +5,7 @@
 -- Dumped from database version 10.6
 -- Dumped by pg_dump version 10.6
 
--- Started on 2020-06-26 10:38:31
+-- Started on 2020-07-14 17:34:08
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -26,7 +26,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2848 (class 0 OID 0)
+-- TOC entry 2858 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -39,25 +39,24 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 196 (class 1259 OID 303279)
+-- TOC entry 201 (class 1259 OID 336250)
 -- Name: files; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.files (
     files_id integer NOT NULL,
-    files_name text NOT NULL,
-    files_url text,
-    files_size integer,
-    files_date date,
-    files_type text,
-    files_tricks_id integer
+    files_tricks_id integer,
+    files_user_id integer,
+    files_name character varying(255) NOT NULL,
+    files_url character varying(255) NOT NULL,
+    files_type character varying(10) NOT NULL
 );
 
 
 ALTER TABLE public.files OWNER TO postgres;
 
 --
--- TOC entry 202 (class 1259 OID 319735)
+-- TOC entry 196 (class 1259 OID 336240)
 -- Name: files_files_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -72,36 +71,51 @@ CREATE SEQUENCE public.files_files_id_seq
 ALTER TABLE public.files_files_id_seq OWNER TO postgres;
 
 --
--- TOC entry 200 (class 1259 OID 311527)
+-- TOC entry 197 (class 1259 OID 336242)
+-- Name: group_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.group_group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.group_group_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 202 (class 1259 OID 336260)
 -- Name: groupe; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.groupe (
     group_id integer NOT NULL,
-    group_name text
+    group_name character varying(255) NOT NULL
 );
 
 
 ALTER TABLE public.groupe OWNER TO postgres;
 
 --
--- TOC entry 197 (class 1259 OID 303285)
+-- TOC entry 203 (class 1259 OID 336265)
 -- Name: message; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.message (
     message_id integer NOT NULL,
-    message_content text,
     message_users_id integer,
     message_tricks_id integer,
-    message_date date
+    message_content character varying(255) NOT NULL,
+    message_date timestamp(0) without time zone NOT NULL
 );
 
 
 ALTER TABLE public.message OWNER TO postgres;
 
 --
--- TOC entry 201 (class 1259 OID 319733)
+-- TOC entry 198 (class 1259 OID 336244)
 -- Name: message_message_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -116,23 +130,22 @@ CREATE SEQUENCE public.message_message_id_seq
 ALTER TABLE public.message_message_id_seq OWNER TO postgres;
 
 --
--- TOC entry 198 (class 1259 OID 303291)
+-- TOC entry 204 (class 1259 OID 336272)
 -- Name: tricks; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.tricks (
     tricks_id integer NOT NULL,
-    tricks_name text,
-    tricks_description text,
-    tricks_date date,
-    tricks_group_id integer
+    tricks_group_id integer,
+    tricks_name character varying(255) NOT NULL,
+    tricks_description text NOT NULL
 );
 
 
 ALTER TABLE public.tricks OWNER TO postgres;
 
 --
--- TOC entry 203 (class 1259 OID 319737)
+-- TOC entry 199 (class 1259 OID 336246)
 -- Name: tricks_tricks_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -147,23 +160,23 @@ CREATE SEQUENCE public.tricks_tricks_id_seq
 ALTER TABLE public.tricks_tricks_id_seq OWNER TO postgres;
 
 --
--- TOC entry 199 (class 1259 OID 303297)
+-- TOC entry 205 (class 1259 OID 336281)
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.users (
     users_id integer NOT NULL,
-    users_pseudo text,
-    users_email text,
-    users_password text,
-    users_photo text
+    users_pseudo character varying(60) NOT NULL,
+    users_email character varying(60) NOT NULL,
+    users_password character varying(255) NOT NULL,
+    users_photo character varying(255) DEFAULT NULL::character varying
 );
 
 
 ALTER TABLE public.users OWNER TO postgres;
 
 --
--- TOC entry 204 (class 1259 OID 319739)
+-- TOC entry 200 (class 1259 OID 336248)
 -- Name: users_users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -178,39 +191,37 @@ CREATE SEQUENCE public.users_users_id_seq
 ALTER TABLE public.users_users_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2832 (class 0 OID 303279)
--- Dependencies: 196
+-- TOC entry 2846 (class 0 OID 336250)
+-- Dependencies: 201
 -- Data for Name: files; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.files (files_id, files_name, files_url, files_size, files_date, files_type, files_tricks_id) FROM stdin;
-2	mute2.jpg	/mute2.jpg	4485	\N	image	1
-3	mute3.jpg	/mute3.jpg	9985	\N	image	1
-7	snow3.jpeg	/snow3.jpeg	\N	\N	image	3
-8	snow4.jpeg	/snow4.jpeg	\N	\N	image	4
-10	snow6.jpeg	/snow6.jpeg	\N	\N	image	5
-11	adrien.jpg	/user/adrien.jpg	\N	\N	image	\N
-12	erwan.jpg	/user/erwan.jpg	\N	\N	image	\N
-13	alexis.jpg	/user/alexis.jpg	\N	\N	image	\N
-16	snow13.jpg	/snow13.jpg	\N	\N	image	9
-117	mute3.jpg	/mute3.jpg	\N	\N	image	9
-116	Best Of Snowboarding 2016! Part 1.	https://www.youtube.com/embed/o7OB24ACnVM	\N	\N	video	9
-119	snow4.jpeg	/snow4.jpeg	\N	\N	image	137
-9	snow5.jpeg	/snow5.jpeg	\N	\N	image	6
-15	snow12.jpg	/snow12.jpg	\N	\N	image	8
-78	GoPro: Alaskan Playground with John Jackson	https://www.youtube.com/embed/1TJ08caetkw	\N	\N	video	3
-79	snow14.jpg	/snow14.jpg	\N	\N	image	10
-80	snow20	/snow20.jpg	\N	\N	\N	11
-91	snow18.jpeg	/snow18.jpeg	\N	\N	Picture	129
-92	snow16.jpg	//snow16.jpg	\N	\N	image	129
-93	snow17.jpg	//snow17.jpg	\N	\N	image	129
-94	snow19.jpg	//snow19.jpg	\N	\N	image	129
+COPY public.files (files_id, files_tricks_id, files_user_id, files_name, files_url, files_type) FROM stdin;
+1	1	1	mute2.jpg	/mute2.jpg	image
+2	1	1	mute3.jpg	/mute3.jpg	image
+3	1	1	snow3.jpeg	/snow3.jpeg	image
+4	1	1	snow4.jpeg	/snow4.jpeg	image
+5	2	1	snow5.jpeg	/snow5.jpeg	image
+6	3	1	snow6.jpeg	/snow6.jpeg	image
+7	4	1	snow12.jpg	/snow12.jpg	image
+8	5	1	snow13.jpg	/snow13.jpg	image
+9	5	1	GoPro: Alaskan Playground with John Jackson	https://www.youtube.com/embed/1TJ08caetkw	video
+10	5	1	snow14.jpg	/snow14.jpg	image
+11	6	1	snow20.jpg	/snow20.jpg	image
+12	7	1	snow18.jpeg	/snow18.jpeg	image
+13	8	1	snow16.jpg	/snow16.jpg	image
+14	9	1	snow17.jpg	/snow17.jpg	image
+15	10	1	snow19.jpg	/snow19.jpg	image
+16	10	1	snow20.jpg	/snow20.jpg	image
+17	10	1	Best Of Snowboarding 2016! Part 1.	https://www.youtube.com/embed/o7OB24ACnVM	video
+18	11	1	mute3.jpg	/mute3.jpg	image
+19	11	1	How To Keep Your Weight Over The Top Of Your Board	https://www.youtube.com/embed/OghfDJ9Gk_E	video
 \.
 
 
 --
--- TOC entry 2836 (class 0 OID 311527)
--- Dependencies: 200
+-- TOC entry 2847 (class 0 OID 336260)
+-- Dependencies: 202
 -- Data for Name: groupe; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -223,164 +234,240 @@ COPY public.groupe (group_id, group_name) FROM stdin;
 
 
 --
--- TOC entry 2833 (class 0 OID 303285)
--- Dependencies: 197
+-- TOC entry 2848 (class 0 OID 336265)
+-- Dependencies: 203
 -- Data for Name: message; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.message (message_id, message_content, message_users_id, message_tricks_id, message_date) FROM stdin;
+COPY public.message (message_id, message_users_id, message_tricks_id, message_content, message_date) FROM stdin;
+1	1	1	Beautiful picture of this tricks. I will try to pic another on my next snow session.	2020-07-14 15:33:08
 \.
 
 
 --
--- TOC entry 2834 (class 0 OID 303291)
--- Dependencies: 198
+-- TOC entry 2849 (class 0 OID 336272)
+-- Dependencies: 204
 -- Data for Name: tricks; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.tricks (tricks_id, tricks_name, tricks_description, tricks_date, tricks_group_id) FROM stdin;
-3	Indy 	Seizure of the frontside edge of the board, between the two feet, with the rear hand.	\N	3
-4	Stalefish	Grasping the backside of the board between the two feet with the back hand	\N	2
-5	Tail grab	Seizure of the rear part of the board, with the back hand	\N	1
-6	Nose grab	Seizure of the front part of the board, with the front hand	\N	1
-8	Seat belt	Seizure of the frontside edge at the back with the front hand	\N	1
-9	Truck driver	Seizure of the front and rear edges with each hand (like holding a car steering wheel)	\N	1
-10	Rotation 360	Turn on 360 degrees during your flight	\N	3
-1	Mute 	Grasping the frontside edge of the board between the two feet with the front hand.	\N	1
-11	Rotation 180°	Turn on 360 degrees and receive your flight on your back	\N	3
-129	Japan air XL	Seizure between your tails and your nose of the board. When you're on flight, you must turn your left foot to tuch your right hand.	\N	1
-137	test	testetestetestetestetestetestetestetestetestetestetestetestetestetestetestetestetestetestetestetesteteste	\N	1
+COPY public.tricks (tricks_id, tricks_group_id, tricks_name, tricks_description) FROM stdin;
+1	2	Mute	Grasping the frontside edge of the board between the two feet with the front hand.
+2	3	Indy	Seizure of the frontside edge of the board, between the two feet, with the rear hand.
+3	2	Stalefish	Grasping the backside of the board between the two feet with the back hand
+4	2	Tail grab	Seizure of the rear part of the board, with the back hand
+5	4	Nose grab	Seizure of the front part of the board, with the front hand
+6	2	Seat belt	Seizure of the frontside edge at the back with the front hand
+7	2	Truck driver	Seizure of the front and rear edges with each hand (like holding a car steering wheel)
+8	2	Rotation 360°	Grasping the frontside edge of the board between the two feet with the front hand.
+9	2	Rotation 180°	Turn on 360 degrees during your flight
+10	2	Japan air	Seizure between your tails and your nose of the board. When you're on flight, you must turn your left foot to tuch your right hand.
+11	2	Rocket air	The front hand grabs the toe edge in front of the front foot (mute) and the back leg is boned while the board points perpendicular to the ground.
 \.
 
 
 --
--- TOC entry 2835 (class 0 OID 303297)
--- Dependencies: 199
+-- TOC entry 2850 (class 0 OID 336281)
+-- Dependencies: 205
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.users (users_id, users_pseudo, users_email, users_password, users_photo) FROM stdin;
+1	gatineau85	gatineau85@gmail.com	$2y$13$PscPigiTkT/HbvD2edu6te6vb3./JAGUEZ5x/rr0Hp2cJTof5luC.	\N
 \.
 
 
 --
--- TOC entry 2849 (class 0 OID 0)
--- Dependencies: 202
+-- TOC entry 2859 (class 0 OID 0)
+-- Dependencies: 196
 -- Name: files_files_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.files_files_id_seq', 119, true);
+SELECT pg_catalog.setval('public.files_files_id_seq', 19, true);
 
 
 --
--- TOC entry 2850 (class 0 OID 0)
--- Dependencies: 201
+-- TOC entry 2860 (class 0 OID 0)
+-- Dependencies: 197
+-- Name: group_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.group_group_id_seq', 4, true);
+
+
+--
+-- TOC entry 2861 (class 0 OID 0)
+-- Dependencies: 198
 -- Name: message_message_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.message_message_id_seq', 26, true);
+SELECT pg_catalog.setval('public.message_message_id_seq', 1, true);
 
 
 --
--- TOC entry 2851 (class 0 OID 0)
--- Dependencies: 203
+-- TOC entry 2862 (class 0 OID 0)
+-- Dependencies: 199
 -- Name: tricks_tricks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.tricks_tricks_id_seq', 137, true);
+SELECT pg_catalog.setval('public.tricks_tricks_id_seq', 11, true);
 
 
 --
--- TOC entry 2852 (class 0 OID 0)
--- Dependencies: 204
+-- TOC entry 2863 (class 0 OID 0)
+-- Dependencies: 200
 -- Name: users_users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_users_id_seq', 101, true);
+SELECT pg_catalog.setval('public.users_users_id_seq', 1, true);
 
 
 --
--- TOC entry 2698 (class 2606 OID 303310)
--- Name: files pk_files_id; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2699 (class 2606 OID 336257)
+-- Name: files files_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.files
-    ADD CONSTRAINT pk_files_id PRIMARY KEY (files_id);
+    ADD CONSTRAINT files_pkey PRIMARY KEY (files_id);
 
 
 --
--- TOC entry 2706 (class 2606 OID 311534)
--- Name: groupe pk_group_id; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2703 (class 2606 OID 336264)
+-- Name: groupe groupe_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.groupe
-    ADD CONSTRAINT pk_group_id PRIMARY KEY (group_id);
+    ADD CONSTRAINT groupe_pkey PRIMARY KEY (group_id);
 
 
 --
--- TOC entry 2700 (class 2606 OID 303304)
--- Name: message pk_message_id; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2707 (class 2606 OID 336269)
+-- Name: message message_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.message
-    ADD CONSTRAINT pk_message_id PRIMARY KEY (message_id);
+    ADD CONSTRAINT message_pkey PRIMARY KEY (message_id);
 
 
 --
--- TOC entry 2702 (class 2606 OID 303308)
--- Name: tricks pk_tricks_id; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2710 (class 2606 OID 336279)
+-- Name: tricks tricks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.tricks
-    ADD CONSTRAINT pk_tricks_id PRIMARY KEY (tricks_id);
+    ADD CONSTRAINT tricks_pkey PRIMARY KEY (tricks_id);
 
 
 --
--- TOC entry 2704 (class 2606 OID 303306)
--- Name: users pk_user_id; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2714 (class 2606 OID 336289)
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users
-    ADD CONSTRAINT pk_user_id PRIMARY KEY (users_id);
+    ADD CONSTRAINT users_pkey PRIMARY KEY (users_id);
 
 
 --
--- TOC entry 2707 (class 2606 OID 303321)
--- Name: files files_files_tricks_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2700 (class 1259 OID 336258)
+-- Name: idx_635405943e756ef; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idx_635405943e756ef ON public.files USING btree (files_tricks_id);
+
+
+--
+-- TOC entry 2701 (class 1259 OID 336259)
+-- Name: idx_63540596b3ccc2; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idx_63540596b3ccc2 ON public.files USING btree (files_user_id);
+
+
+--
+-- TOC entry 2704 (class 1259 OID 336271)
+-- Name: idx_b6bd307f51ac3762; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idx_b6bd307f51ac3762 ON public.message USING btree (message_tricks_id);
+
+
+--
+-- TOC entry 2705 (class 1259 OID 336270)
+-- Name: idx_b6bd307f6e95702c; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idx_b6bd307f6e95702c ON public.message USING btree (message_users_id);
+
+
+--
+-- TOC entry 2708 (class 1259 OID 336280)
+-- Name: idx_e1d902c1de4e02e0; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idx_e1d902c1de4e02e0 ON public.tricks USING btree (tricks_group_id);
+
+
+--
+-- TOC entry 2711 (class 1259 OID 336290)
+-- Name: uniq_1483a5e9892bc70d; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX uniq_1483a5e9892bc70d ON public.users USING btree (users_pseudo);
+
+
+--
+-- TOC entry 2712 (class 1259 OID 336291)
+-- Name: uniq_1483a5e9e5d83d; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX uniq_1483a5e9e5d83d ON public.users USING btree (users_email);
+
+
+--
+-- TOC entry 2715 (class 2606 OID 336292)
+-- Name: files fk_635405943e756ef; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.files
-    ADD CONSTRAINT files_files_tricks_id_fkey FOREIGN KEY (files_tricks_id) REFERENCES public.tricks(tricks_id);
+    ADD CONSTRAINT fk_635405943e756ef FOREIGN KEY (files_tricks_id) REFERENCES public.tricks(tricks_id);
 
 
 --
--- TOC entry 2709 (class 2606 OID 303316)
--- Name: message message_message_tricks_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2716 (class 2606 OID 336297)
+-- Name: files fk_63540596b3ccc2; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.files
+    ADD CONSTRAINT fk_63540596b3ccc2 FOREIGN KEY (files_user_id) REFERENCES public.users(users_id);
+
+
+--
+-- TOC entry 2718 (class 2606 OID 336307)
+-- Name: message fk_b6bd307f51ac3762; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.message
-    ADD CONSTRAINT message_message_tricks_id_fkey FOREIGN KEY (message_tricks_id) REFERENCES public.tricks(tricks_id);
+    ADD CONSTRAINT fk_b6bd307f51ac3762 FOREIGN KEY (message_tricks_id) REFERENCES public.tricks(tricks_id);
 
 
 --
--- TOC entry 2708 (class 2606 OID 303311)
--- Name: message message_message_users_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2717 (class 2606 OID 336302)
+-- Name: message fk_b6bd307f6e95702c; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.message
-    ADD CONSTRAINT message_message_users_id_fkey FOREIGN KEY (message_users_id) REFERENCES public.users(users_id);
+    ADD CONSTRAINT fk_b6bd307f6e95702c FOREIGN KEY (message_users_id) REFERENCES public.users(users_id);
 
 
 --
--- TOC entry 2710 (class 2606 OID 311556)
--- Name: tricks tricks_tricks_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2719 (class 2606 OID 336312)
+-- Name: tricks fk_e1d902c1de4e02e0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.tricks
-    ADD CONSTRAINT tricks_tricks_group_id_fkey FOREIGN KEY (tricks_group_id) REFERENCES public.groupe(group_id);
+    ADD CONSTRAINT fk_e1d902c1de4e02e0 FOREIGN KEY (tricks_group_id) REFERENCES public.groupe(group_id);
 
 
--- Completed on 2020-06-26 10:38:32
+-- Completed on 2020-07-14 17:34:09
 
 --
 -- PostgreSQL database dump complete

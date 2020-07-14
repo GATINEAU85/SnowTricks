@@ -13,11 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Files
 {
-        
-    public function __construct()
-    {
-        $this->filesUsers = new ArrayCollection();
-    }
     
     /**
      * @var int
@@ -41,7 +36,7 @@ class Files
     /**
      * @var string
      *
-     * @ORM\Column(name="files_url", type="string", nullable=false)
+     * @ORM\Column(name="files_url", type="string", length=255, nullable=false)
      * @Assert\NotBlank
      */
     private $filesUrl;
@@ -49,7 +44,7 @@ class Files
     /**
      * @var string
      *
-     * @ORM\Column(name="files_type", type="string", nullable=false)
+     * @ORM\Column(name="files_type", type="string", length=10, nullable=false)
      * @Assert\NotBlank
      */
     private $filesType;
@@ -61,6 +56,13 @@ class Files
      */
     private $filesTricks;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="userFiles")
+     * @ORM\JoinColumn(name="files_user_id", referencedColumnName="users_id")
+     * @Assert\NotBlank
+     */
+    private $filesUser;
+    
     public function getFilesId(): ?int
     {
         return $this->filesId;
@@ -116,14 +118,14 @@ class Files
     }
     
     //User function
-    public function getFilesUsers(): ?User
+    public function getFilesUser(): ?User
     {
-        return $this->filesUsers;
+        return $this->filesUser;
     }
     
-    public function setFilesUsers(?User $filesUsers): self
+    public function setFilesUser(?User $filesUser): self
     {
-        $this->filesUsers = $filesUsers;
+        $this->filesUser = $filesUser;
 
         return $this;
     }

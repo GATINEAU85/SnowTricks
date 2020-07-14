@@ -28,6 +28,7 @@ class Message
      *
      * @ORM\Column(name="message_content", type="string", length=255, nullable=false)
      * @Assert\NotBlank
+     * @Assert\Length(max="255", maxMessage="The message is to long. 255 characters maximum")
      * 
      */
     private $messageContent;

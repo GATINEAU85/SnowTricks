@@ -31,6 +31,7 @@ class Tricks
      *
      * @ORM\Column(name="tricks_name", type="string", length=255, nullable=false)
      * @Assert\NotBlank
+     * @Assert\Length(max="255", maxMessage="The name is to long. 255 characters maximum")
      */
     private $tricksName;
 

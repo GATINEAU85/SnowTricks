@@ -28,12 +28,12 @@
                     <form>
                         <div class="row mt-3">
                             <div class="col-6">
-                                <label for="nameTricks">Name</label>
+                                <label for="nameTricks">Name*</label>
                                 <input class="form-control" id='nameTricks' name="nameTricks" placeholder="Name" required/>
                                 <small id="nameTricksMessage" class='text-danger'></small>
                             </div>
                             <div class="col-6">
-                                <label for="groupTricks">Groups</label>
+                                <label for="groupTricks">Groups*</label>
                                 <select class="form-control" id='groupTricks' name='groupTricks'>
                                     {% for group in groups %}
                                         <option value='{{ group.groupId }}'>{{ group.groupName }}</option>
@@ -43,14 +43,14 @@
                         </div>      
                         <div class="row mt-3">
                             <div class="col-12">
-                                <label for="descriptionTricks">Description</label>
+                                <label for="descriptionTricks">Description*</label>
                                 <textarea class="form-control" id="descriptionTricks" name="descriptionTricks" required></textarea>
                                 <small id="descriptionTricksMessage" class='text-danger'></small>
                             </div>            
                         </div>            
                         <div class="row mt-3">
                             <div class="col-6 text-left">
-                                <label>Manage files</label>
+                                <label>Manage files*</label>
                             </div>
                             <div class="col-6 text-right">
                                 <button type="button" class="btn btn-primary addPicture"><i class='fas fa-images'></i></button>
@@ -91,12 +91,12 @@
                                 <input type="hidden" id="fileType"/>
                                 <div class="modal-body videoPart" >
                                     <div class="col-12">
-                                        <label for="videoName">Video name</label>
+                                        <label for="videoName">Video name*</label>
                                         <input class="form-control" name="videoName" id="videoName" placeholder="Video name" required/>
                                         <small id="videoNameMessage" class='text-danger'></small>
                                     </div>
                                     <div class="col-12">
-                                        <label for="videoLink">Video integration link</label>
+                                        <label for="videoLink">Video integration link*</label>
                                         <input class="form-control" name="videoLink" id="videoLink" placeholder="Video link" required/>
                                         <small id="videoLinkMessage" class='text-danger'></small>
                                     </div>
