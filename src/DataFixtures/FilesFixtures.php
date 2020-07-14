@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Files;
 use App\Entity\Tricks;
 use App\DataFixtures\TricksFixtures;
+use App\DataFixtures\UserFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -19,6 +20,7 @@ class FilesFixtures extends Fixture implements DependentFixtureInterface
         $file1->setFilesUrl('/mute2.jpg');
         $file1->setFilesType('image');
         $file1->setFilesTricks($this->getReference(TricksFixtures::MUTE));
+        $file1->setFilesUser($this->getReference(UserFixtures::USER_REFERENCE));
         $manager->persist($file1);
         
         $file2 = new Files();
@@ -26,12 +28,14 @@ class FilesFixtures extends Fixture implements DependentFixtureInterface
         $file2->setFilesUrl('/mute3.jpg');
         $file2->setFilesType('image');
         $file2->setFilesTricks($this->getReference(TricksFixtures::MUTE));
+        $file2->setFilesUser($this->getReference(UserFixtures::USER_REFERENCE));
         $manager->persist($file2);
         
         $file3 = new Files();
         $file3->setFilesName('snow3.jpeg');
         $file3->setFilesUrl('/snow3.jpeg');
         $file3->setFilesType('image');
+        $file3->setFilesUser($this->getReference(UserFixtures::USER_REFERENCE));
         $file3->setFilesTricks($this->getReference(TricksFixtures::MUTE));
         $manager->persist($file3);
         
@@ -39,6 +43,7 @@ class FilesFixtures extends Fixture implements DependentFixtureInterface
         $file4->setFilesName('snow4.jpeg');
         $file4->setFilesUrl('/snow4.jpeg');
         $file4->setFilesType('image');
+        $file4->setFilesUser($this->getReference(UserFixtures::USER_REFERENCE));
         $file4->setFilesTricks($this->getReference(TricksFixtures::MUTE));
         $manager->persist($file4);
         
@@ -47,12 +52,14 @@ class FilesFixtures extends Fixture implements DependentFixtureInterface
         $file5->setFilesUrl('/snow5.jpeg');
         $file5->setFilesType('image');
         $file5->setFilesTricks($this->getReference(TricksFixtures::INDY));
+        $file5->setFilesUser($this->getReference(UserFixtures::USER_REFERENCE));
         $manager->persist($file5);
         
         $file6 = new Files();
         $file6->setFilesName('snow6.jpeg');
         $file6->setFilesUrl('/snow6.jpeg');
         $file6->setFilesType('image');
+        $file6->setFilesUser($this->getReference(UserFixtures::USER_REFERENCE));
         $file6->setFilesTricks($this->getReference(TricksFixtures::STALEFISH));
         $manager->persist($file6);
         
@@ -60,6 +67,7 @@ class FilesFixtures extends Fixture implements DependentFixtureInterface
         $file7->setFilesName('snow12.jpg');
         $file7->setFilesUrl('/snow12.jpg');
         $file7->setFilesType('image');
+        $file7->setFilesUser($this->getReference(UserFixtures::USER_REFERENCE));
         $file7->setFilesTricks($this->getReference(TricksFixtures::TAIL_GRAB));
         $manager->persist($file7);
         
@@ -67,6 +75,7 @@ class FilesFixtures extends Fixture implements DependentFixtureInterface
         $file8->setFilesName('snow13.jpg');
         $file8->setFilesUrl('/snow13.jpg');
         $file8->setFilesType('image');
+        $file8->setFilesUser($this->getReference(UserFixtures::USER_REFERENCE));
         $file8->setFilesTricks($this->getReference(TricksFixtures::NOSE_GRAB));
         $manager->persist($file8);
         
@@ -74,6 +83,7 @@ class FilesFixtures extends Fixture implements DependentFixtureInterface
         $file9->setFilesName('GoPro: Alaskan Playground with John Jackson');
         $file9->setFilesUrl('https://www.youtube.com/embed/1TJ08caetkw');
         $file9->setFilesType('video');
+        $file9->setFilesUser($this->getReference(UserFixtures::USER_REFERENCE));
         $file9->setFilesTricks($this->getReference(TricksFixtures::NOSE_GRAB));
         $manager->persist($file9);
         
@@ -81,6 +91,7 @@ class FilesFixtures extends Fixture implements DependentFixtureInterface
         $file10->setFilesName('snow14.jpg');
         $file10->setFilesUrl('/snow14.jpg');
         $file10->setFilesType('image');
+        $file10->setFilesUser($this->getReference(UserFixtures::USER_REFERENCE));
         $file10->setFilesTricks($this->getReference(TricksFixtures::NOSE_GRAB));
         $manager->persist($file10);
         
@@ -89,6 +100,7 @@ class FilesFixtures extends Fixture implements DependentFixtureInterface
         $file11->setFilesUrl('/snow20.jpg');
         $file11->setFilesType('image');
         $file11->setFilesTricks($this->getReference(TricksFixtures::SEA_BELT));
+        $file11->setFilesUser($this->getReference(UserFixtures::USER_REFERENCE));
         $manager->persist($file11);
         
         $file12 = new Files();
@@ -96,6 +108,7 @@ class FilesFixtures extends Fixture implements DependentFixtureInterface
         $file12->setFilesUrl('/snow18.jpeg');
         $file12->setFilesType('image');
         $file12->setFilesTricks($this->getReference(TricksFixtures::TRUCK_DRIVER));
+        $file12->setFilesUser($this->getReference(UserFixtures::USER_REFERENCE));
         $manager->persist($file12);
         
         $file13 = new Files();
@@ -103,6 +116,7 @@ class FilesFixtures extends Fixture implements DependentFixtureInterface
         $file13->setFilesUrl('/snow16.jpg');
         $file13->setFilesType('image');
         $file13->setFilesTricks($this->getReference(TricksFixtures::ROTATION_360));
+        $file13->setFilesUser($this->getReference(UserFixtures::USER_REFERENCE));
         $manager->persist($file13);
         
         $file14 = new Files();
@@ -110,6 +124,7 @@ class FilesFixtures extends Fixture implements DependentFixtureInterface
         $file14->setFilesUrl('/snow17.jpg');
         $file14->setFilesType('image');
         $file14->setFilesTricks($this->getReference(TricksFixtures::ROTATION_180));
+        $file14->setFilesUser($this->getReference(UserFixtures::USER_REFERENCE));
         $manager->persist($file14);
         
         $file15 = new Files();
@@ -117,6 +132,7 @@ class FilesFixtures extends Fixture implements DependentFixtureInterface
         $file15->setFilesUrl('/snow19.jpg');
         $file15->setFilesType('image');
         $file15->setFilesTricks($this->getReference(TricksFixtures::JAPAN_AIR));
+        $file15->setFilesUser($this->getReference(UserFixtures::USER_REFERENCE));
         $manager->persist($file15);
         
         $file16 = new Files();
@@ -124,6 +140,7 @@ class FilesFixtures extends Fixture implements DependentFixtureInterface
         $file16->setFilesUrl('/snow20.jpg');
         $file16->setFilesType('image');
         $file16->setFilesTricks($this->getReference(TricksFixtures::JAPAN_AIR));
+        $file16->setFilesUser($this->getReference(UserFixtures::USER_REFERENCE));
         $manager->persist($file16);
         
         $file17 = new Files();
@@ -131,6 +148,7 @@ class FilesFixtures extends Fixture implements DependentFixtureInterface
         $file17->setFilesUrl('https://www.youtube.com/embed/o7OB24ACnVM');
         $file17->setFilesType('video');
         $file17->setFilesTricks($this->getReference(TricksFixtures::JAPAN_AIR));
+        $file17->setFilesUser($this->getReference(UserFixtures::USER_REFERENCE));
         $manager->persist($file17);
         
         $file18 = new Files();
@@ -138,6 +156,7 @@ class FilesFixtures extends Fixture implements DependentFixtureInterface
         $file18->setFilesUrl('/mute3.jpg');
         $file18->setFilesType('image');
         $file18->setFilesTricks($this->getReference(TricksFixtures::ROCKET_AIR));
+        $file18->setFilesUser($this->getReference(UserFixtures::USER_REFERENCE));
         $manager->persist($file18);
         
         
@@ -146,6 +165,7 @@ class FilesFixtures extends Fixture implements DependentFixtureInterface
         $file19->setFilesUrl('https://www.youtube.com/embed/OghfDJ9Gk_E');
         $file19->setFilesType('video');
         $file19->setFilesTricks($this->getReference(TricksFixtures::ROCKET_AIR));
+        $file19->setFilesUser($this->getReference(UserFixtures::USER_REFERENCE));
         $manager->persist($file19);
         
         $manager->flush();

@@ -59,16 +59,20 @@
                                             <div class='image p-10 cur-p col-12'>
                                                 {% set videoName = file.filesUrl|split('/')  %}
                                                 <img class='image p-10 cur-p img-fluid' src='https://img.youtube.com/vi/{{videoName|last}}/default.jpg' height=""/>
-                                                <a class="delete" href="{{ path ('deleteFile', {trickId : trick.tricksId, fileId : file.filesId})}}"  onclick="return confirm('This file will be remove from SnowTricks, are you sure you want to delete this ?')"><i class="fa fa-trash"></i></a>
-                                                {# <a class="update" href="{{ path ('updateFile', {trickId : trick.tricksId, fileId : file.filesId})}}"><i class="fa fa-edit"></i></a>#}
-                                                <a class="update updateVideo" file="{{file.filesId}}"><i class="fa fa-edit"></i></a>
+                                                {% if file.filesUser == connectedUser %}
+                                                    <a class="delete" href="{{ path ('deleteFile', {trickId : trick.tricksId, fileId : file.filesId})}}"  onclick="return confirm('This file will be remove from SnowTricks, are you sure you want to delete this ?')"><i class="fa fa-trash"></i></a>
+                                                    {# <a class="update" href="{{ path ('updateFile', {trickId : trick.tricksId, fileId : file.filesId})}}"><i class="fa fa-edit"></i></a>#}
+                                                    <a class="update updateVideo" file="{{file.filesId}}"><i class="fa fa-edit"></i></a>
+                                                {% endif %}
                                             </div>
                                         {% else %}
                                             <div class='image p-10 cur-p col-12'>
                                                 <img class='image p-10 cur-p img-fluid' src='/files{{file.filesUrl}}' height=""/>
-                                                <a class="delete" href="{{ path ('deleteFile', {trickId : trick.tricksId, fileId : file.filesId})}}"  onclick="return confirm('This file will be remove from SnowTricks, are you sure you want to delete this ?')"><i class="fa fa-trash"></i></a>
-                                                {# <a class="update" href="{{ path ('updateFile', {trickId : trick.tricksId, fileId : file.filesId})}}"><i class="fa fa-edit"></i></a>#}
-                                                <a class="update updatePicture" file="{{file.filesId}}"><i class="fa fa-edit"></i></a>
+                                                {% if file.filesUser == connectedUser %}
+                                                    <a class="delete" href="{{ path ('deleteFile', {trickId : trick.tricksId, fileId : file.filesId})}}"  onclick="return confirm('This file will be remove from SnowTricks, are you sure you want to delete this ?')"><i class="fa fa-trash"></i></a>
+                                                    {# <a class="update" href="{{ path ('updateFile', {trickId : trick.tricksId, fileId : file.filesId})}}"><i class="fa fa-edit"></i></a>#}
+                                                    <a class="update updatePicture" file="{{file.filesId}}"><i class="fa fa-edit"></i></a>
+                                                {% endif %}
                                             </div>
                                         {% endif %}
                                     {% endfor %}

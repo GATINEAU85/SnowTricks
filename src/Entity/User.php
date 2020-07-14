@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+use Doctrine\Common\Collections\Collection;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -30,7 +31,7 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="users_pseudo", type="string", length=255, nullable=false, unique=true)
+     * @ORM\Column(name="users_pseudo", type="string", length=60, nullable=false, unique=true)
      * @Assert\NotBlank
      * @Assert\NotNull
      */
@@ -39,7 +40,7 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="users_email", type="string", nullable=false, unique=true)
+     * @ORM\Column(name="users_email", type="string", length=60, nullable=false, unique=true)
      * @Assert\Email()
      * @Assert\NotBlank
      */
@@ -72,6 +73,11 @@ class User implements UserInterface
      */
     private $photo;
 
+    
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Files", mappedBy="filesUser", cascade={"remove"})
+     */
+    private $userFiles;
     
     public function getId(): ?int
     {
@@ -200,4 +206,35 @@ class User implements UserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+    
+    
+    /**
+     * @return Collection|Files[]
+     */
+    public function getUserFiles(): Collection {
+        return $this->userFiles;
+    }
+
+    public function addUserFiles($userFiles): self {
+        foreach ($userFiles as $userFile) {
+            if (!$this->userFiles->contains($userFiles)) {
+                $this->userFiles[] = $userFiles;
+                $userFile->setFilesUser($this);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeUserFiles(Files $userFiles): self {
+        if ($this->userFiles->contains($userFiles)) {
+            $this->userFiles->removeElement($userFiles);
+            // set the owning side to null (unless already changed)
+            if ($userFiles->getFilesUser() === $this) {
+                $userFiles->setFilesUser(null);
+            }
+        }
+        return $this;
+    }
+
 }

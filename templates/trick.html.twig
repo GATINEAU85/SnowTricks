@@ -86,7 +86,8 @@
       </div>
     </div>
   </section>
-  
+            
+  {% if is_granted('ROLE_USER') %}
    <!-- Comment Section -->
   <section class="page-section" id="comments">
     <div class="container">
@@ -106,7 +107,8 @@
       </div>
     </div>
   </section>   
-   
+  {% endif %}
+  
    <!-- DIALOG Section -->
   <section class="page-section" id="dialog">
     <div class="container">
@@ -121,13 +123,16 @@
                             {% if loop.index < limitMessage %}
                                 <div class="row" style="margin-bottom:20px">
                                     <div class="col-2 center-align">
+                                        {% if message.messageUserId == connectedUser %}
+                                            <a class="delete text-danger" style='padding:5px' href="{{ path ('deleteMessage', {trickId : trick.tricksId, messageId : message.messageId})}}"  onclick="return confirm('This message will be remove from SnowTricks, are you sure you want to delete this ?')"><i class="fa fa-trash"></i></a>
+                                        {% endif %}
                                         {% if message.messageUserId.photo %}
                                             <img class='rounded-circle' src='/files/{{ message.messageUserId.photo }}' style="max-width:50px; width:100%"/>
                                         {% else %}
                                             <img class='rounded-circle' src='https://tanzolymp.com/images/default-non-user-no-photo-1.jpg' style="max-width:50px; width:100%"/>
                                         {% endif %}
                                     </div>
-                                    <div class="col-10">
+                                    <div class="col-8">
                                         <p class="conversationPseudo">{{ message.messageUserId.pseudo }} : {{ message.messageDate|date("m/d/Y") }}</p>
                                         <p class="conversationContent">{{ message.messageContent }}</p>
                                     </div>
